@@ -1,0 +1,18 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Builds exportadas do jogo
+export.cfg
+export_presets.cfg
+/builds/
+*.exe
+*.pck
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/

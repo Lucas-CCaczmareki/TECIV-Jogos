@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dqhccpq1ncn7i"]
+
+[ext_resource type="Script" uid="uid://ckx3im1ugw8u3" path="res://main.gd" id="1_ig7tw"]
+
+[node name="main" type="Node2D" unique_id=1691171582]
+script = ExtResource("1_ig7tw")
+
+[node name="Label" type="Label" parent="." unique_id=68114645]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Funcionou"
