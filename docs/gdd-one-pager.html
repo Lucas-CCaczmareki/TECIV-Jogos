@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Page Design Document</title>
+<style>
+  :root {
+    --bg: #f5f5f5;
+    --paper: #ffffff;
+    --border: #cccccc;
+    --text: #222222;
+    --muted: #666666;
+    --accent: #444444;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: var(--bg);
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 40px;
+  }
+
+  /* Cabeçalho */
+  header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .title-block h1 {
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 0.5px;
+  }
+
+  .title-block .subtitle {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .meta-block {
+    text-align: right;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* Grid de meta-info (genero, plataforma, publico, rating) */
+  .info-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .info-item {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    background: #fafafa;
+  }
+
+  .info-item .label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .info-item .value {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  /* Seções gerais */
+  section {
+    margin-bottom: 26px;
+  }
+
+  h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+
+  p {
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .placeholder {
+    color: var(--muted);
+  }
+
+  /* High Concept em destaque */
+  .high-concept {
+    background: #fafafa;
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  /* Layout de duas colunas para Gameplay / História */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  /* Lista de USPs */
+  ul.usp-list {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  ul.usp-list li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  /* Área de screenshots / concept art */
+  .screenshot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .screenshot-box {
+    aspect-ratio: 16 / 9;
+    border: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+    background: #fafafa;
+  }
+
+  /* Comparáveis */
+  .comparables {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .comparable-tag {
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    font-size: 13px;
+    background: #fafafa;
+  }
+
+  footer {
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 700px) {
+    .info-bar { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .screenshot-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { border: none; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- CABEÇALHO -->
+    <header>
+      <div class="title-block">
+        <h1>[NOME DO JOGO]</h1>
+        <p class="subtitle">One Page Design Document</p>
+      </div>
+      <div class="meta-block">
+        Versão 0.1<br>
+        [seu nome] · [data]
+      </div>
+    </header>
+
+    <!-- INFO RÁPIDA -->
+    <div class="info-bar">
+      <div class="info-item">
+        <span class="label">Gênero</span>
+        <span class="value">[Gênero]</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Plataforma</span>
+        <span class="value">[Plataforma]</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Público-alvo</span>
+        <span class="value">[Público / Faixa etária]</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Classificação</span>
+        <span class="value">[ESRB / PEGI / Livre]</span>
+      </div>
+    </div>
+
+    <!-- HIGH CONCEPT -->
+    <section>
+      <h2>High Concept</h2>
+      <div class="high-concept">
+        [Uma ou duas frases que resumem o jogo de forma memorável — o "elevator pitch". Ex: "Um roguelike de exploração onde cada morte reescreve o mapa do jogador seguinte."]
+      </div>
+    </section>
+
+    <!-- UNIQUE SELLING POINTS -->
+    <section>
+      <h2>Unique Selling Points (USPs)</h2>
+      <ul class="usp-list">
+        <li class="placeholder">[O que torna esse jogo diferente dos outros do mesmo gênero? — ponto 1]</li>
+        <li class="placeholder">[Ponto 2]</li>
+        <li class="placeholder">[Ponto 3]</li>
+      </ul>
+    </section>
+
+    <!-- GAMEPLAY E HISTÓRIA -->
+    <div class="two-col">
+      <section>
+        <h2>Gameplay</h2>
+        <p class="placeholder">[Descreva as mecânicas centrais: o que o jogador faz minuto a minuto, controles, loop principal de jogo.]</p>
+      </section>
+      <section>
+        <h2>História / Cenário</h2>
+        <p class="placeholder">[Resumo curto do universo, personagem principal e conflito central, se aplicável.]</p>
+      </section>
+    </div>
+
+    <!-- SCREENSHOTS / CONCEPT ART -->
+    <section>
+      <h2>Screenshots / Concept Art</h2>
+      <div class="screenshot-grid">
+        <div class="screenshot-box">Imagem 1</div>
+        <div class="screenshot-box">Imagem 2</div>
+        <div class="screenshot-box">Imagem 3</div>
+      </div>
+    </section>
+
+    <!-- COMPARÁVEIS -->
+    <section>
+      <h2>Comparáveis</h2>
+      <div class="comparables">
+        <span class="comparable-tag placeholder">[Jogo referência 1]</span>
+        <span class="comparable-tag placeholder">[Jogo referência 2]</span>
+        <span class="comparable-tag placeholder">[Jogo referência 3]</span>
+      </div>
+    </section>
+
+    <footer>
+      <span>[Nome do estúdio / disciplina]</span>
+      <span>Página 1 de 1</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>

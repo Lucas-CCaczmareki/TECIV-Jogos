@@ -32,7 +32,13 @@ salas ao lado de um companion (ex: lobo), controlando ambos ao mesmo tempo.
 
 ### Referências de gênero
 
+Roguelikes
 - *Enter the Gungeon* — estrutura de salas e combate à distância
 - *Ember Knights* — dinâmica de ação em roguelike
 - *Moonlighter*
 - *Wizard legend*
+
+Action RPGs
+- *Hyper light drifter*
+- *Transistor*
+
