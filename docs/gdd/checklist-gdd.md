@@ -1,3 +1,4 @@
+ISSO VAI VIRAR UM PROJECT NO GITHUB, P/ MANTER HISTÓRICO VIA ISSUES
 # Checklist — Conteúdo do GDD
 
 ## 1. Visão geral / Conceito
