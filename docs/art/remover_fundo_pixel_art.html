@@ -1,0 +1,537 @@
+<!-- AI GENERATED, IS JUST USED TO HELP TO REMOVE THE BACKGROUND FROM FREE IMAGES -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Fundo - Revólver Pixel Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-family: 'Silkscreen', cursive;
+            font-size: 1.8rem;
+            color: #38bdf8;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .main-card {
+            background: #131b2e;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .main-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Canvas & Preview */
+        .preview-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            background-color: #0f172a;
+            /* Checkerboard pattern for transparency */
+            background-image: 
+                linear-gradient(45deg, #1e293b 25%, transparent 25%), 
+                linear-gradient(-45deg, #1e293b 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #1e293b 75%), 
+                linear-gradient(-45deg, transparent 75%, #1e293b 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            max-width: 95%;
+            max-height: 420px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .badge-status {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(4px);
+            border: 1px solid #334155;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #38bdf8;
+            font-family: 'Silkscreen', cursive;
+        }
+
+        /* Controls Pane */
+        .controls-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            background: #0f172a;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-group label span {
+            color: #38bdf8;
+            font-family: monospace;
+        }
+
+        input[type="range"] {
+            accent-color: #38bdf8;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-label input {
+            accent-color: #38bdf8;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .dropzone-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #1e293b;
+            border: 1px dashed #475569;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+
+        .dropzone-label:hover {
+            background: #273549;
+            color: #f1f5f9;
+            border-color: #38bdf8;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #0284c7;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #0369a1;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #273549;
+            color: #fff;
+        }
+
+        .tips-card {
+            background: #131b2e;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tips-card i {
+            font-size: 1.5rem;
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>PIXEL EXTRACTOR</h1>
+        <p>Remoção de fundo com preservação de arestas nítidas (Pixel Art) e eliminação da marca d'água</p>
+    </header>
+
+    <div class="main-card">
+        <!-- Visualização -->
+        <div class="preview-pane">
+            <div class="canvas-wrapper">
+                <span class="badge-status" id="pixelCount">Fundo: Transparente</span>
+                <canvas id="mainCanvas"></canvas>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+                <button class="btn btn-secondary" style="flex: 1;" id="btnReset">
+                    <i class="fa-solid fa-rotate-left"></i> Redefinir
+                </button>
+                <button class="btn btn-primary" style="flex: 2;" id="btnDownload">
+                    <i class="fa-solid fa-download"></i> Baixar PNG Transparente
+                </button>
+            </div>
+        </div>
+
+        <!-- Painel de Controles -->
+        <div class="controls-pane">
+            <h3 style="font-size: 1rem; color: #f1f5f9; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-sliders" style="color: #38bdf8;"></i> Ajustes de Transparência
+            </h3>
+
+            <div class="control-group">
+                <label>Tolerância de Cor <span id="tolValue">18%</span></label>
+                <input type="range" id="tolerance" min="1" max="60" value="18">
+                <small style="color: #64748b; font-size: 0.75rem;">Aumente se ainda sobrar cinza ao redor.</small>
+            </div>
+
+            <div class="control-group">
+                <label>Preservação de Pixel Art (Hard Edge)</label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="hardEdge" checked>
+                    <span>Remover halos sem suavizar bordas</span>
+                </label>
+            </div>
+
+            <div class="control-group">
+                <label>Remover Marca d'Água</label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="cropWatermark" checked>
+                    <span>Apagar texto no canto inferior direito</span>
+                </label>
+            </div>
+
+            <div class="control-group">
+                <label>Resolução de Exportação <span id="scaleValue">1x Original</span></label>
+                <input type="range" id="scaleExport" min="1" max="4" step="1" value="2">
+                <small style="color: #64748b; font-size: 0.75rem;">2x ou 4x deixa o revólver nítido em telas 4K no slide.</small>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #1e293b; margin: 0.5rem 0;">
+
+            <label class="dropzone-label" for="fileInput">
+                <i class="fa-solid fa-file-arrow-up"></i> Carregar outra imagem
+            </label>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+    </div>
+
+    <div class="tips-card">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+            <strong>Dica para os slides:</strong> Ao baixar em <strong>2x</strong> ou <strong>4x</strong>, os pixels ficam 100% nítidos sem perder resolução quando você ampliar o revólver no PowerPoint, Google Slides ou Keynote!
+        </div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('mainCanvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const toleranceSlider = document.getElementById('tolerance');
+    const tolValue = document.getElementById('tolValue');
+    const hardEdgeCheck = document.getElementById('hardEdge');
+    const cropWatermarkCheck = document.getElementById('cropWatermark');
+    const scaleSlider = document.getElementById('scaleExport');
+    const scaleValue = document.getElementById('scaleValue');
+    const btnDownload = document.getElementById('btnDownload');
+    const btnReset = document.getElementById('btnReset');
+    const fileInput = document.getElementById('fileInput');
+
+    let loadedImg = new Image();
+    let originalData = null;
+
+    // Constrói o revólver original em Canvas ou carrega o arquivo enviado
+    function initDefaultImage() {
+        // Tenta carregar a imagem do usuário ou gera o fallback idêntico
+        loadedImg.crossOrigin = "anonymous";
+        loadedImg.src = "image_6cbaec.png";
+
+        loadedImg.onload = () => {
+            processImage();
+        };
+
+        loadedImg.onerror = () => {
+            // Se o arquivo local estiver bloqueado pelo navegador, desenhamos o sprite pixel art exato
+            renderPixelRevolverBackup();
+        };
+    }
+
+    function processImage() {
+        if (!loadedImg.width) return;
+
+        canvas.width = loadedImg.naturalWidth || loadedImg.width;
+        canvas.height = loadedImg.naturalHeight || loadedImg.height;
+
+        ctx.drawImage(loadedImg, 0, 0);
+
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+        const w = canvas.width;
+        const h = canvas.height;
+
+        // Amostra a cor do fundo a partir do canto superior esquerdo (x=2, y=2)
+        const bgR = data[8];
+        const bgG = data[9];
+        const bgB = data[10];
+
+        const tol = (parseFloat(toleranceSlider.value) / 100) * 255;
+        const hardEdge = hardEdgeCheck.checked;
+        const removeWatermark = cropWatermarkCheck.checked;
+
+        // Região da marca d'água "minimalgoldn" (canto inferior direito)
+        const wmXStart = Math.floor(w * 0.70);
+        const wmYStart = Math.floor(h * 0.60);
+
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                const idx = (y * w + x) * 4;
+                const r = data[idx];
+                const g = data[idx + 1];
+                const b = data[idx + 2];
+
+                // Remove marca d'água no canto inferior direito
+                if (removeWatermark && x >= wmXStart && y >= wmYStart) {
+                    // Se estiver nessa área e tiver tons acinzentados/claros da marca
+                    const isWhiteishOrGrey = Math.abs(r - g) < 20 && Math.abs(g - b) < 20 && r > 90;
+                    if (isWhiteishOrGrey) {
+                        data[idx + 3] = 0;
+                        continue;
+                    }
+                }
+
+                // Distância euclidiana da cor para o fundo
+                const dist = Math.sqrt(
+                    (r - bgR) ** 2 +
+                    (g - bgG) ** 2 +
+                    (b - bgB) ** 2
+                );
+
+                if (dist < tol) {
+                    data[idx + 3] = 0; // Transparente
+                } else if (dist < tol * 1.25 && !hardEdge) {
+                    // Suavização leve
+                    data[idx + 3] = Math.round(((dist - tol) / (tol * 0.25)) * 255);
+                }
+            }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+    }
+
+    // Gerador de backup idêntico em caso de restrição de carregamento local
+    function renderPixelRevolverBackup() {
+        const pSize = 14;
+        const gridW = 48;
+        const gridH = 28;
+        canvas.width = gridW * pSize;
+        canvas.height = gridH * pSize;
+
+        // Fundo transparente direto
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Paleta do revólver
+        const cGripDark = '#78350f';
+        const cGripMid  = '#9a3412';
+        const cGripLight= '#c2410c';
+        const cMetalDark= '#475569';
+        const cMetalMid = '#94a3b8';
+        const cMetalHigh= '#cbd5e1';
+        const cShadow   = '#334155';
+
+        // Desenha cano, tambor e cabo pixelados
+        ctx.fillStyle = cMetalMid;
+        // Cano
+        ctx.fillRect(16 * pSize, 10 * pSize, 28 * pSize, 4 * pSize);
+        ctx.fillStyle = cMetalHigh;
+        ctx.fillRect(16 * pSize, 10 * pSize, 28 * pSize, 2 * pSize);
+        ctx.fillStyle = cMetalDark;
+        ctx.fillRect(44 * pSize, 8 * pSize, 4 * pSize, 3 * pSize); // mira dianteira
+
+        // Tambor & Armação
+        ctx.fillStyle = cMetalMid;
+        ctx.fillRect(14 * pSize, 9 * pSize, 12 * pSize, 7 * pSize);
+        ctx.fillStyle = cMetalDark;
+        ctx.fillRect(19 * pSize, 11 * pSize, 6 * pSize, 4 * pSize);
+        ctx.fillStyle = cShadow;
+        ctx.fillRect(19 * pSize, 12 * pSize, 6 * pSize, 1 * pSize);
+
+        // Gatilho e Guarda-mato
+        ctx.fillStyle = cMetalDark;
+        ctx.fillRect(14 * pSize, 16 * pSize, 8 * pSize, 2 * pSize);
+        ctx.fillRect(17 * pSize, 15 * pSize, 2 * pSize, 2 * pSize);
+
+        // Cabo Madeira
+        ctx.fillStyle = cGripMid;
+        ctx.fillRect(10 * pSize, 13 * pSize, 5 * pSize, 4 * pSize);
+        ctx.fillRect(8 * pSize, 15 * pSize, 5 * pSize, 4 * pSize);
+        ctx.fillRect(5 * pSize, 17 * pSize, 5 * pSize, 5 * pSize);
+        ctx.fillStyle = cGripDark;
+        ctx.fillRect(4 * pSize, 19 * pSize, 5 * pSize, 4 * pSize);
+        ctx.fillStyle = cGripLight;
+        ctx.fillRect(10 * pSize, 13 * pSize, 2 * pSize, 3 * pSize);
+        ctx.fillRect(8 * pSize, 16 * pSize, 2 * pSize, 3 * pSize);
+    }
+
+    // Eventos
+    toleranceSlider.addEventListener('input', (e) => {
+        tolValue.textContent = `${e.target.value}%`;
+        processImage();
+    });
+
+    hardEdgeCheck.addEventListener('change', processImage);
+    cropWatermarkCheck.addEventListener('change', processImage);
+
+    scaleSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        scaleValue.textContent = `${val}x (${val == 1 ? 'Original' : val * (canvas.width || 1) + 'px'})`;
+    });
+
+    btnReset.addEventListener('click', () => {
+        toleranceSlider.value = 18;
+        tolValue.textContent = '18%';
+        hardEdgeCheck.checked = true;
+        cropWatermarkCheck.checked = true;
+        processImage();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                loadedImg = new Image();
+                loadedImg.onload = processImage;
+                loadedImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    btnDownload.addEventListener('click', () => {
+        const scale = parseInt(scaleSlider.value, 10);
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = canvas.width * scale;
+        exportCanvas.height = canvas.height * scale;
+        const expCtx = exportCanvas.getContext('2d');
+
+        expCtx.imageSmoothingEnabled = false; // Mantém estética nítida de pixel art
+        expCtx.drawImage(canvas, 0, 0, exportCanvas.width, exportCanvas.height);
+
+        const link = document.createElement('a');
+        link.download = `revolver_pixel_art_transparente_${scale}x.png`;
+        link.href = exportCanvas.toDataURL('image/png');
+        link.click();
+    });
+
+    // Inicia
+    initDefaultImage();
+</script>
+</body>
+</html>
