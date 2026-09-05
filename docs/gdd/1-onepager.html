@@ -4,15 +4,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One Page Design Document</title>
+<title>Beastbond — One Page Design Document</title>
 <style>
   :root {
-    --bg: #f5f5f5;
-    --paper: #ffffff;
-    --border: #cccccc;
-    --text: #222222;
-    --muted: #666666;
-    --accent: #444444;
+    --bg: #100c09;
+    --paper: #1d1611;
+    --border: #4a3a29;
+    --text: #e8dcc4;
+    --muted: #a1876a;
+    --accent: #d97733;
+    --accent2: #7fd6d6;
   }
 
   * { box-sizing: border-box; }
@@ -21,7 +22,10 @@
     margin: 0;
     padding: 40px 20px;
     background: var(--bg);
-    font-family: Arial, Helvetica, sans-serif;
+    background-image:
+      radial-gradient(ellipse at top left, rgba(217,119,51,0.08), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgba(127,214,214,0.05), transparent 55%);
+    font-family: Georgia, 'Times New Roman', serif;
     color: var(--text);
   }
 
@@ -30,6 +34,7 @@
     margin: 0 auto;
     background: var(--paper);
     border: 1px solid var(--border);
+    box-shadow: 0 0 0 1px rgba(217,119,51,0.15), 0 20px 60px rgba(0,0,0,0.6);
     padding: 40px;
   }
 
@@ -47,13 +52,15 @@
 
   .title-block h1 {
     margin: 0;
-    font-size: 32px;
-    letter-spacing: 0.5px;
+    font-size: 34px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
   }
 
   .title-block .subtitle {
     margin: 4px 0 0;
-    color: var(--muted);
+    color: var(--accent);
     font-style: italic;
   }
 
@@ -74,7 +81,7 @@
   .info-item {
     border: 1px solid var(--border);
     padding: 10px 12px;
-    background: #fafafa;
+    background: rgba(217,119,51,0.06);
   }
 
   .info-item .label {
@@ -82,13 +89,14 @@
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--muted);
+    color: var(--accent);
     margin-bottom: 4px;
   }
 
   .info-item .value {
     font-size: 14px;
     font-weight: bold;
+    color: var(--text);
   }
 
   /* Seções gerais */
@@ -99,7 +107,7 @@
   h2 {
     font-size: 14px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     border-bottom: 1px solid var(--border);
     padding-bottom: 6px;
     margin-bottom: 12px;
@@ -107,21 +115,24 @@
   }
 
   p {
-    line-height: 1.5;
+    line-height: 1.55;
     margin: 0;
   }
 
   .placeholder {
     color: var(--muted);
+    font-style: italic;
   }
 
   /* High Concept em destaque */
   .high-concept {
-    background: #fafafa;
+    background: rgba(217,119,51,0.08);
     border-left: 4px solid var(--accent);
     padding: 14px 18px;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: bold;
+    font-style: italic;
+    color: var(--text);
   }
 
   /* Layout de duas colunas para Gameplay / História */
@@ -138,8 +149,12 @@
   }
 
   ul.usp-list li {
-    margin-bottom: 8px;
-    line-height: 1.4;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  ul.usp-list li strong {
+    color: var(--accent);
   }
 
   /* Área de screenshots / concept art */
@@ -150,7 +165,7 @@
   }
 
   .screenshot-box {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 4;
     border: 2px dashed var(--border);
     display: flex;
     align-items: center;
@@ -159,7 +174,25 @@
     font-size: 12px;
     text-align: center;
     padding: 8px;
-    background: #fafafa;
+    background: rgba(255,255,255,0.02);
+    font-style: italic;
+  }
+
+  .screenshot-box.filled {
+    border: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .screenshot-box.filled img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .screenshot-box .caption {
+    position: relative;
   }
 
   /* Comparáveis */
@@ -173,7 +206,8 @@
     border: 1px solid var(--border);
     padding: 6px 12px;
     font-size: 13px;
-    background: #fafafa;
+    background: rgba(255,255,255,0.02);
+    color: var(--text);
   }
 
   footer {
@@ -184,6 +218,14 @@
     color: var(--muted);
     display: flex;
     justify-content: space-between;
+  }
+
+  #gameplay {
+    text-align: justify;
+  }
+
+  #historia {
+    text-align: justify;
   }
 
   @media (max-width: 700px) {
@@ -205,12 +247,12 @@
     <!-- CABEÇALHO -->
     <header>
       <div class="title-block">
-        <h1>[NOME DO JOGO]</h1>
+        <h1>Beastbond</h1>
         <p class="subtitle">One Page Design Document</p>
       </div>
       <div class="meta-block">
         Versão 0.1<br>
-        [seu nome] · [data]
+        Lucas Cavallin Caczmareki &amp; Gustavo · [data]
       </div>
     </header>
 
@@ -218,19 +260,19 @@
     <div class="info-bar">
       <div class="info-item">
         <span class="label">Gênero</span>
-        <span class="value">[Gênero]</span>
+        <span class="value">Action-RPG / Twin-stick shooter</span>
       </div>
       <div class="info-item">
         <span class="label">Plataforma</span>
-        <span class="value">[Plataforma]</span>
+        <span class="value">PC · Console (PS5, Xbox, Switch)</span>
       </div>
       <div class="info-item">
         <span class="label">Público-alvo</span>
-        <span class="value">[Público / Faixa etária]</span>
+        <span class="value placeholder">[a definir]</span>
       </div>
       <div class="info-item">
         <span class="label">Classificação</span>
-        <span class="value">[ESRB / PEGI / Livre]</span>
+        <span class="value">14–16 anos (estimado)</span>
       </div>
     </div>
 
@@ -238,7 +280,7 @@
     <section>
       <h2>High Concept</h2>
       <div class="high-concept">
-        [Uma ou duas frases que resumem o jogo de forma memorável — o "elevator pitch". Ex: "Um roguelike de exploração onde cada morte reescreve o mapa do jogador seguinte."]
+        "Hyper Light Drifter com o combate de Enter the Gungeon."
       </div>
     </section>
 
@@ -246,9 +288,9 @@
     <section>
       <h2>Unique Selling Points (USPs)</h2>
       <ul class="usp-list">
-        <li class="placeholder">[O que torna esse jogo diferente dos outros do mesmo gênero? — ponto 1]</li>
-        <li class="placeholder">[Ponto 2]</li>
-        <li class="placeholder">[Ponto 3]</li>
+        <li><strong>Arma modular:</strong> modifique sua arma durante e fora do combate em vez de alternar entre várias armas fixas — upgrades alteram o padrão de tiro (reto, cone, carregado...).</li>
+        <li><strong>Companion controlável:</strong> o jogador comanda a ação (ataque, defesa, esquiva), a movimentação e as habilidades do companion durante o combate.</li>
+        <li><strong>Vidas conectadas:</strong> jogador e companion têm barras de vida independentes, mas ligadas — zerar qualquer uma resulta em morte.</li>
       </ul>
     </section>
 
@@ -256,11 +298,11 @@
     <div class="two-col">
       <section>
         <h2>Gameplay</h2>
-        <p class="placeholder">[Descreva as mecânicas centrais: o que o jogador faz minuto a minuto, controles, loop principal de jogo.]</p>
+        <p id="gameplay">Combate à distância com câmera top-down, priorizando posicionamento tático e uso de objetos/paredes do mapa para evitar projéteis. A arma alterna até 2 tipos de funcionamento (troca só fora de combate); cada tipo tem cadência, dano, precisão e alcance próprios. O companion age por IA simples e pode ser comandado via menu contextual que desacelera o tempo, permitindo posicionar, atacar ou usar uma habilidade especial dele em tempo real. Jogador e companion têm vidas separadas — perder qualquer uma retorna ao último checkpoint.</p>
       </section>
       <section>
         <h2>História / Cenário</h2>
-        <p class="placeholder">[Resumo curto do universo, personagem principal e conflito central, se aplicável.]</p>
+        <p class="placeholder" id="historia">[Narrativa ainda em desenvolvimento — sinopse, ambientação/lore e estrutura narrativa a definir em docs/narrative/]</p>
       </section>
     </div>
 
@@ -268,9 +310,13 @@
     <section>
       <h2>Screenshots / Concept Art</h2>
       <div class="screenshot-grid">
-        <div class="screenshot-box">Imagem 1</div>
-        <div class="screenshot-box">Imagem 2</div>
-        <div class="screenshot-box">Imagem 3</div>
+        <div class="screenshot-box filled">
+          <img src="../art/beastbond_conceptart.jpg" alt="Concept art do protagonista e do companion">
+        </div>
+        <div class="screenshot-box filled">
+          <img src="../art/lobo_conceptart.jpg" alt="Concept art do companion">
+        </div>
+        <div class="screenshot-box">Concept art de ambientação<br>(em desenvolvimento)</div>
       </div>
     </section>
 
@@ -278,14 +324,15 @@
     <section>
       <h2>Comparáveis</h2>
       <div class="comparables">
-        <span class="comparable-tag placeholder">[Jogo referência 1]</span>
-        <span class="comparable-tag placeholder">[Jogo referência 2]</span>
-        <span class="comparable-tag placeholder">[Jogo referência 3]</span>
+        <span class="comparable-tag">Enter the Gungeon</span>
+        <span class="comparable-tag">Hyper Light Drifter</span>
+        <span class="comparable-tag">Transistor</span>
+        <span class="comparable-tag">Resident Evil 4</span>
       </div>
     </section>
 
     <footer>
-      <span>[Nome do estúdio / disciplina]</span>
+      <span>TECIV — Jogos Digitais · Prof. Rafael P. Torchelsen</span>
       <span>Página 1 de 1</span>
     </footer>
 
