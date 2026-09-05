@@ -1,44 +1,62 @@
-# Disciplina: TECIV - Jogos Digitais
+# Beastbond
 
-## Projeto: jogo ainda não definido
+**Disciplina:** TECIV — Jogos Digitais
+**Alunos:** Lucas Cavallin Caczmareki · Gustavo dos Santos Leon
+**Professor:** Rafael P. Torchelsen
 
-### Aluno: Lucas Cavallin Caczmareki
-### Professor: Rafael P. Torchelsen
+## Sobre o jogo
 
-## Sobre o Jogo
+*Beastbond* é um action-RPG top-down / twin-stick shooter em que o jogador controla, ao mesmo tempo, um personagem principal e um companion (lobo), gerenciando combate, posicionamento e vidas separadas dos dois em um mapa explorável com progressão de dificuldade, misturando salas com obstáculos, combates e puzzles.
 
-**[Nome a definir]** é um *twin-stick shooter* roguelike, inspirado em jogos como
-*Enter the Gungeon*, com uma mecânica central de dupla: o jogador enfrenta as
-salas ao lado de um companion (ex: lobo), controlando ambos ao mesmo tempo.
+A visão completa do projeto (gênero, plataformas, high concept e referências) está em [`docs/gdd/content/`](docs/gdd/content/01-visao-geral.md). Esse é o ponto de partida pra entender o jogo.
 
-### Mecânicas principais
+## Estrutura atual do projeto
 
-- **Estrutura de salas**: progressão sala por sala, com inimigos e upgrades
-  entre cada uma, no estilo clássico do gênero.
+```
+TECIV-Jogos/
+├── docs/
+│   ├── art/                      Concept arts e assets visuais
+│   ├── brainstorm.md             Registro livre de ideias em discussão
+│   └── gdd/
+│       ├── 1-onepager.html       One Page Design Document (visão resumida, 1 página)
+│       ├── 2-tenpager.html       Ten Page Design Document (versão intermediária)
+│       ├── 3-gdd.html            GDD completo (versão navegável/compilada)
+│       ├── checklist-gdd.md      Checklist de progresso da documentação
+│       ├── content/   ...        Conteúdo-fonte do GDD, um arquivo por tema
+│       └── narrative/ ...        Narrativa detalhada
+├── scenes/                       Cenas do Godot (.tscn)
+├── scripts/                      Scripts GDScript (.gd)
+├── icon.svg                      Ícone do projeto
+└── project.godot                 Arquivo de projeto do Godot
+```
 
-- **Arma modular**: ao invés de trocar entre várias armas fixas, o jogador
-  carrega uma arma que se transforma conforme os upgrades coletados — cada
-  item pode alterar o padrão de tiro (reto, espiral, disperso, etc). Upgrades
-  podem ser aplicados tanto na arma do jogador quanto na do companion,
-  exigindo decisões estratégicas sobre quem fortalecer.
+## Documentação
 
-- **Companion**: o jogador comanda o posicionamento do lobo durante o combate.
-  Pode-se controlar a ação (ataque, defesa, esquiva, etc) e a movimentação (livre,
-  segue o player, fixa num local, etc)
+A documentação é dividida em duas camadas:
 
-- **Vida individual**: jogador e companion possuem barras de vida separadas.
-  A perda de qualquer um dos dois encerra a run, tornando a gestão simultânea
-  do posicionamento de ambos essencial para a sobrevivência.
+- **`docs/gdd/content/`** e **`docs/gdd/narrative/`** — a fonte de verdade. Cada arquivo cobre um tema específico (gameplay, personagens, narrativa, etc). Seções ainda não preenchidas ficam marcadas com um TODO indicando de quem é a responsabilidade, ex:
+  ```markdown
+  <!-- TODO: @Gustavo preencher essa seção -->
+  ```
+- **`docs/gdd/1-onepager.html`, `2-tenpager.html`, `3-gdd.html`** — versões formatadas e resumidas, compiladas a partir do conteúdo acima, pensadas pra entrega/apresentação na disciplina.
 
-### Referências de gênero
+### Visualizando os arquivos `.html`
 
-Roguelikes
-- *Enter the Gungeon* — estrutura de salas e combate à distância
-- *Ember Knights* — dinâmica de ação em roguelike
-- *Moonlighter*
-- *Wizard legend*
+O GitHub não renderiza `.html` como página — ele sempre mostra o código-fonte (por segurança). Pra ver como página de verdade:
 
-Action RPGs
-- *Hyper light drifter*
-- *Transistor*
+1. **Clone o repositório inteiro** e abra o arquivo localmente no navegador. As imagens usam caminhos relativos (`../art/...`), então elas só aparecem se a pasta `docs/art/` estiver junto — não adianta baixar só o `.html` isolado.
+<!-- 2. Alternativamente, ative o **GitHub Pages** do repositório (Settings → Pages) pra publicar como site navegável. -->
+
+## Stack técnica
+
+- **Engine:** Godot
+- **Linguagem:** GDScript
+
+## Divisão de responsabilidades
+
+| Área | Responsável |
+|---|---|
+| Personagens, mecânicas, IAs de inimigos, HUD/UI, menus | Lucas |
+| Level design, progressão, economia, bossfights, puzzles, narrativa | Gustavo |
+| Documentação (`.md`), entregáveis da disciplina (GDD, slides), arte e áudio | Ambos, cada um faz a parte correspondente à sua área |
 
