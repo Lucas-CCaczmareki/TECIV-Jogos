@@ -33,9 +33,15 @@ func _physics_process(delta: float) -> void:
 	# acaba com a desigualdade triangular tho
 	input_vector = input_vector.normalized()
 	
-	# só lembrando q como isso ta dentro do process, é chamado ~60x por segundo
 	# aplica velocidade (atributo privado desse node) e move o personagem
-	velocity = input_vector * speed
+	if(Input.is_action_pressed("sprint")):
+		# pra criar uma action e adicionar um keybind é
+		# Projeto -> Configs de Projeto -> Mapa de Entrada
+		velocity = input_vector * speed * 2
+	else:
+		velocity = input_vector * speed
+	
+	# só lembrando q como isso ta dentro do process, é chamado ~60x por segundo
 	move_and_slide()
 	_update_animation(input_vector)
 
