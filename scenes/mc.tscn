@@ -68,6 +68,38 @@ region = Rect2(192, 0, 32, 32)
 atlas = ExtResource("2_vlp1l")
 region = Rect2(224, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_owh18"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vd4r2"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxnr4"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yj62"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhoue"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(128, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7obqy"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(160, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yiyx7"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(192, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsn7k"]
+atlas = ExtResource("2_vlp1l")
+region = Rect2(224, 64, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_sugp2"]
 atlas = ExtResource("2_a6s5m")
 region = Rect2(0, 0, 32, 32)
@@ -290,6 +322,35 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_owh18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vd4r2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxnr4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yj62")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhoue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7obqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yiyx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsn7k")
+}],
+"loop": 1,
+"name": &"dodge_up",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_sugp2")
 }, {
 "duration": 1.0,
@@ -450,7 +511,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
-size = Vector2(17, 24)
+size = Vector2(22, 42)
 
 [node name="mc" type="CharacterBody2D" unique_id=1201743444]
 script = ExtResource("1_i6vl1")
@@ -458,9 +519,9 @@ script = ExtResource("1_i6vl1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_ucufk")
-animation = &"dodge_right"
-frame_progress = 0.6077795
+animation = &"dodge_up"
+frame_progress = 0.6755265
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=922055785]
-position = Vector2(-0.5, 4)
+position = Vector2(-3, 30)
 shape = SubResource("RectangleShape2D_ucufk")
