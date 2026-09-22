@@ -1,69 +1,68 @@
 extends CharacterBody2D
 
-@export var speed: float = 240.0 #permite controlar ela no inspector
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+# @export makes the var controllable with inspector
+@export var speed: float = 240.0 
+@export var dodge_speed: float = speed*2
+@export var dodge_duration: float = 0.60
+@export var dodge_cooldown: float = 0.20 # the entire time of dodge_duration + cooldown
 
-# Guarda pra onde o personagem ficou olhando por último pra saber
-#  qual idle tocar quando ele parar de andar
+var input_vector : Vector2 = Vector2.ZERO # Vector2 is similar to std::pair<float, float>
 var last_direction: String = "down" 
 
-# Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#print("Hello world GODOT!")
-	#pass # Replace with function body.
+var dodge_direction: Vector2 = Vector2.ZERO
+var is_dodging: bool = false
+var can_dodge: bool = true
+var dodge_timer: float = 0
+var dodgeCooldown_timer: float = 0
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#if Input.is_action_pressed("ui_right"):
-		#print("Segurando S (direita)")
-	#pass
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-func _physics_process(delta: float) -> void:
-	# Vector2 é como se fosse um std::pair<float, float>
-	# mas ele tem uns métodos úteis pra matemática em jogos.
-	# ou usa := Vector2.ZERO. Ai a variável infere o tipo.
-	var input_vector : Vector2 = Vector2.ZERO # o .ZERO inicia o nosso Vector2 com (0, 0)
-	
-	# mudei as ações ui_right etc pra respeitar WASD ao invés das setinhas nas configs do projeto
-	# get_action_strength retorna um float entre 0.0 e 1.0 quando a tecla é pressionada ( é + útil pra analógicos, mas funciona )
+func _physics_process(delta: float) -> void: # called ~60x times per sec
+	# WASD movement
+	# Action strenght will return a value between [0, 1] if pressed
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	
-	# arruma o bug do personagem se mover mais rápido na diagonal.
-	# acaba com a desigualdade triangular tho
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") # -y = up, + y = down	
 	input_vector = input_vector.normalized()
 	
-	# aplica velocidade (atributo privado desse node) e move o personagem
-	if(Input.is_action_pressed("sprint")):
-		# pra criar uma action e adicionar um keybind é
-		# Projeto -> Configs de Projeto -> Mapa de Entrada
-		velocity = input_vector * speed * 2
-	else:
-		velocity = input_vector * speed
+	velocity = input_vector * speed # each direction is multiplied by speed
 	
-	# só lembrando q como isso ta dentro do process, é chamado ~60x por segundo
+	_process_dodge(delta)
 	move_and_slide()
 	_update_animation(input_vector)
 
-func _update_animation(input_vector: Vector2) -> void:
+# no i-frames is a mechanic decision. At least for now (21/08/26)
+func _process_dodge(delta: float) -> void:
+	# only possible to dodge while moving
 	if input_vector != Vector2.ZERO:
-		if(input_vector.x == 1 and input_vector.y == 0):
-			sprite.play("walk_right")
-			last_direction = "right"
+		if Input.is_action_just_pressed("dodge") and can_dodge:
+			dodge_direction = input_vector
+			dodge_timer = dodge_duration
+			dodgeCooldown_timer = dodge_cooldown
+			is_dodging = true
+			can_dodge = false
 		
-		if(input_vector.x == -1 and input_vector.y == 0):
-			sprite.play("walk_left")
-			last_direction = "left"
-		
-		if(input_vector.x == 0 and input_vector.y == -1):
-			sprite.play("walk_up")
-			last_direction = "up"
-		
-		if(input_vector.x == 0 and input_vector.y == 1):
-			sprite.play("walk_down")
-			last_direction = "down"
-		
+	if is_dodging: 
+		dodge_timer -= delta
+		if dodge_timer <= 0:
+			is_dodging = false
+			
+		velocity = dodge_direction * dodge_speed
+	
+	if not can_dodge and not is_dodging:
+		dodgeCooldown_timer -= delta
+		if dodgeCooldown_timer <= 0:
+			can_dodge = true
+
+func _update_animation(input_vector: Vector2) -> void:
+	if is_dodging:
+		sprite.play("dodge_" + last_direction)
 	else:
-		# toca a idle do personagem pra última direção q ele tava olhando
-		sprite.play("idle_" + last_direction)
+		if input_vector != Vector2.ZERO: # if have movement
+			if (input_vector.x == 1 and input_vector.y == 0): 	last_direction = "right"
+			if (input_vector.x == -1 and input_vector.y == 0): 	last_direction = "left"
+			if (input_vector.x == 0 and input_vector.y == -1): 	last_direction = "up"
+			if (input_vector.x == 0 and input_vector.y == 1): 	last_direction = "down"
+			sprite.play("walk_" + last_direction)
+		else: # is idle
+			sprite.play("idle_" + last_direction)
 	
