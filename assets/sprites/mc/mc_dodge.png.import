@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccb5lboeuu1dk"
-path="res://.godot/imported/mc_dodge.png-414ba7943fae99b0f83c034e4389d247.ctex"
+path="res://.godot/imported/mc_dodge.png-3b4173ce834d55dc0d0c74654cb6c23d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/mc_dodge.png"
-dest_files=["res://.godot/imported/mc_dodge.png-414ba7943fae99b0f83c034e4389d247.ctex"]
+source_file="res://assets/sprites/mc/mc_dodge.png"
+dest_files=["res://.godot/imported/mc_dodge.png-3b4173ce834d55dc0d0c74654cb6c23d.ctex"]
 
 [params]
 

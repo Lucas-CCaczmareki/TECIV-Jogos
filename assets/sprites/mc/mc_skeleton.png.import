@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xufru13spmoo"
-path="res://.godot/imported/mc_skeleton.png-397f7e667c61127dbffbad12a42a2fac.ctex"
+path="res://.godot/imported/mc_skeleton.png-388ba93e9b16168c11de2d5414fc1e47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/mc_skeleton.png"
-dest_files=["res://.godot/imported/mc_skeleton.png-397f7e667c61127dbffbad12a42a2fac.ctex"]
+source_file="res://assets/sprites/mc/mc_skeleton.png"
+dest_files=["res://.godot/imported/mc_skeleton.png-388ba93e9b16168c11de2d5414fc1e47.ctex"]
 
 [params]
 
