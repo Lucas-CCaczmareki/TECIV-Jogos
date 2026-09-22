@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void: # called ~60x times per sec
 	
 	_process_dodge(delta)
 	move_and_slide()
-	_update_animation(input_vector)
+	_update_animation()
 
 # no i-frames is a mechanic decision. At least for now (21/08/26)
 func _process_dodge(delta: float) -> void:
@@ -53,7 +53,7 @@ func _process_dodge(delta: float) -> void:
 		if dodgeCooldown_timer <= 0:
 			can_dodge = true
 
-func _update_animation(input_vector: Vector2) -> void:
+func _update_animation() -> void:
 	if is_dodging:
 		sprite.play("dodge_" + last_direction)
 	else:
