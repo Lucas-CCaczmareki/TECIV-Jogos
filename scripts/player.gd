@@ -16,6 +16,7 @@ var dodge_timer: float = 0
 var dodgeCooldown_timer: float = 0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var weapon_sprite: Sprite2D = $WeaponPivot/Weapon
 
 func _physics_process(delta: float) -> void: # called ~60x times per sec
 	# WASD movement
@@ -40,11 +41,13 @@ func _process_dodge(delta: float) -> void:
 			dodgeCooldown_timer = dodge_cooldown
 			is_dodging = true
 			can_dodge = false
+			weapon_sprite.visible = false
 		
 	if is_dodging: 
 		dodge_timer -= delta
 		if dodge_timer <= 0:
 			is_dodging = false
+			weapon_sprite.visible = true
 			
 		velocity = dodge_direction * dodge_speed
 	
@@ -55,13 +58,33 @@ func _process_dodge(delta: float) -> void:
 
 func _update_animation() -> void:
 	if is_dodging:
+		# in diagonal rolls, may have some animation problems. Useful to know
+		if (input_vector.x == 1 and input_vector.y == 0): 	last_direction = "right"
+		if (input_vector.x == -1 and input_vector.y == 0): 	last_direction = "left"
+		if (input_vector.x == 0 and input_vector.y == -1): 	last_direction = "up"
+		if (input_vector.x == 0 and input_vector.y == 1): 	last_direction = "down"
 		sprite.play("dodge_" + last_direction)
+		
 	else:
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		var pivot_pos: Vector2 = get_global_position()
+		var distance: Vector2 = mouse_pos - pivot_pos
+		
+		if abs(distance.y) >= abs(distance.x):
+			if mouse_pos.y < pivot_pos.y: 
+				last_direction = "up"
+				sprite.z_index = 1 # coloca o sprite do personagem uma layer pra cima
+			else: 
+				last_direction = "down" 
+				sprite.z_index = 0
+		else: # dist x > dist y
+			if mouse_pos.x > pivot_pos.x: 
+				last_direction = "right"
+				sprite.z_index = 0
+			else: 
+				last_direction = "left"
+				sprite.z_index = 0
 		if input_vector != Vector2.ZERO: # if have movement
-			if (input_vector.x == 1 and input_vector.y == 0): 	last_direction = "right"
-			if (input_vector.x == -1 and input_vector.y == 0): 	last_direction = "left"
-			if (input_vector.x == 0 and input_vector.y == -1): 	last_direction = "up"
-			if (input_vector.x == 0 and input_vector.y == 1): 	last_direction = "down"
 			sprite.play("walk_" + last_direction)
 		else: # is idle
 			sprite.play("idle_" + last_direction)

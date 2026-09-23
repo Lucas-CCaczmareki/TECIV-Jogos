@@ -580,18 +580,23 @@ size = Vector2(22, 42)
 script = ExtResource("1_i6vl1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
+z_as_relative = false
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_ucufk")
-animation = &"walk_up"
+animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=922055785]
+visible = false
 position = Vector2(-3, 30)
 shape = SubResource("RectangleShape2D_ucufk")
 
 [node name="WeaponPivot" type="Node2D" parent="." unique_id=108244274]
-position = Vector2(45, 25)
+position = Vector2(21, 43)
 scale = Vector2(3, 3)
 script = ExtResource("4_xbm6p")
 
 [node name="Weapon" type="Sprite2D" parent="WeaponPivot" unique_id=1616989660]
+z_as_relative = false
 texture = ExtResource("4_vlp1l")
+centered = false
+offset = Vector2(-1.333, -8.667)
