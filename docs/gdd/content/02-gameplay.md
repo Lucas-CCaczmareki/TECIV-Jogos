@@ -1,6 +1,44 @@
 <!-- TODO: @Gustavo preencher essa seção -->
 ## Core loop (ação repetida principal)
 
+                 ┌───────────────┐
+                 │   EXPLORAR    │
+                 └───────┬───────┘
+                         ↓
+                 ┌───────────────┐
+                 │   ENCONTRAR   │
+                 │    DESAFIO    │
+                 └───────┬───────┘
+                         ↓
+              ┌──────────┴──────────┐
+              ↓                     ↓
+        ┌───────────┐         ┌───────────┐
+        │  COMBATE  │         │   PUZZLE  │
+        └─────┬─────┘         └─────┬─────┘
+              ↓                     ↓
+        ┌───────────┐         ┌───────────┐
+        │  USAR     │         │  RESOLVER │
+        │  COMPANION│         │  DESAFIO  │
+        └─────┬─────┘         └─────┬─────┘
+              ↓                     ↓
+              └──────────┬──────────┘
+                         ↓
+       ┌────────────────────────────────┐
+       │  AVANÇAR/RECEBER RECOMPENSA    │
+       └─────────────────┬──────────────┘
+                         ↓
+                  NOVA SALA / ÁREA
+
+Micro Loop — segundos - ação
+> Mover → mirar → atacar → esquivar → comandar lobo
+
+Loop de sala — 1–5 minutos - combate/puzzle
+> Entrar → analisar → enfrentar desafio → usar protagonista + lobo → vencer → avançar
+
+Loop de área — 10–20 minutos - exploração
+> Explorar → combater → resolver puzzle → adquirir recurso/habilidade → checkpoint → próximo desafio
+
+
 ---
 <!-- TODO: @Lucas pensar, analisar e preencher essa seção -->
 ## Controles/inputs
