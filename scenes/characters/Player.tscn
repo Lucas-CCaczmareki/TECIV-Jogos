@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dqhccpq1ncn7i"]
+[gd_scene format=3 uid="uid://cswkwd32edjdt"]
 
 [ext_resource type="Script" uid="uid://ckx3im1ugw8u3" path="res://scripts/player.gd" id="1_rpfb3"]
 [ext_resource type="Texture2D" uid="uid://ccb5lboeuu1dk" path="res://assets/sprites/mc/mc_dodge.png" id="2_miirx"]
