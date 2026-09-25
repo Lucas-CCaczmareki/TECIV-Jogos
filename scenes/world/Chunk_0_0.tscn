@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bmwh52rb6p2aw"]
+
+[node name="Chunk00" type="Node2D" unique_id=576549364]
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1820976170]
+z_index = -5
+position = Vector2(27.296597, 31.976664)
+scale = Vector2(0.941262, 0.927046)
+color = Color(0.57, 0.57, 0.50729996, 1)
+polygon = PackedVector2Array(-27, -24, 1204.4504, -34.493073, 1195.9512, 660.1866, -29, 655)
