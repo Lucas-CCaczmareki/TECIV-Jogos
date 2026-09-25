@@ -576,7 +576,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
-size = Vector2(22, 42)
+size = Vector2(55, 101)
 
 [node name="World" type="Node2D" unique_id=2000098039]
 
@@ -590,8 +590,7 @@ sprite_frames = SubResource("SpriteFrames_ucufk")
 animation = &"idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=922055785]
-visible = false
-position = Vector2(-3, 30)
+position = Vector2(-2.5, 23.5)
 shape = SubResource("RectangleShape2D_ucufk")
 
 [node name="WeaponPivot" type="Node2D" parent="Player" unique_id=108244274]
