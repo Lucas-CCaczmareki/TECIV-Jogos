@@ -18,6 +18,14 @@ var dodgeCooldown_timer: float = 0
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var weapon_pivot: WeaponPivot = $WeaponPivot
 
+signal dodge_started
+signal dodge_ended
+
+func _enter_tree() -> void:
+	# adiciona uma etiqueta no nodo quando ele entra na scene tree
+	# torna mais fácil pra nodos filhos encontrarem a referência e se conectar aos signals emitidos
+	add_to_group("player") 
+
 func _physics_process(delta: float) -> void: # called ~60x times per sec
 	# WASD movement
 	# Action strenght will return a value between [0, 1] if pressed
@@ -43,6 +51,7 @@ func _process_dodge(delta: float) -> void:
 			dodge_timer = dodge_duration
 			dodgeCooldown_timer = dodge_cooldown
 			is_dodging = true
+			dodge_started.emit()
 			can_dodge = false
 			weapon_pivot.set_weapon_visibility(false)
 		
@@ -50,6 +59,7 @@ func _process_dodge(delta: float) -> void:
 		dodge_timer -= delta
 		if dodge_timer <= 0:
 			is_dodging = false
+			dodge_ended.emit()
 			weapon_pivot.set_weapon_visibility(true)
 			
 		velocity = dodge_direction * dodge_speed
