@@ -1,8 +1,15 @@
 extends Node2D
+class_name WeaponPivot
 
 # ill need to understand the logic and method to rotate a node
 # next steps is to study this and then try to program
-@onready var weapon_sprite: Sprite2D = $Weapon
+# @onready var weapon_sprite: Sprite2D = $Weapon
+@export var initial_weapon: PackedScene
+var weapon: Node2D
+
+func _ready() -> void:
+	weapon = initial_weapon.instantiate()
+	add_child(weapon)
 
 func _process(delta: float) -> void:
 	var mouse_pos: Vector2 = get_global_mouse_position()
@@ -15,3 +22,7 @@ func _process(delta: float) -> void:
 		scale.y = -3
 	else:
 		scale.y = 3
+
+# still not working for some reason.
+func set_weapon_visibility(visibility: bool) -> void:
+	weapon.visible = visibility

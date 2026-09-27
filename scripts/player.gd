@@ -16,7 +16,7 @@ var dodge_timer: float = 0
 var dodgeCooldown_timer: float = 0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var weapon_sprite: Sprite2D = $WeaponPivot/Weapon
+@onready var weapon_pivot: WeaponPivot = $WeaponPivot
 
 func _physics_process(delta: float) -> void: # called ~60x times per sec
 	# WASD movement
@@ -31,6 +31,7 @@ func _physics_process(delta: float) -> void: # called ~60x times per sec
 	move_and_slide()
 	_update_animation()
 
+# NEED FIX: sometimes the normal movement become blocked in the direction you dodged
 # no i-frames is a mechanic decision. At least for now (21/08/26)
 func _process_dodge(delta: float) -> void:
 	# only possible to dodge while moving
@@ -41,13 +42,13 @@ func _process_dodge(delta: float) -> void:
 			dodgeCooldown_timer = dodge_cooldown
 			is_dodging = true
 			can_dodge = false
-			weapon_sprite.visible = false
+			weapon_pivot.set_weapon_visibility(false)
 		
 	if is_dodging: 
 		dodge_timer -= delta
 		if dodge_timer <= 0:
 			is_dodging = false
-			weapon_sprite.visible = true
+			weapon_pivot.set_weapon_visibility(true)
 			
 		velocity = dodge_direction * dodge_speed
 	
@@ -56,6 +57,9 @@ func _process_dodge(delta: float) -> void:
 		if dodgeCooldown_timer <= 0:
 			can_dodge = true
 
+
+# NEED FIX: dodge animation while facing the opposite direction of the dodge
+# is bugged. The dodge animation follows the facing direction not the dodge direction
 func _update_animation() -> void:
 	if is_dodging:
 		# in diagonal rolls, may have some animation problems. Useful to know

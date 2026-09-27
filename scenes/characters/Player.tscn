@@ -1,12 +1,10 @@
-[gd_scene format=3 uid="uid://cswkwd32edjdt"]
+[gd_scene format=3 uid="uid://dqhccpq1ncn7i"]
 
 [ext_resource type="Script" uid="uid://ckx3im1ugw8u3" path="res://scripts/player.gd" id="1_rpfb3"]
 [ext_resource type="Texture2D" uid="uid://ccb5lboeuu1dk" path="res://assets/sprites/mc/mc_dodge.png" id="2_miirx"]
 [ext_resource type="Texture2D" uid="uid://xufru13spmoo" path="res://assets/sprites/mc/mc_skeleton.png" id="3_m6phi"]
-[ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapon_pivot.gd" id="4_oihyf"]
-[ext_resource type="Texture2D" uid="uid://xutl6q3xh0o3" path="res://assets/sprites/weapons/revolver.png" id="5_7lms1"]
-[ext_resource type="Script" uid="uid://bpn3tkr4vgalc" path="res://scripts/chunk_manager.gd" id="6_ufbvs"]
-[ext_resource type="PackedScene" uid="uid://bmwh52rb6p2aw" path="res://scenes/world/Chunk_0_0.tscn" id="7_miirx"]
+[ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="4_oihyf"]
+[ext_resource type="PackedScene" uid="uid://rkwplteb0sku" path="res://scenes/weapons/Shotgun.tscn" id="5_gj1sn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkuii"]
 atlas = ExtResource("2_miirx")
@@ -578,32 +576,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
 size = Vector2(55, 101)
 
-[node name="World" type="Node2D" unique_id=2000098039]
-
-[node name="Player" type="CharacterBody2D" parent="." unique_id=1201743444]
+[node name="Player" type="CharacterBody2D" unique_id=1201743444]
 script = ExtResource("1_rpfb3")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=864927634]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
 z_as_relative = false
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_ucufk")
 animation = &"idle_down"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=922055785]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=922055785]
 position = Vector2(-2.5, 23.5)
 shape = SubResource("RectangleShape2D_ucufk")
 
-[node name="WeaponPivot" type="Node2D" parent="Player" unique_id=108244274]
+[node name="WeaponPivot" type="Node2D" parent="." unique_id=108244274]
 position = Vector2(21, 43)
 scale = Vector2(3, 3)
 script = ExtResource("4_oihyf")
-
-[node name="Weapon" type="Sprite2D" parent="Player/WeaponPivot" unique_id=1616989660]
-z_as_relative = false
-texture = ExtResource("5_7lms1")
-centered = false
-offset = Vector2(-1.333, -8.667)
-
-[node name="ChunkManager" type="Node2D" parent="." unique_id=220867173]
-script = ExtResource("6_ufbvs")
-initial_chunk = ExtResource("7_miirx")
+initial_weapon = ExtResource("5_gj1sn")
