@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ccb5lboeuu1dk" path="res://assets/sprites/mc/mc_dodge.png" id="2_miirx"]
 [ext_resource type="Texture2D" uid="uid://xufru13spmoo" path="res://assets/sprites/mc/mc_skeleton.png" id="3_m6phi"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="4_oihyf"]
-[ext_resource type="PackedScene" uid="uid://rkwplteb0sku" path="res://scenes/weapons/Shotgun.tscn" id="5_gj1sn"]
+[ext_resource type="PackedScene" uid="uid://gu66j5k05lat" path="res://scenes/weapons/Revolver.tscn" id="5_gj1sn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkuii"]
 atlas = ExtResource("2_miirx")
@@ -593,4 +593,4 @@ shape = SubResource("RectangleShape2D_ucufk")
 position = Vector2(21, 43)
 scale = Vector2(3, 3)
 script = ExtResource("4_oihyf")
-initial_weapon = ExtResource("5_gj1sn")
+weapon_scene = ExtResource("5_gj1sn")

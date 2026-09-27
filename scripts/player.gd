@@ -31,6 +31,8 @@ func _physics_process(delta: float) -> void: # called ~60x times per sec
 	move_and_slide()
 	_update_animation()
 
+#func _switch_weapon()
+
 # NEED FIX: sometimes the normal movement become blocked in the direction you dodged
 # no i-frames is a mechanic decision. At least for now (21/08/26)
 func _process_dodge(delta: float) -> void:
@@ -56,7 +58,6 @@ func _process_dodge(delta: float) -> void:
 		dodgeCooldown_timer -= delta
 		if dodgeCooldown_timer <= 0:
 			can_dodge = true
-
 
 # NEED FIX: dodge animation while facing the opposite direction of the dodge
 # is bugged. The dodge animation follows the facing direction not the dodge direction
