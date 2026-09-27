@@ -3,8 +3,11 @@ extends CharacterBody2D
 # @export makes the var controllable with inspector
 @export var speed: float = 240.0 
 @export var dodge_speed: float = speed*2
-@export var dodge_duration: float = 0.60
-@export var dodge_cooldown: float = 0.20 # the entire time of dodge_duration + cooldown
+
+@export var dodge_duration: 	 float = 0.60
+var 		dodge_timer: 		 float = 0
+@export var dodge_cooldown: 	 float = 0.20 # the entire time of dodge_duration + cooldown
+var 		dodgeCooldown_timer: float = 0
 
 var input_vector : Vector2 = Vector2.ZERO # Vector2 is similar to std::pair<float, float>
 var last_direction: String = "down" 
@@ -12,8 +15,6 @@ var last_direction: String = "down"
 var dodge_direction: Vector2 = Vector2.ZERO
 var is_dodging: bool = false
 var can_dodge: bool = true
-var dodge_timer: float = 0
-var dodgeCooldown_timer: float = 0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var weapon_pivot: WeaponPivot = $WeaponPivot
