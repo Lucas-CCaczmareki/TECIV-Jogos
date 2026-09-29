@@ -16,6 +16,9 @@ var blocked_by_dodge: bool = false
 var blocked_by_reload: bool = false # ainda preciso implementar a funcionalidade de reload
 var blocked_by_cooldown: bool = false
 
+# signals
+signal ammo_changed(current: int, max: int)
+
 func set_visibility(visibility: bool) -> void:
 	visible = visibility
 
@@ -31,6 +34,7 @@ func _reload_cooldown(delta: float) -> void:
 		reload_cooldownTimer -= delta
 		if reload_cooldownTimer <= 0:
 			ammo = capacity
+			ammo_changed.emit(ammo, capacity)
 			blocked_by_reload = false
 	pass
 

@@ -31,6 +31,9 @@ func equip_weapon() -> void:
 	add_child(weapon)
 	pass
 
+func get_weapon() -> Node2D:
+	return weapon
+
 # calls the visibility function for the active weapon
 func set_weapon_visibility(visibility: bool) -> void:
 	weapon.visible = visibility
