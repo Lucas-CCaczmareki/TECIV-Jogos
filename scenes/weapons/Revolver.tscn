@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://gu66j5k05lat"]
+
+[ext_resource type="Script" uid="uid://bwqpaw2ibq5rc" path="res://scripts/weapons/revolver.gd" id="1_8knri"]
+[ext_resource type="Texture2D" uid="uid://xutl6q3xh0o3" path="res://assets/sprites/weapons/revolver.png" id="1_30t0j"]
+[ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet.tscn" id="2_n4pqw"]
+
+[node name="Revolver" type="Node2D" unique_id=506976464]
+script = ExtResource("1_8knri")
+bullet_scene = ExtResource("2_n4pqw")
+capacity = 6
+fire_cooldown = 0.28
+reload_cooldown = 3.5
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=429493222]
+position = Vector2(6, -3)
+texture = ExtResource("1_30t0j")
+
+[node name="Tip" type="Marker2D" parent="." unique_id=1015637742]
+position = Vector2(15, -6)

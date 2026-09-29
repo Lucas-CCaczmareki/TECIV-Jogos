@@ -3,8 +3,11 @@ extends CharacterBody2D
 # @export makes the var controllable with inspector
 @export var speed: float = 240.0 
 @export var dodge_speed: float = speed*2
-@export var dodge_duration: float = 0.60
-@export var dodge_cooldown: float = 0.20 # the entire time of dodge_duration + cooldown
+
+@export var dodge_duration: 	 float = 0.60
+var 		dodge_timer: 		 float = 0
+@export var dodge_cooldown: 	 float = 0.20 # the entire time of dodge_duration + cooldown
+var 		dodgeCooldown_timer: float = 0
 
 var input_vector : Vector2 = Vector2.ZERO # Vector2 is similar to std::pair<float, float>
 var last_direction: String = "down" 
@@ -12,11 +15,17 @@ var last_direction: String = "down"
 var dodge_direction: Vector2 = Vector2.ZERO
 var is_dodging: bool = false
 var can_dodge: bool = true
-var dodge_timer: float = 0
-var dodgeCooldown_timer: float = 0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var weapon_sprite: Sprite2D = $WeaponPivot/Weapon
+@onready var weapon_pivot: WeaponPivot = $WeaponPivot
+
+signal dodge_started
+signal dodge_ended
+
+func _enter_tree() -> void:
+	# adiciona uma etiqueta no nodo quando ele entra na scene tree
+	# torna mais fácil pra nodos filhos encontrarem a referência e se conectar aos signals emitidos
+	add_to_group("player") 
 
 func _physics_process(delta: float) -> void: # called ~60x times per sec
 	# WASD movement
@@ -31,6 +40,9 @@ func _physics_process(delta: float) -> void: # called ~60x times per sec
 	move_and_slide()
 	_update_animation()
 
+#func _switch_weapon()
+
+# NEED FIX: sometimes the normal movement become blocked in the direction you dodged
 # no i-frames is a mechanic decision. At least for now (21/08/26)
 func _process_dodge(delta: float) -> void:
 	# only possible to dodge while moving
@@ -40,14 +52,16 @@ func _process_dodge(delta: float) -> void:
 			dodge_timer = dodge_duration
 			dodgeCooldown_timer = dodge_cooldown
 			is_dodging = true
+			dodge_started.emit()
 			can_dodge = false
-			weapon_sprite.visible = false
+			weapon_pivot.set_weapon_visibility(false)
 		
 	if is_dodging: 
 		dodge_timer -= delta
 		if dodge_timer <= 0:
 			is_dodging = false
-			weapon_sprite.visible = true
+			dodge_ended.emit()
+			weapon_pivot.set_weapon_visibility(true)
 			
 		velocity = dodge_direction * dodge_speed
 	
@@ -56,6 +70,8 @@ func _process_dodge(delta: float) -> void:
 		if dodgeCooldown_timer <= 0:
 			can_dodge = true
 
+# NEED FIX: dodge animation while facing the opposite direction of the dodge
+# is bugged. The dodge animation follows the facing direction not the dodge direction
 func _update_animation() -> void:
 	if is_dodging:
 		# in diagonal rolls, may have some animation problems. Useful to know

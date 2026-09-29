@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b0vc0hhpodpxm"]
+
+[ext_resource type="Script" uid="uid://dghocjld6b5vm" path="res://scripts/world.gd" id="1_32lhk"]
+[ext_resource type="PackedScene" uid="uid://dqhccpq1ncn7i" path="res://scenes/characters/Player.tscn" id="2_7g83o"]
+[ext_resource type="PackedScene" uid="uid://blstkabc7drtf" path="res://scenes/world/level_01.tscn" id="3_7g83o"]
+
+[node name="World" type="Node2D" unique_id=205870259]
+script = ExtResource("1_32lhk")
+player_scene = ExtResource("2_7g83o")
+chunks_scene = ExtResource("3_7g83o")
