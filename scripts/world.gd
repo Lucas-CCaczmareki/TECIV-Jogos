@@ -1,14 +1,12 @@
 extends Node2D
 
 @export var player_scene: PackedScene
-@export var level: PackedScene
 @export var chunks_scene: PackedScene
 
 func _ready() -> void:
 	var player = player_scene.instantiate()
-	var Level = level.instantiate()
+	var chunk_manager = chunks_scene.instantiate()
 	
-	add_child(Level)
 	add_child(player)
 	add_child(chunk_manager)
 	

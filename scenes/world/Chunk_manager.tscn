@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://d0qrnpy1453bv"]
 
 [ext_resource type="Script" uid="uid://bpn3tkr4vgalc" path="res://scripts/chunk_manager.gd" id="1_wxoo6"]
+[ext_resource type="PackedScene" uid="uid://blstkabc7drtf" path="res://scenes/world/level_01.tscn" id="2_xdnt1"]
 
 [node name="ChunkManager" type="Node2D" unique_id=1559693790]
 script = ExtResource("1_wxoo6")
+initial_chunk = ExtResource("2_xdnt1")
