@@ -7,4 +7,4 @@
 [node name="World" type="Node2D" unique_id=205870259]
 script = ExtResource("1_32lhk")
 player_scene = ExtResource("2_7g83o")
-chunks_scene = ExtResource("3_7g83o")
+level = ExtResource("3_7g83o")
