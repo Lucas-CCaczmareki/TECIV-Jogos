@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TECIV-Game"
-run/main_scene="uid://dqhccpq1ncn7i"
+run/main_scene="uid://b0vc0hhpodpxm"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
