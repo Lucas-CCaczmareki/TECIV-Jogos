@@ -5,10 +5,13 @@ extends Weapon
 
 # tipo um construtor
 func _ready() -> void:
-	capacity = 6
 	ammo = capacity # set the revolver ammo to six bullets
-	fire_cooldown = 0.28 # define o cooldown entre disparos
-	reload_cooldown = 3.5 # defines the reload cooldown
+	ammo_changed.emit(ammo, capacity)
+	
+	# can be setted on inspector too
+	capacity = 6 			# defines the maximum ammo capacity of the gun
+	fire_cooldown = 0.28 	# defines the cooldown between bullets
+	reload_cooldown = 1.5 	# defines the reload cooldown
 	
 	# conecta as funções que vão escutar os signals
 	# nesse caso foi usada uma lambda (função anônima). func(): <código>
@@ -23,6 +26,7 @@ func _process(delta: float) -> void:
 		fire()
 	
 	if Input.is_action_just_pressed("reload"):
+		print("reload pŕessed")
 		_reload() #activate the cooldown to reload and set ammo
 
 # TODO: need to destroy the bullet after some time
@@ -36,6 +40,7 @@ func fire() -> void:
 	# instancia a bala ligada na SceneTree atual
 	get_tree().current_scene.add_child(bullet)
 	ammo = ammo - 1
+	ammo_changed.emit(ammo, capacity)
 	
 	# blocks the next fire
 	blocked_by_cooldown = true

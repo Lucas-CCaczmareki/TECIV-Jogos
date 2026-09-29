@@ -9,7 +9,7 @@ size = Vector2(125, 164)
 z_index = -5
 position = Vector2(27.296597, 31.976664)
 scale = Vector2(0.941262, 0.927046)
-color = Color(0.57, 0.57, 0.50729996, 1)
+color = Color(0.7286449, 0.71808827, 0.7145703, 1)
 polygon = PackedVector2Array(-25.812788, -31.256987, 1204.4504, -34.493073, 1195.9512, 660.1866, -29, 655)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1951910993]

@@ -3,8 +3,16 @@
 [ext_resource type="Script" uid="uid://dghocjld6b5vm" path="res://scripts/world.gd" id="1_32lhk"]
 [ext_resource type="PackedScene" uid="uid://dqhccpq1ncn7i" path="res://scenes/characters/Player.tscn" id="2_7g83o"]
 [ext_resource type="PackedScene" uid="uid://blstkabc7drtf" path="res://scenes/world/level_01.tscn" id="3_7g83o"]
+[ext_resource type="PackedScene" uid="uid://d0qrnpy1453bv" path="res://scenes/world/Chunk_manager.tscn" id="6_chunkmgr"]
+[ext_resource type="Script" uid="uid://dmeup5nle0jwx" path="res://scripts/hud_manager.gd" id="4_d1c63"]
+[ext_resource type="PackedScene" uid="uid://cdswflmlt8t05" path="res://scenes/huds/AmmoHUD.tscn" id="5_1lgw5"]
 
 [node name="World" type="Node2D" unique_id=205870259]
 script = ExtResource("1_32lhk")
 player_scene = ExtResource("2_7g83o")
 level = ExtResource("3_7g83o")
+chunks_scene = ExtResource("6_chunkmgr")
+
+[node name="HudManager" type="CanvasLayer" parent="." unique_id=595160060]
+script = ExtResource("4_d1c63")
+ammo_hud_scene = ExtResource("5_1lgw5")

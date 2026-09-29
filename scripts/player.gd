@@ -16,8 +16,11 @@ var dodge_direction: Vector2 = Vector2.ZERO
 var is_dodging: bool = false
 var can_dodge: bool = true
 
+var is_reloading: bool = false
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var weapon_pivot: WeaponPivot = $WeaponPivot
+@onready var reload_bar: TextureProgressBar = $ReloadBar
 
 signal dodge_started
 signal dodge_ended
@@ -26,6 +29,14 @@ func _enter_tree() -> void:
 	# adiciona uma etiqueta no nodo quando ele entra na scene tree
 	# torna mais fácil pra nodos filhos encontrarem a referência e se conectar aos signals emitidos
 	add_to_group("player") 
+
+func _ready() -> void:
+	var weapon = weapon_pivot.get_weapon()
+	weapon.reload_started.connect(_reload_started)
+	#weapon.reload_finish.connect()
+
+func _process(delta: float) -> void:
+	_update_reloadBar(delta)
 
 func _physics_process(delta: float) -> void: # called ~60x times per sec
 	# WASD movement
@@ -40,6 +51,21 @@ func _physics_process(delta: float) -> void: # called ~60x times per sec
 	move_and_slide()
 	_update_animation()
 
+func _reload_started(reload_time: float) -> void:
+	print("entrei")
+	reload_bar.value = 0
+	reload_bar.min_value = 0
+	reload_bar.max_value = reload_time
+	reload_bar.visible = true
+	is_reloading = true
+	
+func _update_reloadBar(delta: float) -> void:
+	if is_reloading:
+		reload_bar.value += delta
+		if reload_bar.value >= reload_bar.max_value:
+			is_reloading = false
+			reload_bar.visible = false
+	
 #func _switch_weapon()
 
 # NEED FIX: sometimes the normal movement become blocked in the direction you dodged
@@ -71,7 +97,8 @@ func _process_dodge(delta: float) -> void:
 			can_dodge = true
 
 # NEED FIX: dodge animation while facing the opposite direction of the dodge
-# is bugged. The dodge animation follows the facing direction not the dodge direction
+# is bugged. The dodge animation should follows the dodge direction
+# the problem happens because the animation can change while dodging. Dodgind should block animation
 func _update_animation() -> void:
 	if is_dodging:
 		# in diagonal rolls, may have some animation problems. Useful to know

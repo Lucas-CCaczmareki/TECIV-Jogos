@@ -9,7 +9,7 @@ script = ExtResource("1_8knri")
 bullet_scene = ExtResource("2_n4pqw")
 capacity = 6
 fire_cooldown = 0.28
-reload_cooldown = 3.5
+reload_cooldown = 1.5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=429493222]
 position = Vector2(6, -3)

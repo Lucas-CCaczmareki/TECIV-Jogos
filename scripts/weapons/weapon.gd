@@ -16,6 +16,11 @@ var blocked_by_dodge: bool = false
 var blocked_by_reload: bool = false # ainda preciso implementar a funcionalidade de reload
 var blocked_by_cooldown: bool = false
 
+# signals
+signal ammo_changed(current: int, max: int)
+signal reload_started(duration: float)
+#signal reload_finished()
+
 func set_visibility(visibility: bool) -> void:
 	visible = visibility
 
@@ -24,6 +29,8 @@ func _reload() -> void:
 		return # does nothing
 	blocked_by_reload = true
 	reload_cooldownTimer = reload_cooldown
+	print("entrei signal")
+	reload_started.emit(reload_cooldown)
 
 # only initiates if triggered by pressing 'R'
 func _reload_cooldown(delta: float) -> void:
@@ -31,6 +38,7 @@ func _reload_cooldown(delta: float) -> void:
 		reload_cooldownTimer -= delta
 		if reload_cooldownTimer <= 0:
 			ammo = capacity
+			ammo_changed.emit(ammo, capacity)
 			blocked_by_reload = false
 	pass
 
