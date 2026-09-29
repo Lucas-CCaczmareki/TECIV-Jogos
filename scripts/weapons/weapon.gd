@@ -18,6 +18,8 @@ var blocked_by_cooldown: bool = false
 
 # signals
 signal ammo_changed(current: int, max: int)
+signal reload_started(duration: float)
+#signal reload_finished()
 
 func set_visibility(visibility: bool) -> void:
 	visible = visibility
@@ -27,6 +29,8 @@ func _reload() -> void:
 		return # does nothing
 	blocked_by_reload = true
 	reload_cooldownTimer = reload_cooldown
+	print("entrei signal")
+	reload_started.emit(reload_cooldown)
 
 # only initiates if triggered by pressing 'R'
 func _reload_cooldown(delta: float) -> void:

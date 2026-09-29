@@ -26,6 +26,7 @@ func _process(delta: float) -> void:
 		fire()
 	
 	if Input.is_action_just_pressed("reload"):
+		print("reload pŕessed")
 		_reload() #activate the cooldown to reload and set ammo
 
 # TODO: need to destroy the bullet after some time
