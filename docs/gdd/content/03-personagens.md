@@ -1,9 +1,15 @@
 ## Protagonista: 
 <!--falta preencher motivação, arco, imagem antes/depois etc.-->
 
-**Habilidades:** arma modular (ver [Arma modular](02-gameplay.md#arma-modular)), esquiva/rolagem (ver [Esquiva](02-gameplay.md#esquiva)), vida própria e independente do companion (ver [Vida](02-gameplay.md#vida)).
+**Habilidades:** 
+- arma modular (ver [Arma modular](02-gameplay.md#arma-modular)); 
+- esquiva/rolagem (ver [Esquiva](02-gameplay.md#esquiva)); 
+- vida própria e independente do companion (ver [Vida](02-gameplay.md#vida)).
 
-<img src="../../art/beastbond_conceptart.jpg" width="400">
+<div align = "left">
+    <img src="../../art/beastbond_conceptart.jpg" width="400">
+	<img src="../../../assets/sprites/mc/mc_skeleton.png" style="image-rendereing: pixelated;" />
+</div>
 
 ---
 ## Companion: 
@@ -15,7 +21,9 @@
 
 **Forma de controle:** menu contextual que desacelera o tempo ao abrir; uso do menu tem tempo limite/cooldown entre usos, com indicação visual. Fora de combate, age com IA simples que segue o jogador e evita obstáculos/perigos automaticamente. Ver [Companion](02-gameplay.md#companion) para detalhes funcionais completos.
 
-<img src="../../art/lobo_conceptart.jpg" width="400">
+<div align = "left">
+    <img src="../../art/lobo_conceptart.jpg" width="400">
+</div>
 
 ---
 ## NPCs principais e boss intermediário 

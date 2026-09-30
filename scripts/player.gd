@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # @export makes the var controllable with inspector
 @export var speed: float = 240.0 
-@export var dodge_speed: float = speed*2
+@export var dodge_speed: float = speed*2.3
 
 @export var dodge_duration: 	 float = 0.60
 var 		dodge_timer: 		 float = 0

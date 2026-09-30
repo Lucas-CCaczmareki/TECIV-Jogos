@@ -43,10 +43,21 @@ Loop de área — 10–20 minutos - exploração
 <!-- TODO: @Lucas pensar, analisar e preencher essa seção -->
 ## Controles/inputs
 Movimentação: WASD ou Analógico direito
-Mira: Mouse ou Analógico esquerdo<br>
-**Por enquanto o resto fica N/A**<br>
-Recarregar:
+
+
+Mira: Mouse ou Analógico esquerdo
+
+Dodge: Barra de espaço
+
+Recarregar: R
+
+Trocar de arma: Tab
+
+Comandar lobo:
+
 Usar itens:
+
+
 Abrir mapa:
 ... etc
 
@@ -86,8 +97,9 @@ Personagem OU Companion tem a barra de vida reduzida à 0. Retornam pro último 
 | Escopeta     | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
 | Rifle        | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
 | Metralhadora | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
-
 *Revólver é a arma inicial. Demais tipos ainda não definidos.*
+
+- Tempo de reload é indicado através de uma TextureProgressBar na cabeça do personagem.
 
 ---
 ### Companion
@@ -114,7 +126,12 @@ Personagem OU Companion tem a barra de vida reduzida à 0. Retornam pro último 
 ---
 ### Esquiva
 - Funciona como uma rolagem para qualquer direção.
-- A colisão com um projétil ou golpe causa dano — a rolagem não torna o jogador invencível.
+- A colisão com um projétil ou golpe causa dano.
+- A rolagem não torna o jogador invencível.
+
+<div align = "left">
+	<img src="../../../assets/sprites/mc/mc_dodge.png" style="image-rendereing: pixelated;" />
+</div>
 
 ---
 ### Inimigos

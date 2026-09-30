@@ -26,3 +26,9 @@ anotations.md
 /assets/sprites/tiles/Pixel Art Basic
 /assets/sprites/tiles/undead-tileset-kit
 temp/
+
+# docs do tdd ainda não revisadas
+/docs/tdd/05-colisao-combate.md
+/docs/tdd/06-hud.md
+/docs/tdd/07-comunicacao.md
+/docs/tdd/08-hierarquia-de-classes.md
