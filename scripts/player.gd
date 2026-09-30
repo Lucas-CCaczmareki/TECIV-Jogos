@@ -68,6 +68,14 @@ func _update_reloadBar(delta: float) -> void:
 	
 #func _switch_weapon()
 
+func _get_dodge_animation_direction(input_vector: Vector2) -> String: 
+	# first evaluates the X direction, that means diagonal rolls take this animation
+	if input_vector.x != 0:
+		return "right" if input_vector.x > 0 else "left"
+	
+	# if is only moving in y, return up or down to trigger this animation
+	return "down" if input_vector.y > 0 else "up"
+
 # NEED FIX: sometimes the normal movement become blocked in the direction you dodged
 # no i-frames is a mechanic decision. At least for now (21/08/26)
 func _process_dodge(delta: float) -> void:
@@ -77,10 +85,12 @@ func _process_dodge(delta: float) -> void:
 			dodge_direction = input_vector
 			dodge_timer = dodge_duration
 			dodgeCooldown_timer = dodge_cooldown
-			is_dodging = true
 			dodge_started.emit()
 			can_dodge = false
 			weapon_pivot.set_weapon_visibility(false)
+			
+			last_direction = _get_dodge_animation_direction(input_vector)
+			is_dodging = true
 		
 	if is_dodging: 
 		dodge_timer -= delta
@@ -96,16 +106,9 @@ func _process_dodge(delta: float) -> void:
 		if dodgeCooldown_timer <= 0:
 			can_dodge = true
 
-# NEED FIX: dodge animation while facing the opposite direction of the dodge
-# is bugged. The dodge animation should follows the dodge direction
-# the problem happens because the animation can change while dodging. Dodgind should block animation
 func _update_animation() -> void:
 	if is_dodging:
-		# in diagonal rolls, may have some animation problems. Useful to know
-		if (input_vector.x == 1 and input_vector.y == 0): 	last_direction = "right"
-		if (input_vector.x == -1 and input_vector.y == 0): 	last_direction = "left"
-		if (input_vector.x == 0 and input_vector.y == -1): 	last_direction = "up"
-		if (input_vector.x == 0 and input_vector.y == 1): 	last_direction = "down"
+		# last direction while dodging is defined once in _process_dodge
 		sprite.play("dodge_" + last_direction)
 		
 	else:
