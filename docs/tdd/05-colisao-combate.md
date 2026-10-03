@@ -32,22 +32,24 @@ Ponto de partida. Nomear em *Project Settings -> Layer Names -> 2D Physics* para
 | 1 | `world` | Paredes e obstáculos sólidos |
 | 2 | `player` | Corpo do player |
 | 3 | `companion` | Corpo do companion |
-| 4 | `player_projectile` | Balas do player/companion |
-| 5 | `enemy` | Corpo dos inimigos |
-| 6 | `enemy_projectile` | Balas inimigas |
-| 7 | `enemy_hitbox` | Área de ataque corpo a corpo inimigo |
-| 8 | `trigger` | Triggers de chunk, portas, itens |
+| 4 | `companion_hitbox` | Área de ataque corpo a corpo do companion |
+| 5 | `player_projectile` | Balas do player/companion |
+| 6 | `enemy` | Corpo dos inimigos |
+| 7 | `enemy_projectile` | Balas inimigas |
+| 8 | `enemy_hitbox` | Área de ataque corpo a corpo inimigo |
+| 9 | `trigger` | Triggers de chunk, portas, itens |
 
 Quem **enxerga** o quê (mask):
 
 | Nó | Layer | Mask |
 |---|---|---|
-| Player | `player` | `world` |
-| Companion | `companion` | `world` |
+| Player | `player` | `world`, `enemy`, `companion` |
+| Companion | `companion` | `world`, `enemy`, `player` |
+| Hitbox do companion | `companion_hitbox` | `enemy` |
 | Bala do player | `player_projectile` | `world`, `enemy` |
 | Bala inimiga | `enemy_projectile` | `world`, `player`, `companion` |
 | Hitbox inimiga | `enemy_hitbox` | `player`, `companion` |
-| Inimigo | `enemy` | `world` |
+| Inimigo | `enemy` | `world`,  `player`, `companion` |
 | Trigger de chunk | `trigger` | `player` |
 
 ## Conexão com as regras de jogo
