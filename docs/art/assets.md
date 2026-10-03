@@ -2,6 +2,10 @@
 https://immunitys.itch.io/skeletons-pack-2
 
 ## Companion:
+https://finalbossblues.itch.io/wolf-pack
+https://sanctumpixel.itch.io/wolf-pixel-art-character
+https://xzany.itch.io/samurai-wolf-2d-pixel-art
+https://seethingswarm.itch.io/wolfpack
 
 
 ## weapons:
