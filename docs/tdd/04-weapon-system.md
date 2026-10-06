@@ -15,6 +15,8 @@ Player
         └── Tip (Marker2D)      ← ponto onde a bala nasce
 ```
 
+Divisão de papéis: a **arma** decide *quando e como* atacar (cooldown, munição, onde o ataque nasce). O **ataque** (hoje só a `Bullet`) decide *o que acontece no contato*. Hoje essa divisão existe só na prática; a evolução para inimigos armados e ataques corpo a corpo está em [Evolução planejada](#planejado-evolução-arma-como-ferramenta-de-qualquer-personagem).
+
 ## [OK] Classe base `Weapon`
 
 `class_name Weapon`, `extends Node2D`.
@@ -95,7 +97,12 @@ Bullet (Node2D)            [bullet.gd]
 - Movimento: `position += direction * speed * delta` em `_physics_process` (`speed` padrão 400).
 - A `Area2D` existe, mas **nenhum signal está conectado** e nada configura layers/masks: a bala ainda não colide com nada.
 - **Sem tempo de vida:** a bala nunca é destruída (`TODO` no `revolver.gd`).
-- Colisão e dano: ver [05](05-colisao-combate.md).
+
+**Comportamento decidido** (detalhes em [05](05-colisao-combate.md)), ainda não implementado [PLANEJADO]:
+
+- Ao colidir, a própria bala chama `take_damage` no alvo (se ele tiver o método) e em seguida se dá `queue_free()`. Parede não tem `take_damage`, então só destrói a bala.
+- `@export var lifetime` no script da bala, para o caso em que ela não acerta nada.
+- Flag interna `spent` (variável comum, sem `@export`) para não causar dano em dois alvos no mesmo frame.
 
 ## [OK] `WeaponPivot`
 
@@ -105,7 +112,7 @@ Bullet (Node2D)            [bullet.gd]
 - `set_weapon_visibility(bool)`: usado pelo `Player` durante o dodge.
 - `_process`: gira para o mouse com `atan2` e inverte `scale.y` (±3) quando o mouse está à esquerda, pra o sprite não ficar de cabeça pra baixo. O `3` é fixo no script.
 
-## [PLANEJADO] Troca de arma 
+## [PLANEJADO] Troca de arma
 
 Não há sistema de troca. Ao implementar, lembrar que hoje as ligações são feitas **uma vez**:
 
@@ -118,3 +125,131 @@ Uma arma nova precisa refazer essas ligações, e a antiga precisa ser liberada 
 ## [RESOLVER] Dependência do dono da arma
 
 `Weapon` descobre o dono com `get_first_node_in_group("player")`. Enquanto só o player tem arma, funciona. Com o companion armado, a arma dele se ligaria ao player (ver [03](03-player-companion.md#companion-)).
+
+O `Revolver` também lê `Input` diretamente, o que impede outro personagem de usar a mesma arma. A solução planejada está em [Evolução planejada](#planejado-evolução-arma-como-ferramenta-de-qualquer-personagem).
+
+## [PLANEJADO] Evolução: arma como ferramenta de qualquer personagem
+
+> Fora do foco atual. Para o Teaser basta um inimigo dummy (só `take_damage` e vida), que **não depende de nada desta seção**. Isto registra a direção para quando existir o primeiro inimigo que ataca.
+
+### Motivação
+
+Hoje a arma só funciona no Player: lê o mouse, lê o clique e acha o dono pelo grupo `"player"`. A ideia é que **Player, Companion e inimigos** possam usar o mesmo sistema, incluindo ataques que não são tiro (corpo a corpo).
+
+### Divisão de papéis
+
+| Papel | Responde | Exemplos |
+|---|---|---|
+| **Dono** (Player, Companion, Enemy) | *Quando* atacar e *pra onde* mirar | Player lê o clique; inimigo decide pela IA |
+| **Weapon** | *Como* atacar: cooldown, munição, onde o ataque nasce | Revolver, Shotgun, uma arma melee |
+| **Attack** | *O que acontece* no contato | `Bullet`, `MeleeSwing` |
+
+```mermaid
+flowchart LR
+    D["Dono (Player, Companion, Enemy)"] -- "aim_at(posição)" --> P["WeaponPivot"]
+    D -- "try_attack()" --> W["Weapon"]
+    P --> W
+    W -- "instancia attack_scene" --> A["Attack (Bullet ou MeleeSwing)"]
+    A -- "signal da Area2D + take_damage()" --> T["Alvo"]
+```
+
+### Hoje x Planejado
+
+| Hoje | Planejado |
+|---|---|
+| A arma lê o clique (`Input`) no próprio `_process` | O **dono** lê o clique (ou a IA decide) e chama `weapon.try_attack()` |
+| O `WeaponPivot` pergunta "onde está o mouse?" pra girar | O dono diz "mira aqui": `pivot.aim_at(posição)` |
+| A arma acha o dono pelo grupo `"player"` | Quem equipa a arma entrega o dono: `weapon.setup(dono, mask_alvo)` |
+| A arma instancia a `Bullet` fixa | `Weapon` tem `@export attack_scene: PackedScene` e instancia o ataque escolhido no Inspector |
+| Só existe a bala do player | A mesma scene de ataque serve a todos; muda só a **mask** (quem ela procura) |
+
+### `try_attack()` e `aim_at()` [SUGESTÃO]
+
+| Método | Significado |
+|---|---|
+| `try_attack()` | "Tenta atacar agora." A arma continua checando se pode (`_can_fire()`: cooldown, munição, bloqueios). Se puder, ataca; senão, ignora. Não importa **quem** chamou. |
+| `aim_at(posição)` | "Gire em direção a este ponto." O pivot só gira; não sabe se o ponto é o mouse, o player ou outra coisa. |
+
+O nome é `try_attack` (e não `try_fire`) porque nem todo ataque é tiro. O método interno `fire()` que cada arma sobrescreve pode ser renomeado para `attack()` pelo mesmo motivo [ABERTO].
+
+| | Player | Inimigo |
+|---|---|---|
+| **Quando atacar** | Clique do mouse | IA decide (ex.: player ao alcance) |
+| **Pra onde mirar** | `get_global_mouse_position()` | `player.global_position` |
+
+O código da arma e do pivot é o mesmo nos dois casos; só muda quem chama.
+
+### Inimigo corpo a corpo
+
+Funciona igual: uma arma melee é uma `Weapon` cujo `fire()` instancia um `MeleeSwing` em vez de uma `Bullet`. O inimigo chama `try_attack()` quando o player está ao alcance e o golpe nasce na frente dele.
+
+Inimigos que não precisam de arma (dano por contato, ataques de boss) podem instanciar o `Attack` diretamente, sem passar por `Weapon`.
+
+### Como a arma recebe o dono [SUGESTÃO]
+
+1. O `WeaponPivot` é filho do personagem, então sabe quem é o dono.
+2. Ao instanciar a arma, o pivot chama `weapon.setup(dono, mask_alvo)`.
+3. A arma guarda o dono e a `mask_alvo`, que aplica nos ataques que cria.
+
+A `mask_alvo` vem da tabela de [05](05-colisao-combate.md): o Player usa `world` e `enemy`; um inimigo usa `world`, `player` e `companion`. Assim `PlayerBullet` e `EnemyBullet` não precisam ser scenes diferentes.
+
+Cuidado: só o Player tem `dodge_started`/`dodge_ended`. Ao ligar o bloqueio por dodge, a arma deve checar se o dono tem o signal (`dono.has_signal("dodge_started")`) antes de conectar.
+
+```mermaid
+sequenceDiagram
+    participant D as Dono (Player ou Enemy)
+    participant P as WeaponPivot
+    participant W as Weapon
+    participant A as Attack (Bullet ou MeleeSwing)
+
+    Note over D,W: Ao equipar (uma vez)
+    D->>P: equip_weapon(weapon_scene)
+    P->>W: instancia e chama setup(dono, mask_alvo)
+
+    Note over D,A: Quando o dono decide atacar
+    D->>P: aim_at(posição_alvo)
+    P->>P: gira em direção à posição
+    D->>W: try_attack()
+    W->>W: _can_fire()? (cooldown, munição)
+    W->>A: instancia attack_scene e define a mask
+    Note over A: se move (Bullet) ou fica parado (MeleeSwing) e chama take_damage ao tocar
+```
+
+### Tipos de ataque [PLANEJADO]
+
+Todo ataque é uma `Area2D` com `damage` que chama `take_damage` em quem tocar.
+
+| | `Bullet` | `MeleeSwing` |
+|---|---|---|
+| Movimento | Anda em linha reta | Fica parado na frente do dono |
+| Duração | Até colidir ou acabar o `lifetime` | Curta (só durante o golpe) |
+| Ao acertar | Se destrói | **Não** se destrói |
+| Acertos | Um alvo | Cada alvo **uma vez por golpe** |
+
+Um script base `Hitbox` (com `damage` e a lógica de acertar uma vez) pode ser compartilhado pelos dois. Ver [08](08-hierarquia-de-classes.md). Só deve ser criado quando existir o segundo tipo de ataque.
+
+### O que varia num ataque
+
+Script define **o que o ataque faz**; scene define **como ele se parece**. Um mesmo script serve a várias scenes.
+
+| O que muda | Exemplo | Onde mexer | Scene nova? |
+|---|---|---|---|
+| Números | dano, velocidade, tempo de vida | `@export` no script | Não |
+| Aparência e formato | bala maior, golpe retangular em vez de arco | `Sprite2D` e `CollisionShape2D`: scene variante (ou cena herdada) com o mesmo script | Sim, reaproveitando o script |
+| Comportamento | bala em espiral, perfurante | Script novo que herda do base | Sim, script e scene |
+
+A arma escolhe qual scene usar pelo `@export attack_scene` no Inspector: o `Revolver.tscn` aponta para `Bullet.tscn`, uma Shotgun aponta para uma scene de projétil menor. O código de `fire()` é o mesmo.
+
+### Ordem de implementação sugerida
+
+1. **Dano mínimo** (necessário pro Teaser): `take_damage` nos alvos, bala que colide e se destrói, layers aplicadas nas cenas.
+2. Tempo de vida da bala.
+3. Script base `Hitbox`, só quando existir o `MeleeSwing`.
+4. `try_attack`, `aim_at` e `setup` (desacoplar arma e pivot do Player), só quando for criar o primeiro inimigo armado.
+
+### Em aberto
+
+- [ABERTO] Renomear o `fire()` interno para `attack()`.
+- [ABERTO] Estrutura da hitbox do `MeleeSwing` (ver [05](05-colisao-combate.md)).
+- [ABERTO] Munição e reload de inimigos: infinita, ou usam o mesmo sistema do Player?
+- [ABERTO] Onde os ataques nascem na árvore (hoje `current_scene`, ver acima).
