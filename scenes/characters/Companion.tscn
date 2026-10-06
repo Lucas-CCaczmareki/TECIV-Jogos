@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://beeoyhqq0de8s"]
 
 [ext_resource type="Texture2D" uid="uid://p75bgxxo38ji" path="res://assets/sprites/companion/wolf_tailwag_full.png" id="1_atm8p"]
-[ext_resource type="Script" uid="uid://d0x2u1sybvgd" path="res://scripts/companion.gd" id="1_ax5w6"]
+[ext_resource type="Script" uid="uid://d0x2u1sybvgd" path="res://scripts/characters/companion.gd" id="1_ax5w6"]
 [ext_resource type="Texture2D" uid="uid://biad5kanrfm00" path="res://assets/sprites/companion/wolf_down.png" id="2_1hwki"]
 [ext_resource type="Texture2D" uid="uid://cmn4rejsg5d6x" path="res://assets/sprites/companion/wolf_full.png" id="2_ax5w6"]
 
@@ -656,11 +656,14 @@ animations = [{
 size = Vector2(14, 19)
 
 [node name="Companion" type="CharacterBody2D" unique_id=1455659718]
+collision_layer = 4
+collision_mask = 35
 script = ExtResource("1_ax5w6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2072863999]
 sprite_frames = SubResource("SpriteFrames_dndu5")
-animation = &"howl_up"
+animation = &"idle_right"
+frame_progress = 0.719764
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257473903]
 visible = false

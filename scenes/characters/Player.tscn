@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dqhccpq1ncn7i"]
 
-[ext_resource type="Script" uid="uid://ckx3im1ugw8u3" path="res://scripts/player.gd" id="1_rpfb3"]
+[ext_resource type="Script" uid="uid://ckx3im1ugw8u3" path="res://scripts/characters/player.gd" id="1_rpfb3"]
 [ext_resource type="Texture2D" uid="uid://ccb5lboeuu1dk" path="res://assets/sprites/mc/mc_dodge.png" id="2_miirx"]
 [ext_resource type="Texture2D" uid="uid://xufru13spmoo" path="res://assets/sprites/mc/mc_skeleton.png" id="3_m6phi"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="4_oihyf"]
@@ -579,6 +579,8 @@ animations = [{
 size = Vector2(55, 101)
 
 [node name="Player" type="CharacterBody2D" unique_id=1201743444]
+collision_layer = 2
+collision_mask = 37
 script = ExtResource("1_rpfb3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
