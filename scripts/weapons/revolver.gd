@@ -2,12 +2,13 @@ extends Weapon
 
 @export var bullet_scene: PackedScene
 @onready var tip: Marker2D = $Tip
+@onready var fire_sfx: AudioStreamPlayer = $FireSound
 
 # roda quando o objeto foi criado
 func _init() -> void:
 	capacity = 6 			# defines the maximum ammo capacity of the gun
 	fire_cooldown = 0.28 	# defines the cooldown between bullets
-	reload_cooldown = 1.5 	# defines the reload cooldown
+	reload_cooldown = 1.8 	# defines the reload cooldown
 
 # tipo um construtor
 func _ready() -> void:
@@ -30,6 +31,7 @@ func _process(delta: float) -> void:
 		_reload() #activate the cooldown to reload and set ammo
 
 func fire() -> void:
+	fire_sfx.play()
 	var bullet: Node2D = bullet_scene.instantiate()
 	
 	# Faz o sprite da bala nascer na ponta da arma e rotacionado de acordo com a arma

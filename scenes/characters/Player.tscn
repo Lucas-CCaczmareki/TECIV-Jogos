@@ -580,6 +580,7 @@ animations = [{
 size = Vector2(55, 101)
 
 [node name="Player" type="CharacterBody2D" unique_id=1201743444]
+scale = Vector2(1.2, 1.2)
 collision_layer = 2
 collision_mask = 33
 script = ExtResource("1_rpfb3")

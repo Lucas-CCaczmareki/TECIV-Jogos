@@ -6,12 +6,13 @@ extends Weapon
 @export var speed_variation: float = 0.15
 
 @onready var tip: Marker2D = $Tip
+@onready var fire_sfx: AudioStreamPlayer = $FireSound
 
 # chama quando instancia
 func _init() -> void:
 	capacity = 8
 	fire_cooldown = 1.0
-	reload_cooldown = 2.5
+	reload_cooldown = 3.0
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,6 +38,7 @@ func _process(delta: float) -> void:
 		_reload() #activate the cooldown to reload and set ammo
 	
 func fire() -> void:
+	fire_sfx.play()
 	for i in pellets:
 		var bullet: Node2D = bullet_scene.instantiate()
 		var half_deg: float = spread_degrees / 2.0

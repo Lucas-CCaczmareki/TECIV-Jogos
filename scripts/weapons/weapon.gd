@@ -11,6 +11,7 @@ var fire_cooldownTimer: float = 0.0
 var reload_cooldownTimer: float = 0.0
 
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
+@onready var reload_sfx: AudioStreamPlayer = get_node_or_null("ReloadSound")
 
 var blocked_by_dodge: bool = false
 var blocked_by_reload: bool = false # ainda preciso implementar a funcionalidade de reload
@@ -28,6 +29,9 @@ func set_visibility(visibility: bool) -> void:
 	visible = visibility
 
 func _reload() -> void:
+	if reload_sfx:
+		reload_sfx.play()
+	
 	if blocked_by_reload or ammo == capacity:
 		return # does nothing
 	blocked_by_reload = true

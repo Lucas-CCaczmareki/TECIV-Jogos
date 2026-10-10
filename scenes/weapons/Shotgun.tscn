@@ -3,13 +3,15 @@
 [ext_resource type="Script" uid="uid://d2gmga58w8me2" path="res://scripts/weapons/shotgun.gd" id="1_m3xlh"]
 [ext_resource type="Texture2D" uid="uid://dhpcsyxkwhqsn" path="res://assets/sprites/weapons/shotgun.png" id="1_u3ka6"]
 [ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet.tscn" id="2_43wd3"]
+[ext_resource type="AudioStream" uid="uid://bf4w1g8iwkolb" path="res://assets/sounds/shotgun_fire3.mp3" id="4_0ogbp"]
+[ext_resource type="AudioStream" uid="uid://da86i7h3cc2pg" path="res://assets/sounds/shotgun_reload.mp3" id="5_bkcko"]
 
 [node name="Shotgun" type="Node2D" unique_id=401104156]
 script = ExtResource("1_m3xlh")
 bullet_scene = ExtResource("2_43wd3")
 capacity = 8
 fire_cooldown = 1.0
-reload_cooldown = 2.5
+reload_cooldown = 3.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2046971230]
 position = Vector2(5, 0)
@@ -17,3 +19,11 @@ texture = ExtResource("1_u3ka6")
 
 [node name="Tip" type="Marker2D" parent="." unique_id=1754837527]
 position = Vector2(22, -1)
+
+[node name="FireSound" type="AudioStreamPlayer" parent="." unique_id=70475933]
+stream = ExtResource("4_0ogbp")
+volume_db = -6.0
+
+[node name="ReloadSound" type="AudioStreamPlayer" parent="." unique_id=1017260242]
+stream = ExtResource("5_bkcko")
+volume_db = -6.0
