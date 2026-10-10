@@ -2,7 +2,7 @@ extends Node2D
 class_name Weapon
 
 @export var capacity: int = 10
-var ammo: int = capacity
+var ammo: int
 
 @export var fire_cooldown: float = 0.0
 var fire_cooldownTimer: float = 0.0
@@ -20,6 +20,9 @@ var blocked_by_cooldown: bool = false
 signal ammo_changed(current: int, max: int)
 signal reload_started(duration: float)
 #signal reload_finished()
+
+func _ready() -> void:
+	ammo = capacity
 
 func set_visibility(visibility: bool) -> void:
 	visible = visibility

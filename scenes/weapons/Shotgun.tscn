@@ -1,12 +1,19 @@
 [gd_scene format=3 uid="uid://rkwplteb0sku"]
 
+[ext_resource type="Script" uid="uid://d2gmga58w8me2" path="res://scripts/weapons/shotgun.gd" id="1_m3xlh"]
 [ext_resource type="Texture2D" uid="uid://dhpcsyxkwhqsn" path="res://assets/sprites/weapons/shotgun.png" id="1_u3ka6"]
+[ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet.tscn" id="2_43wd3"]
 
 [node name="Shotgun" type="Node2D" unique_id=401104156]
+script = ExtResource("1_m3xlh")
+bullet_scene = ExtResource("2_43wd3")
+capacity = 8
+fire_cooldown = 1.0
+reload_cooldown = 2.5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2046971230]
 position = Vector2(5, 0)
 texture = ExtResource("1_u3ka6")
 
-[node name="Marker2D" type="Marker2D" parent="." unique_id=1754837527]
+[node name="Tip" type="Marker2D" parent="." unique_id=1754837527]
 position = Vector2(22, -1)

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://xufru13spmoo" path="res://assets/sprites/mc/mc_skeleton.png" id="3_m6phi"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="4_oihyf"]
 [ext_resource type="PackedScene" uid="uid://gu66j5k05lat" path="res://scenes/weapons/Revolver.tscn" id="5_gj1sn"]
+[ext_resource type="PackedScene" uid="uid://rkwplteb0sku" path="res://scenes/weapons/Shotgun.tscn" id="5_miirx"]
 [ext_resource type="Texture2D" uid="uid://cv3a438cs1ww1" path="res://assets/sprites/progress bar most rounded over.png" id="6_miirx"]
 [ext_resource type="Texture2D" uid="uid://dtg6f2xoqn6a3" path="res://assets/sprites/progress bar most rounded progress tintable grey.png" id="6_rpfb3"]
 
@@ -580,12 +581,12 @@ size = Vector2(55, 101)
 
 [node name="Player" type="CharacterBody2D" unique_id=1201743444]
 collision_layer = 2
-collision_mask = 37
+collision_mask = 33
 script = ExtResource("1_rpfb3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
 z_as_relative = false
-scale = Vector2(5, 5)
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_ucufk")
 animation = &"idle_down"
 
@@ -597,7 +598,7 @@ shape = SubResource("RectangleShape2D_ucufk")
 position = Vector2(21, 43)
 scale = Vector2(3, 3)
 script = ExtResource("4_oihyf")
-weapon_scene = ExtResource("5_gj1sn")
+weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("5_miirx")])
 
 [node name="ReloadBar" type="TextureProgressBar" parent="." unique_id=955479209]
 visible = false
@@ -609,3 +610,6 @@ scale = Vector2(2, 2)
 step = 0.0
 texture_under = ExtResource("6_miirx")
 texture_progress = ExtResource("6_rpfb3")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1274320752]
+zoom = Vector2(0.8, 0.8)

@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://bmwh52rb6p2aw"]
 
+[ext_resource type="Script" uid="uid://b86fxp47pm4rt" path="res://scripts/world/chunk_0_0.gd" id="1_lgndx"]
+[ext_resource type="PackedScene" uid="uid://bniweslcyva8d" path="res://scenes/characters/Slime.tscn" id="2_oqkso"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
 size = Vector2(125, 164)
 
 [node name="Chunk00" type="Node2D" unique_id=576549364]
+script = ExtResource("1_lgndx")
+enemy1_scene = ExtResource("2_oqkso")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1820976170]
 z_index = -5
@@ -15,9 +20,13 @@ polygon = PackedVector2Array(-25.812788, -31.256987, 1204.4504, -34.493073, 1195
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1951910993]
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=866696218]
+position = Vector2(-471, 110)
 color = Color(1, 0, 1, 1)
 polygon = PackedVector2Array(844, 140, 966, 140, 965, 300, 841, 298)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1156738480]
-position = Vector2(904.5, 219)
+position = Vector2(433, 332)
 shape = SubResource("RectangleShape2D_ucufk")
+
+[node name="SlimePosition" type="Marker2D" parent="." unique_id=706634292]
+position = Vector2(280, 244)

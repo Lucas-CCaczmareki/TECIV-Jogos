@@ -31,9 +31,10 @@ func _enter_tree() -> void:
 	add_to_group("player") 
 
 func _ready() -> void:
-	var weapon = weapon_pivot.get_weapon()
-	weapon.reload_started.connect(_reload_started)
-	#weapon.reload_finish.connect()
+	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload
+	for w in weapon_pivot.weapons:
+		w.reload_started.connect(_reload_started)
+		#weapon.reload_finish.connect()
 
 func _process(delta: float) -> void:
 	_update_reloadBar(delta)

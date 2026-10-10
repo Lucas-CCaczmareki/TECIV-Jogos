@@ -4,12 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://dcsjn0d566akp" path="res://assets/sprites/bullets/All_Fire_Bullet_Pixel_16x16_00.png" id="2_p2sfb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ucufk"]
-radius = 2.236068
+radius = 5.3851647
 
 [node name="Bullet" type="Node2D" unique_id=101603075]
 script = ExtResource("1_uic2n")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=590982010]
+collision_layer = 4
+collision_mask = 33
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=1348362434]
 scale = Vector2(3, 3)

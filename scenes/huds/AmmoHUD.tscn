@@ -38,9 +38,9 @@ label_settings = SubResource("LabelSettings_1nao0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1899047071]
+[node name="WeaponImg" type="TextureRect" parent="VBoxContainer" unique_id=1899047071]
 custom_minimum_size = Vector2(67, 38)
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("1_1nao0")
-expand_mode = 1
+stretch_mode = 5

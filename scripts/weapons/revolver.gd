@@ -3,16 +3,17 @@ extends Weapon
 @export var bullet_scene: PackedScene
 @onready var tip: Marker2D = $Tip
 
-# tipo um construtor
-func _ready() -> void:
-	ammo = capacity # set the revolver ammo to six bullets
-	ammo_changed.emit(ammo, capacity)
-	
-	# can be setted on inspector too
+# roda quando o objeto foi criado
+func _init() -> void:
 	capacity = 6 			# defines the maximum ammo capacity of the gun
 	fire_cooldown = 0.28 	# defines the cooldown between bullets
 	reload_cooldown = 1.5 	# defines the reload cooldown
-	
+
+# tipo um construtor
+func _ready() -> void:
+	super()
+	ammo_changed.emit(ammo, capacity)
+
 	# conecta as funções que vão escutar os signals
 	# nesse caso foi usada uma lambda (função anônima). func(): <código>
 	player.dodge_started.connect(func(): blocked_by_dodge = true)
@@ -26,10 +27,8 @@ func _process(delta: float) -> void:
 		fire()
 	
 	if Input.is_action_just_pressed("reload"):
-		print("reload pŕessed")
 		_reload() #activate the cooldown to reload and set ammo
 
-# TODO: need to destroy the bullet after some time
 func fire() -> void:
 	var bullet: Node2D = bullet_scene.instantiate()
 	
