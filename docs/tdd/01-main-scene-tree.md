@@ -11,8 +11,8 @@
 | Instanciar o `Player` e o `ChunkManager` a partir de `PackedScene` exportadas | [OK] |
 | Hospedar o `HudManager` (`CanvasLayer`) | [OK] |
 | Ligar a arma do player à HUD de munição | [OK] (ver [observações](#observações-do-código)) |
-| Gerenciar eventos que pausam o jogo e chamam interface alternativa (mapa, menu de pause) | [PLANEJADO] |
-| Configuração de câmera | [ABERTO] ver [02](02-chunk-manager.md#câmera) |
+| Gerenciar pause e tela de tutorial | [PLANEJADO] |
+| Configuração de câmera | [PLANEJADO] ver [02](02-chunk-manager.md#câmera) |
 
 ## Árvore em runtime
 
@@ -29,8 +29,8 @@ World (Node2D)                        [world.gd]
 │   │       └── Tip (Marker2D)
 │   └── ReloadBar (TextureProgressBar)
 ├── ChunkManager (Node2D)             [chunk_manager.gd]  ← instanciado por world.gd
-│   └── Level01 (Node2D)                                  ← initial_chunk
-│       └── TileMapLayer
+│   └── Chunk_0_0 (Node2D)                                 ← chunk ativo
+│       └── mapa do Chunk 1
 └── Bullet (Node2D) ...                                   ← instanciadas pelas armas em runtime
 ```
 
@@ -73,11 +73,11 @@ sequenceDiagram
 Ex: *todo chão/cenário de chunk usa z_index negativo*, pra o player nunca ficar atrás do chão. 
 Enquanto isso não for documentado em cada chunk, é fácil esquecer ao criar um novo.
 
-## [ABERTO] Interfaces alternativas e pause
+## Interfaces e pause
 
-Ideia atual: o `World` gerencia qualquer evento que pausa a jogabilidade e abre interface alternativa (mapa, menu de pause).
+O `World` encaminha o evento de pause para o `HudManager`. Não existe mapa ou interface de NPC.
 
-[SUGESTÃO] Podemos optar (caso pareça melhor) por um nó acima do `World` que controle as interfaces. O mecanismo nativo da Godot é `get_tree().paused = true`, com `process_mode = PROCESS_MODE_WHEN_PAUSED` no nó da interface e `PROCESS_MODE_PAUSABLE` (padrão) no mundo. Isso funciona tanto com as interfaces dentro do `World` quanto com um nó pai.
+O mecanismo nativo da Godot é `get_tree().paused = true`, com `process_mode = PROCESS_MODE_WHEN_PAUSED` no `HudManager` e `PROCESS_MODE_PAUSABLE` no mundo.
 
 ## Observações do código
 

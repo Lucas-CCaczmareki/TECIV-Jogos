@@ -12,28 +12,17 @@ Atendendo ao chamado real, o herói viaja até a estrutura e cruza o seu portal 
 
 Devido à natureza anômala da torre — onde a morte definitiva não existe —, a alma do herói não se esvai. Ele desperta desacordado no fundo do complexo, em uma catacumba sombria e esquecida. Ao reabrir os olhos, nota a presença de um lobo misterioso que o observa. Assim que o aventureiro se levanta, a criatura recua e se afasta, deixando-o livre para explorar as profundezas.
 
-Durante a exploração do nível inferior, o protagonista encontra o lobo novamente, desta vez encurralado e em perigo frente às ameaças da catacumba. Ao resgatá-lo, uma energia mística se manifesta, criando um vínculo mágico e espiritual indissolúvel entre o aventureiro e a criatura. Unindo forças, os dois descobrem uma passagem para fora das catacumbas e chegam a um ponto de descanso: uma zona segura dentro da dungeon, livre de ameaças e povoada por alguns estranhos residentes.
+Durante a exploração do nível inferior, o protagonista encontra o lobo encurralado. O lobo é um fragmento de uma sentinela espiritual criada para proteger o artefato, mas perdeu sua forma original quando a torre foi corrompida. O resgate reativa o fragmento e cria o vínculo que permite ao jogador comandá-lo.
 
-> **[TODO: Prólogo]**
-> - Explicar a origem exata e o comportamento do lobo antes de ser salvo (por que ele estava preso se parecia conhecer a catacumba?).
+Os dois encontram uma passagem para os níveis superiores. A própria torre reage ao vínculo e abre o caminho, indicando que o lobo é necessário para alcançar o artefato.
 
 ---
 
 ## Meio: A Ascensão e a Manipulação
 
-Na zona segura, o protagonista e o lobo encontram um momento de trégua. O local funciona como um refúgio imune aos perigos da torre, onde é possível interagir com figuras enigmáticas, obter recursos essenciais para sobrevivência, aprimorar equipamentos e aprender fragmentos da história sobre a origem da torre e do artefato.
+Não existe hub nem NPC. Após o vínculo, o jogador segue diretamente pelos dois chunks. A torre comunica sua história por inscrições, restos de expedições e alterações no ambiente.
 
-> **[TODO: NPCs da Zona Segura]**
-> - Definir quem são os NPCs mercadores/ferreiros e por que estão presos ali (são exploradores do passado, ilusões da torre ou sobreviventes de antigas expedições?).
-> - Definir se os NPCs possuem linhas de quest próprias ou se desempenham papéis puramente mecânicos (venda/upgrade de itens de cura e armas).
-
-Conforme se prepara para subir os andares, o herói é abordado por um Homem Misterioso. Astuto e conhecedor dos segredos do local, este figura se oferece para guiar a dupla até os níveis mais altos, em direção à câmara do artefato e ao guardião final. 
-
-À medida que avançam pela torre enfrentando provações, torna-se evidente que o Homem Misterioso não é um aliado genuíno. Ele manipula o protagonista para desarmar armadilhas e derrotar ameaças em seu lugar, pois também almeja o poder do artefato. A tensão atinge o pico na metade da ascensão, quando o Homem Misterioso revela sua verdadeira face e tenta eliminar o herói, tornando-se um confronto direto (subchefe). Após derrotá-lo, o protagonista e seu lobo finalmente ganham acesso à câmara do topo.
-
-> **[TODO: Meio / Homem Misterioso]**
-> - Detalhar o momento e o gatilho exatos em que a traição do Homem Misterioso é revelada ao jogador.
-> - Definir a motivação original do Homem Misterioso (de onde ele veio e o que ele pretendia fazer com o artefato).
+O primeiro chunk apresenta o vínculo e as regras do local. O segundo mostra que o artefato está mantendo a torre e seus mortos em um ciclo de corrupção. O lobo reage às áreas próximas do artefato, funcionando como indicação narrativa e de objetivo.
 
 ---
 
@@ -47,6 +36,6 @@ Após um confronto épico, o protagonista e seu lobo derrotam o Rei Corrompido e
 
 Com a destruição do artefato, a magia que sustenta a anomalia se desfaz. A fenda temporal é selada e a torre é violentamente arrancada daquele tempo e espaço, sendo devolvida à sua dimensão e época de origem.
 
-> **[TODO: Final e Pós-Créditos]**
-> - Definir o destino final do Protagonista e do Lobo após a torre ser enviada de volta à sua dimensão original (eles são transportados de volta ao reino no tempo presente, ficam presos no passado original da torre, ou desaparecem junto com a estrutura?).
-> - Estabelecer o impacto no reino exterior após o desaparecimento definitivo da torre.
+Após derrotar o boss, o protagonista destrói o artefato. A torre perde a força que prende as almas e começa a desaparecer. O lobo deixa de ser apenas um fragmento espiritual e permanece ao lado do protagonista enquanto os dois escapam pela entrada.
+
+O final da demonstração mostra a saída da torre e encerra a história sem uma sequência longa de pós-créditos.

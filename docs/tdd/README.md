@@ -26,7 +26,7 @@ Cada seção indica em que pé está o que descreve:
 | # | Documento | Assunto |
 |---|---|---|
 | 01 | [Main Scene Tree](01-main-scene-tree.md) | Árvore principal, o papel do `World`, ordem de inicialização |
-| 02 | [ChunkManager](02-chunk-manager.md) | Carregamento de chunks, chunks avulsos (tutorial/boss), câmera |
+| 02 | [ChunkManager](02-chunk-manager.md) | As duas áreas do mapa, transição e câmera |
 | 03 | [Player e Companion](03-player-companion.md) | Cena do player, dodge, animação, companion |
 | 04 | [Sistema de armas](04-weapon-system.md) | `Weapon`, `WeaponPivot`, `fire()`, `Bullet` |
 | 05 | [Colisão e combate](05-colisao-combate.md) | Layers/masks, projéteis e ataques inimigos |
@@ -63,11 +63,10 @@ Hoje o código tente a funcionar assim por conveniência, mas no futuro pode ser
 | Tema | Onde | Resumo |
 |---|---|---|
 | Onde fica a câmera | [02](02-chunk-manager.md#câmera) | `Player`, `World` ou `ChunkManager` |
-| Nó "pai" de interfaces (mapa/pause) | [01](01-main-scene-tree.md#interfaces-alternativas-e-pause) | Precede o `World`? Fica dentro dele? |
-| Estado de chunks descarregadas | [02](02-chunk-manager.md#decisões-em-aberto) | Inimigos mortos/itens coletados persistem? |
-| Quem faz o fade de transição | [02](02-chunk-manager.md#chunks-avulsas-tutorial-boss) | `HudManager` ou camada própria |
+| Nó "pai" de interfaces (pause/tutorial) | [01](01-main-scene-tree.md#interfaces-alternativas-e-pause) | Precede o `World`? Fica dentro dele? |
+| Quem faz o fade de transição | [02](02-chunk-manager.md#transição) | `HudManager` ou camada própria |
 | Arma modular: subclasses vs. modificadores | [04](04-weapon-system.md#arma-modular-tensão-de-design) | Como upgrades mudam o padrão de tiro |
-| Layers/masks e dano | [05](05-colisao-combate.md) | Nada definido ainda |
+| Drops de vida e power-ups | [05](05-colisao-combate.md) | Nó de drop, duração e coleta |
 | Classes base de personagens/inimigos | [08](08-hierarquia-de-classes.md) | Só `Weapon` existe |
 
 ## Como manter

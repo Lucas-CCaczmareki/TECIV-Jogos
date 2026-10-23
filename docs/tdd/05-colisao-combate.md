@@ -109,3 +109,13 @@ remove o nó no fim do frame. Não se aplica a balas perfurantes.
 - [ABERTO] Hitbox do ataque corpo a corpo do companion (mesma estrutura dos inimigos?).
 - [ABERTO] Gatilho de toque dos objetos (tem como virar padrão reaproveitável?)
 - [ABERTO] Explosão como hitbox temporária
+
+## Drops de vida e power-ups [PLANEJADO]
+
+Drops são `Area2D` independentes instanciadas por inimigos derrotados ou colocadas em pontos fixos do mapa.
+
+- Vida: drop comum, coletado por contato, restaura uma quantidade fixa.
+- Power-up de combate: drop raro durante combate, com duração temporária.
+- Power-up permanente: colocado em pontos definidos dos chunks, coletado uma vez por partida.
+- O drop emite um signal de coleta; o alvo aplica o efeito e o drop é destruído.
+- Não existe inventário, moeda ou loja.

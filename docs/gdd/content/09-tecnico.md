@@ -14,10 +14,9 @@ Godot
 
 ### Escopo completo
 - Tutorial em 2 partes (1a só personagem, 2a personagem + companion)
-- HUB principal com NPCs, economia do jogo, powerups e poções.
-- Mapa completo com npcs resgatáveis. 2 salas de boss, 2 ou 3 áreas com "salas" diversas, alternando entre obstáculos, puzzles e combate.
+- Dois chunks com o mapa completo, power-ups e um único boss.
+- Tutorial integrado ao primeiro chunk e acessível novamente pelo menu de pause.
 - Armas novas desbloqueáveis
 - Ações desbloqueáveis do companion
 - Boss intermediário
 - Boss final
-

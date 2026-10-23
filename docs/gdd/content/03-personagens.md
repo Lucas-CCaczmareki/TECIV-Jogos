@@ -26,7 +26,9 @@
 </div>
 
 ---
-## NPCs principais e boss intermediário 
+## Boss final
+
+Não existem NPCs na versão da feira. O único antagonista com função narrativa e de combate é o boss final.
 <!-- (resumo funcional, detalhe de motivação vai em `docs/narrativa/`) --> 
 
 ---
