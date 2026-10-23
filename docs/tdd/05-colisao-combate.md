@@ -119,3 +119,32 @@ Drops são `Area2D` independentes instanciadas por inimigos derrotados ou coloca
 - Power-up permanente: colocado em pontos definidos dos chunks, coletado uma vez por partida.
 - O drop emite um signal de coleta; o alvo aplica o efeito e o drop é destruído.
 - Não existe inventário, moeda ou loja.
+
+## Elementos interativos [PLANEJADO]
+
+`Interactable` é a base comum para objetos simples que reagem a uma interação. A classe herda de `Area2D`, possui o estado `enabled`, impede uma segunda ativação e emite o signal comum `interacted(actor)`.
+
+```mermaid
+classDiagram
+    Area2D <|-- Interactable
+    Interactable <|-- ItemCollidable
+    Interactable <|-- Door
+```
+
+### `ItemCollidable`
+
+- Herda de `Interactable`.
+- Conecta `body_entered`.
+- Aceita somente corpos nos grupos `player` ou `companion`.
+- Emite `collected(actor, effect_id)`.
+- Destrói a própria cena após a coleta.
+- Não conhece HUD, inventário ou a implementação do efeito.
+
+### `Door`
+
+- Herda de `Interactable`.
+- Possui um `StaticBody2D` filho chamado `BlockingBody`.
+- Inicia fechada.
+- Expõe `open()` para a sala ou outro sistema chamar.
+- Ao abrir, desativa monitoramento, bloqueio e emite `opened`.
+- Não possui chave, diálogo ou lógica de progressão própria.

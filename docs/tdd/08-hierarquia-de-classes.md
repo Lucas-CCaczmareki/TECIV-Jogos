@@ -134,3 +134,22 @@ Nada decidido ainda; anotações do que foi pensado:
 O `HealthComponent` já cobre a primeira linha da tabela (vida e dano) sem precisar de herança. O que sobraria para uma base de personagem seria movimento e o uso de arma/pivot, o que reduz o ganho de criá-la.
 
 [SUGESTÃO] Criar a classe base só quando existir a segunda classe concreta (por exemplo, o primeiro inimigo real além do dummy), em vez de desenhá-la antes.
+
+## [PLANEJADO] Elementos interativos
+
+Elementos simples do mapa compartilham uma base `Interactable`, que herda de `Area2D`. Ela controla o estado de habilitação, evita interações duplicadas e emite o signal comum `interacted(actor)`.
+
+```mermaid
+classDiagram
+    Area2D <|-- Interactable
+    Interactable <|-- ItemCollidable
+    Interactable <|-- Door
+```
+
+| Classe | Responsabilidade |
+|---|---|
+| `Interactable` | Contrato mínimo de interação e controle de estado |
+| `ItemCollidable` | Detectar contato de player/companion, emitir o efeito e desaparecer |
+| `Door` | Receber `open()`, desativar o bloqueio e emitir `opened` |
+
+`Interactable` não conhece HUD, inventário ou regras de progressão. `ItemCollidable` informa o efeito por `effect_id`; o personagem ou o sistema da sala decide como aplicá-lo. `Door` exige um filho `StaticBody2D` chamado `BlockingBody`.

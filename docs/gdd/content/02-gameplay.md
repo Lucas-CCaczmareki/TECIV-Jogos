@@ -183,8 +183,19 @@ O mapa é linear, dividido em dois chunks. Cada chunk contém salas conectadas p
 ### Interatividade do cenário
 
 - Paredes e obstáculos fornecem cobertura.
+- Elementos interativos usam uma classe comum e reagem automaticamente à colisão ou a um comando do sistema da sala.
+- Itens colidíveis são coletados por contato e desaparecem após emitir seu efeito.
+- Portas começam fechadas e abrem quando a sala chama sua ação de abertura, normalmente após o combate.
 - Triggers controlam portas, transições e checkpoints.
 - Mecanismos simples podem criar um obstáculo curto, mas não haverá sistema complexo de puzzle.
+
+#### Elementos interativos
+
+| Elemento | Ativação | Resultado |
+|---|---|---|
+| `Interactable` | Contrato comum de interação | Emite o evento de interação uma vez |
+| `ItemCollidable` | Player ou companion encosta | Emite o efeito configurado e desaparece |
+| `Door` | A sala chama `open()` | Desativa o bloqueio e libera a passagem |
 
 ### Checkpoints e persistência
 
