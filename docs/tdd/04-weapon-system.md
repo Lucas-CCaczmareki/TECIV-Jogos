@@ -46,18 +46,19 @@ Divisão de papéis: a **arma** decide *quando e como* atacar (cooldown, muniç�
 - `fire()`: **abstrato por convenção**; a base só imprime um aviso. Cada arma sobrescreve.
 - `set_visibility(bool)`: liga/desliga `visible`.
 
-## Armas concretas
+## [OK] Armas concretas
 
 | Arma | Script | Estado |
 |---|---|---|
 | Revolver | `revolver.gd` | [OK] capacidade 6, cooldown 0.28 s, reload 1.5 s |
-| Rifle | `rifle.gd` | [PARCIAL] só o esqueleto (`_ready`/`_process` vazios) |
-| Shotgun | — | [PARCIAL] cena existe (`Sprite2D` + `Marker2D`), **sem script** |
+| Shotgun | `shotgun.gd` | [OK] capacidade 8, cooldown 1.0s, reload 3.0s, pellets 6, spread_degree 20, speed_variation 0.20 |
+| Smg | `smg.gd` | [PARCIAL] cena e sprite existem, script em branco |
+| Sniper | `sniper.gd` | [PARCIAL] cena e sprite existem, script em branco |
 
 Cada weapon é uma scene. Ao trocar a arma, troca a scene que aparece na tela.
-Weapon "modular" fica simplesmente como característica no sprite, caso sobre tempo.
+Máximo de 2 armas ativas. Menu para trocar armas ativas entre as desbloqueadas (total de 4 armas)
 
-### [OK] O que o `Revolver` faz
+### [OK] O que o cada weapon faz
 
 - No `_ready`: define `ammo = capacity` (arma cheia), emite `ammo_changed` e conecta lambdas em `player.dodge_started/dodge_ended` para ligar/desligar `blocked_by_dodge`.
 - No `_process`: atualiza cooldowns; lê `Input` (`fire` → `fire()` se `_can_fire()`; `reload` → `_reload()`).

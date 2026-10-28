@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d2gmga58w8me2" path="res://scripts/weapons/shotgun.gd" id="1_m3xlh"]
 [ext_resource type="Texture2D" uid="uid://dhpcsyxkwhqsn" path="res://assets/sprites/weapons/shotgun.png" id="1_u3ka6"]
-[ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet.tscn" id="2_43wd3"]
+[ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet1.tscn" id="2_43wd3"]
 [ext_resource type="AudioStream" uid="uid://bf4w1g8iwkolb" path="res://assets/sounds/shotgun_fire3.mp3" id="4_0ogbp"]
 [ext_resource type="AudioStream" uid="uid://da86i7h3cc2pg" path="res://assets/sounds/shotgun_reload.mp3" id="5_bkcko"]
 

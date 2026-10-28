@@ -18,13 +18,17 @@ Decidir qual das duas áreas está ativa, executar a transição e manter o esta
 
 ## As duas áreas
 
+Isso é temporário. Os nomes vão mudar
+Chunk 0_0 - Chunk usada pra testes de mecânicas e programação
+Chunk 1_1 - Área inicial do mapa (Catacumbas)
+
+
 ```text
 scenes/world/Chunk_0_0.tscn → Chunk 1
 scenes/world/Chunk_1_1.tscn → Chunk 2 + arena do boss
 ```
 
 Cada chunk é uma cena completa do mapa. O tutorial não é uma cena: o Chunk 1 ensina os controles progressivamente durante a partida.
-
 Somente o chunk ativo fica na árvore. Não há grade dinâmica nem raio de carregamento.
 
 ## Transição

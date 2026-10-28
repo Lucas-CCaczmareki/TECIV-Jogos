@@ -86,23 +86,20 @@ Os nomes finais das ações devem ser mantidos no Input Map da Godot. O menu de 
 - Companion age conforme comandos. Quando não comandado, age com uma IA simples que prefere a ação indicada pelo jogador.
 
 ---
-### Arma modular
-- Arma pode alternar funcionamento; troca de funcionamento tem cooldown.
+Arma modular simplificada para apenas 4 tipos diferentes de arma.
+### Armas
 - Diferentes tipos de arma possuem cadência de tiro, tipo/espaçamento de bala, tempo de recarga, dano, precisão e alcance distintos.
-- O jogador pode manter até 2 tipos de funcionamento na arma ao mesmo tempo.
-- A troca de funcionamento só pode ser feita fora de combate.
-- O conjunto de armas e poderes principais fica disponível desde o início ou é liberado nas primeiras salas.
-- A progressão não deve exigir uma segunda partida para ser compreendida na feira.
+- O jogador pode manter até 2 tipos de arma ao mesmo tempo.
+- A troca de arma ativa só pode ser feita fora de combate.
+- O conjunto de armas é liberado nas primeiras salas. (versão simplificada do jogo)
 
-| Tipo         | Cadência | Dano  | Recarga | Precisão | Alcance | Projétil |
-|--------------|----------|-------|---------|----------|---------|----------|
-| Revólver     | Média    | Baixo | Rápida  | Média    | Médio   | Simples  |
-| Arco         | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
-| Sniper       | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
-| Escopeta     | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
-| Rifle        | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
-| Metralhadora | N/A      | N/A   | N/A     | N/A      | N/A     | N/A      |
-*Revólver é a arma inicial. Demais tipos ainda não definidos.*
+| Tipo         | Cadência | Dano  | Recarga | Precisão | Alcance | Projétil   |
+|--------------|----------|-------|---------|----------|---------|------------|
+| Revólver     | Média    | Baixo | Rápida  | Média    | Médio   | Simples    |
+| Sniper       | Baixa    | Médio | Média   | Alta     | Alta    | "Laser"    |
+| Escopeta     | Baixa    | Alto  | Lenta   | Baixa    | Baixo   | N*Simples  |
+| SMG          | Alta     | Baixo | Rápida  | Baixa    | Médio   | Simples    |
+*Revólver é a arma inicial. Demais tipos serão encontrados ao longo da gameplay.*
 
 - Tempo de reload é indicado através de uma TextureProgressBar na cabeça do personagem.
 
