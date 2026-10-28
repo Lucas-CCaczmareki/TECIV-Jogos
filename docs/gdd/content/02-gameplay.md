@@ -1,74 +1,78 @@
-<!-- TODO: @Gustavo preencher essa seção -->
 ## Core loop (ação repetida principal)
 
-                 ┌───────────────┐
-                 │   EXPLORAR    │
-                 └───────┬───────┘
-                         ↓
-                 ┌───────────────┐
-                 │   ENCONTRAR   │
-                 │    DESAFIO    │
-                 └───────┬───────┘
-                         ↓
-              ┌──────────┴──────────┐
-              ↓                     ↓
-        ┌───────────┐         ┌───────────┐
-        │  COMBATE  │         │   PUZZLE  │
-        └─────┬─────┘         └─────┬─────┘
-              ↓                     ↓
-        ┌───────────┐         ┌───────────┐
-        │  USAR     │         │  RESOLVER │
-        │  COMPANION│         │  DESAFIO  │
-        └─────┬─────┘         └─────┬─────┘
-              ↓                     ↓
-              └──────────┬──────────┘
-                         ↓
-       ┌────────────────────────────────┐
-       │  AVANÇAR/RECEBER RECOMPENSA    │
-       └─────────────────┬──────────────┘
-                         ↓
-                  NOVA SALA / ÁREA
+O jogador percorre duas áreas conectadas, enfrenta salas de combate, usa o lobo para controlar o espaço, encontra power-ups e supera o boss final.
 
-Micro Loop — segundos - ação
-> Mover → mirar → atacar → esquivar → comandar lobo
+```text
+Explorar → identificar ameaça → combater com player e lobo
+    → coletar vida/power-up → atravessar a próxima sala
+    → alcançar a arena final → derrotar o boss
+```
 
-Loop de sala — 1–5 minutos - combate/puzzle
-> Entrar → analisar → enfrentar desafio → usar protagonista + lobo → vencer → avançar
+O jogo é linear e curto. Não há economia, hub, NPCs ou progressão entre partidas.
 
-Loop de área — 10–20 minutos - exploração
-> Explorar → combater → resolver puzzle → adquirir recurso/habilidade → checkpoint → próximo desafio
+### Duração e formato de feira
 
+- A demonstração completa deve durar aproximadamente 10–15 minutos.
+- O jogador pode parar antes do fim sem perder uma partida longa.
+- Outra pessoa deve conseguir assumir o controle sem explicação oral.
+- Controles e objetivo ficam acessíveis no menu de pause.
+- Um botão do pause abre uma tela de tutorial resumido.
+
+### Micro loop
+
+> Mover → mirar → atacar → recarregar → esquivar → comandar o lobo.
+
+### Loop de sala
+
+> Entrar → ler o espaço → vencer o combate ou atravessar o obstáculo → coletar a recompensa → avançar.
+
+### Loop de partida
+
+> Chunk 1 → transição → Chunk 2 → arena do boss → vitória ou retorno ao último checkpoint.
 
 ---
-<!-- TODO: @Lucas pensar, analisar e preencher essa seção -->
 ## Controles/inputs
-Movimentação: WASD ou Analógico direito
+| Ação | Teclado | Controle |
+|---|---|---|
+| Movimentação | WASD | Analógico esquerdo |
+| Mira | Mouse | Analógico direito |
+| Atirar | Botão esquerdo | Gatilho direito |
+| Dodge | Espaço | Botão faceado inferior |
+| Recarregar | R | Botão de ombro |
+| Abrir comando do lobo | Q ou botão definido no projeto | Botão de ombro |
+| Pausar | Esc | Start |
 
-
-Mira: Mouse ou Analógico esquerdo
-
-Dodge: Barra de espaço
-
-Recarregar: R
-
-Trocar de arma: Tab
-
-Comandar lobo:
-
-Usar itens:
-
-
-Abrir mapa:
-... etc
+Os nomes finais das ações devem ser mantidos no Input Map da Godot. O menu de pause mostra o esquema correspondente ao dispositivo.
 
 ---
-<!-- TODO: @Gustavo preencher essa seção -->
-## Objetivos de curto, médio e longo prazo
+## Objetivos
+
+### Curto prazo
+
+- Aprender movimento, mira, tiro, recarga e dodge.
+- Entender o comando básico do lobo.
+- Sobreviver à sala atual.
+
+### Médio prazo
+
+- Atravessar o Chunk 1.
+- Usar power-ups encontrados.
+- Chegar ao Chunk 2 com os poderes principais disponíveis.
+
+### Longo prazo
+
+- Atravessar o mapa completo.
+- Derrotar o único boss.
+- Concluir a demonstração.
 
 ---
-<!-- TODO: @Gustavo terminar de preencher se necessário -->
 ## Condições de vitória e derrota
-Personagem OU Companion tem a barra de vida reduzida à 0. Retornam pro último checkpoint
+
+- O jogador vence ao derrotar o boss final.
+- O jogador perde quando a vida do player **ou** do companion chega a zero.
+- Ao perder, retorna ao último checkpoint.
+- O estado das salas concluídas e dos power-ups permanentes da partida é preservado.
+- Não existe tela de game over longa nem sistema de vidas entre partidas.
 
 ---
 ## Descrição funcional das mecânicas centrais
@@ -87,7 +91,8 @@ Personagem OU Companion tem a barra de vida reduzida à 0. Retornam pro último 
 - Diferentes tipos de arma possuem cadência de tiro, tipo/espaçamento de bala, tempo de recarga, dano, precisão e alcance distintos.
 - O jogador pode manter até 2 tipos de funcionamento na arma ao mesmo tempo.
 - A troca de funcionamento só pode ser feita fora de combate.
-- Novos tipos de arma são desbloqueados via progressão.
+- O conjunto de armas e poderes principais fica disponível desde o início ou é liberado nas primeiras salas.
+- A progressão não deve exigir uma segunda partida para ser compreendida na feira.
 
 | Tipo         | Cadência | Dano  | Recarga | Precisão | Alcance | Projétil |
 |--------------|----------|-------|---------|----------|---------|----------|
@@ -147,43 +152,63 @@ Personagem OU Companion tem a barra de vida reduzida à 0. Retornam pro último 
 | Inimigo 3, 4, 5... | — | — | — | Ainda não desenvolvidos |
 
 ---
-<!-- TODO: @Gustavo preencher isso aqui -->
 ### Itens:
-Por enquanto N/A. Caso a gente acabe desenvolvendo itens, tipo granadas, powerups específicos, etc.
-Ou coisas que modifiquem a gameplay, iremos indicar aqui.
+Existem apenas três categorias:
+
+- **Vidas:** drops comuns de inimigos; recuperam parte da vida do player ou do companion.
+- **Power-ups temporários:** drops raros durante o combate; duram até a derrota ou por tempo limitado.
+- **Power-ups permanentes da partida:** encontrados em pontos definidos do mapa; ficam disponíveis até a conclusão ou reinício da partida.
+
+Não existem moedas, loja, inventário, crafting ou NPCs.
 
 ---
-### Estrutura de salas:
-(como as salas se conectam, o que define o layout de uma área — linear, ramificado, com bifurcações)
+### Estrutura de salas
+
+O mapa é linear, dividido em dois chunks. Cada chunk contém salas conectadas por corredores ou transições curtas. Existem desvios pequenos para power-ups, mas o caminho principal é único.
+
+### Navegação e orientação
+
+- A saída principal de cada sala é visualmente destacada.
+- Portas fechadas comunicam sua condição por cor, símbolo ou barreira.
+- O objetivo atual aparece no pause.
+- Não há minimapa na primeira versão.
+
+### Portas e bloqueios
+
+- Portas de combate abrem após derrotar os inimigos.
+- Barreiras simples abrem após ativar um mecanismo.
+- A passagem entre chunks abre após concluir o trecho principal do Chunk 1.
+- A arena final é liberada ao alcançar o fim do Chunk 2.
+
+### Interatividade do cenário
+
+- Paredes e obstáculos fornecem cobertura.
+- Elementos interativos usam uma classe comum e reagem automaticamente à colisão ou a um comando do sistema da sala.
+- Itens colidíveis são coletados por contato e desaparecem após emitir seu efeito.
+- Portas começam fechadas e abrem quando a sala chama sua ação de abertura, normalmente após o combate.
+- Triggers controlam portas, transições e checkpoints.
+- Mecanismos simples podem criar um obstáculo curto, mas não haverá sistema complexo de puzzle.
+
+#### Elementos interativos
+
+| Elemento | Ativação | Resultado |
+|---|---|---|
+| `Interactable` | Contrato comum de interação | Emite o evento de interação uma vez |
+| `ItemCollidable` | Player ou companion encosta | Emite o efeito configurado e desaparece |
+| `Door` | A sala chama `open()` | Desativa o bloqueio e libera a passagem |
+
+### Checkpoints e persistência
+
+- Existe ao menos um checkpoint no início do Chunk 2.
+- A derrota retorna o player e o companion ao último checkpoint.
+- Inimigos derrotados e portas abertas do trecho concluído não reaparecem durante a mesma partida.
+- Ao reiniciar a partida, o mapa retorna ao estado inicial.
+
+### Verticalidade e hazards do terreno
+
+O jogo usa mapa top-down em um único plano. Os perigos são obstáculos, projéteis, ataques corpo a corpo e áreas de dano claramente sinalizadas. Não há plataformas ou navegação vertical.
 
 ---
-### Navegação e orientação:
-(como o jogador sabe pra onde ir — minimapa, landmarks visuais, HUD de direção, ou "sem guia" tipo HLD)
+## Economia do jogo
 
----
-### Portas e bloqueios:
-(o que tranca uma sala/área — chave, puzzle resolvido, boss derrotado, item específico)
-
----
-### Interatividade do cenário:
-(baús, alavancas, objetos destrutíveis, obstáculos que o personagem/companion podem usar ou precisar desviar)
-
----
-### NPCs resgatáveis:
-(onde aparecem, condição de resgate, o que desbloqueiam no hub)
-
----
-### Hub principal:
-(o que existe nele — loja, upgrade, poções — e como o jogador entra/sai dele em relação ao mapa)
-
----
-### Checkpoints e persistência:
-(o que salva progresso dentro de uma run, o que reseta ao morrer, o que é permanente entre runs)
-
----
-### Verticalidade e hazards do terreno:
-(se existem armadilhas, buracos, terrenos que causam dano ou limitam movimento, plataformas)
-
----
-<!-- TODO: @Gustavo preencher essa seção -->
-## Economia do jogo (moedas, recursos), se houver
+A economia foi removida do escopo. O jogo não possui moedas, preços, loja ou compra de itens. A única recompensa de combate é a chance de obter vida ou power-up.

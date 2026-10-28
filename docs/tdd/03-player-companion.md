@@ -87,4 +87,4 @@ O `Companion` (lobo) ainda não existe. O que já está decidido:
 
 [ABERTO] O que o `Player` e o `Companion` compartilham (vida, movimento, dano) define se faz sentido uma classe base. Ver [08](08-hierarquia-de-classes.md).
 
-[ABERTO] Como o `Companion` é posicionado na troca de chunk/entrada de sala avulsa (teleportado junto com o player?).
+[PLANEJADO] Na troca de chunk, o companion é reposicionado junto com o player no `Marker2D` de entrada.
