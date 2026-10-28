@@ -14,6 +14,9 @@ script = ExtResource("1_door")
 polygon = PackedVector2Array(-24, -48, 24, -48, 24, 48, -24, 48)
 color = Color(0.75, 0.2, 0.15, 1)
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_door")
+
 [node name="BlockingBody" type="StaticBody2D" parent="."]
 collision_layer = 1
 
