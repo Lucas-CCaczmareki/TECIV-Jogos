@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://biad5kanrfm00" path="res://assets/sprites/companion/wolf_down.png" id="2_1hwki"]
 [ext_resource type="Texture2D" uid="uid://cmn4rejsg5d6x" path="res://assets/sprites/companion/wolf_full.png" id="2_ax5w6"]
 [ext_resource type="Texture2D" uid="uid://c32e5ocvf5ceu" path="res://assets/sprites/companion/wolf_attack.png" id="2_ifk3g"]
+[ext_resource type="AudioStream" uid="uid://c7b8taebo0y3r" path="res://assets/sounds/whoosh.mp3" id="6_xw1fr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vnsud"]
 atlas = ExtResource("2_ifk3g")
@@ -629,11 +630,13 @@ size = Vector2(44, 60.5)
 
 [node name="Companion" type="CharacterBody2D" unique_id=1455659718]
 z_index = -1
+scale = Vector2(1.2, 1.2)
 collision_layer = 8
 collision_mask = 33
 script = ExtResource("1_ax5w6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2072863999]
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_dndu5")
 animation = &"stop_left"
 
@@ -641,3 +644,7 @@ animation = &"stop_left"
 visible = false
 position = Vector2(1, 16.75)
 shape = SubResource("RectangleShape2D_jx834")
+
+[node name="AttackSound" type="AudioStreamPlayer" parent="." unique_id=1263901119]
+stream = ExtResource("6_xw1fr")
+volume_db = -12.0

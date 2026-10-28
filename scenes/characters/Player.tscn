@@ -613,4 +613,4 @@ texture_under = ExtResource("6_miirx")
 texture_progress = ExtResource("6_rpfb3")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1274320752]
-zoom = Vector2(0.8, 0.8)
+zoom = Vector2(0.6, 0.6)

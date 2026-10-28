@@ -6,6 +6,8 @@ extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
+@onready var atk_sfx: AudioStreamPlayer = $AttackSound
+
 
 var direction: Vector2 = Vector2.ZERO
 var distance: float = 0.0

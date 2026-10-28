@@ -37,5 +37,6 @@ func _process(delta: float) -> void:
 	if teaser_timer >= 3.0:
 		teaser_timer = 0.0
 		teaser_sprite.play("attack_left")
+		#companion.atk_sfx.play()
 		await get_tree().create_timer(attack_duration).timeout
 		teaser_sprite.play("stop_left")

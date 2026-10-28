@@ -15,7 +15,7 @@ func _ready() -> void:
 	
 	add_child(player)
 	add_child(chunk_manager)
-	#add_child(companion)
+	add_child(companion)
 	
 	var weapon_pivot = player.get_node("WeaponPivot")
 	var weapon = weapon_pivot.get_weapon()
