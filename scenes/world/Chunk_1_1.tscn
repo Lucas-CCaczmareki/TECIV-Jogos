@@ -4,10 +4,8 @@
 [ext_resource type="Script" uid="uid://dsfw67vfo0ae6" path="res://scripts/world/chunk_1_1.gd" id="1_lm2ja"]
 [ext_resource type="Texture2D" uid="uid://dm3mf2fl1ew75" path="res://assets/sprites/tiles/Water_coasts_animation.png" id="2_lm2ja"]
 [ext_resource type="PackedScene" uid="uid://bniweslcyva8d" path="res://scenes/characters/Slime.tscn" id="2_tbnbh"]
-[ext_resource type="PackedScene" uid="uid://beeoyhqq0de8s" path="res://scenes/characters/Companion.tscn" id="3_o8mwl"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ItemCollidable.tscn" id="3_item_scene"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/Door.tscn" id="4_door_scene"]
-[ext_resource type="Script" uid="uid://bw0o1iv6bsdn6" path="res://scripts/world/walls_collision.gd" id="5_walls_collision"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbnbh"]
 texture = ExtResource("1_jkbp3")
@@ -1171,7 +1169,6 @@ sources/1 = SubResource("TileSetAtlasSource_o8mwl")
 scale = Vector2(5, 5)
 script = ExtResource("1_lm2ja")
 slime_scene = ExtResource("2_tbnbh")
-companion_scene = ExtResource("3_o8mwl")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=1853242597]
 z_index = -2
@@ -1211,7 +1208,3 @@ position = Vector2(502.2, 22)
 
 [node name="SlimePosition7" type="Marker2D" parent="." unique_id=1843802858]
 position = Vector2(527.8, 40.4)
-
-[node name="CompanionPosition" type="Marker2D" parent="." unique_id=1543951485]
-position = Vector2(550.2, 45)
-script = ExtResource("5_walls_collision")
