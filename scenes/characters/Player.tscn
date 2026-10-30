@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ccb5lboeuu1dk" path="res://assets/sprites/mc/mc_dodge.png" id="2_miirx"]
 [ext_resource type="Texture2D" uid="uid://xufru13spmoo" path="res://assets/sprites/mc/mc_skeleton.png" id="3_m6phi"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="4_oihyf"]
+[ext_resource type="Script" uid="uid://dwmrypmaab585" path="res://scripts/weapons/weapon_manager.gd" id="4_rpfb3"]
 [ext_resource type="PackedScene" uid="uid://gu66j5k05lat" path="res://scenes/weapons/Revolver.tscn" id="5_gj1sn"]
 [ext_resource type="PackedScene" uid="uid://rkwplteb0sku" path="res://scenes/weapons/Shotgun.tscn" id="5_miirx"]
 [ext_resource type="Texture2D" uid="uid://cv3a438cs1ww1" path="res://assets/sprites/progress bar most rounded over.png" id="6_miirx"]
@@ -595,11 +596,15 @@ animation = &"idle_down"
 position = Vector2(-2.5, 23.5)
 shape = SubResource("RectangleShape2D_ucufk")
 
+[node name="WeaponManager" type="Node2D" parent="." unique_id=928151443 node_paths=PackedStringArray("weapon_pivot")]
+script = ExtResource("4_rpfb3")
+weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("5_miirx")])
+weapon_pivot = NodePath("../WeaponPivot")
+
 [node name="WeaponPivot" type="Node2D" parent="." unique_id=108244274]
 position = Vector2(21, 43)
 scale = Vector2(3, 3)
 script = ExtResource("4_oihyf")
-weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("5_miirx")])
 
 [node name="ReloadBar" type="TextureProgressBar" parent="." unique_id=955479209]
 visible = false

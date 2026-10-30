@@ -19,7 +19,7 @@ var can_dodge: bool = true
 var is_reloading: bool = false
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var weapon_pivot: WeaponPivot = $WeaponPivot
+@onready var weapon_manager: WeaponManager = $WeaponManager
 @onready var reload_bar: TextureProgressBar = $ReloadBar
 
 signal dodge_started
@@ -32,7 +32,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload
-	for w in weapon_pivot.weapons:
+	for w in weapon_manager.weapons:
 		w.reload_started.connect(_reload_started)
 		#weapon.reload_finish.connect()
 
@@ -88,7 +88,7 @@ func _process_dodge(delta: float) -> void:
 			dodgeCooldown_timer = dodge_cooldown
 			dodge_started.emit()
 			can_dodge = false
-			weapon_pivot.set_weapon_visibility(false)
+			weapon_manager.set_weapon_visibility(false)
 			
 			last_direction = _get_dodge_animation_direction(input_vector)
 			is_dodging = true
@@ -98,7 +98,7 @@ func _process_dodge(delta: float) -> void:
 		if dodge_timer <= 0:
 			is_dodging = false
 			dodge_ended.emit()
-			weapon_pivot.set_weapon_visibility(true)
+			weapon_manager.set_weapon_visibility(true)
 			
 		velocity = dodge_direction * dodge_speed
 	

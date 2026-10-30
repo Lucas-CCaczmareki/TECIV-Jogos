@@ -17,10 +17,10 @@ func _ready() -> void:
 	add_child(chunk_manager)
 	add_child(companion)
 	
-	var weapon_pivot = player.get_node("WeaponPivot")
-	var weapon = weapon_pivot.get_weapon()
+	var weapon_manager = player.get_node("WeaponManager")
+	var weapon = weapon_manager.get_weapon()
 	
-	weapon_pivot.weapon_changed.connect($HudManager.bind_weapon)
+	weapon_manager.weapon_changed.connect($HudManager.bind_weapon)
 	$HudManager.bind_weapon(weapon)
 	
 	pass # Replace with function body.
