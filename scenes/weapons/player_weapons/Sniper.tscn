@@ -1,11 +1,17 @@
 [gd_scene format=3 uid="uid://7dm1p8334vhx"]
 
 [ext_resource type="Texture2D" uid="uid://oifveveyrf4t" path="res://assets/sprites/weapons/sniper.png" id="1_bah1b"]
+[ext_resource type="Script" uid="uid://dxera2y020od8" path="res://scripts/weapons/player_weapons/sniper.gd" id="1_r552j"]
 
 [node name="Sniper" type="Node2D" unique_id=1187860261]
+script = ExtResource("1_r552j")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1010061817]
 texture = ExtResource("1_bah1b")
 
 [node name="Tip" type="Marker2D" parent="." unique_id=1990994416]
 position = Vector2(69, -7)
+
+[node name="FireSound" type="AudioStreamPlayer" parent="." unique_id=1544014950]
+
+[node name="ReloadSound" type="AudioStreamPlayer" parent="." unique_id=1879899701]

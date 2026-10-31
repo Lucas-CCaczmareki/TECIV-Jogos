@@ -1,17 +1,23 @@
 [gd_scene format=3 uid="uid://rkwplteb0sku"]
 
-[ext_resource type="Script" uid="uid://d2gmga58w8me2" path="res://scripts/weapons/shotgun.gd" id="1_m3xlh"]
+[ext_resource type="Script" uid="uid://d2gmga58w8me2" path="res://scripts/weapons/player_weapons/shotgun.gd" id="1_mxrt3"]
 [ext_resource type="Texture2D" uid="uid://dhpcsyxkwhqsn" path="res://assets/sprites/weapons/shotgun.png" id="1_u3ka6"]
 [ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet1.tscn" id="2_43wd3"]
 [ext_resource type="AudioStream" uid="uid://bf4w1g8iwkolb" path="res://assets/sounds/shotgun_fire3.mp3" id="4_0ogbp"]
 [ext_resource type="AudioStream" uid="uid://da86i7h3cc2pg" path="res://assets/sounds/shotgun_reload.mp3" id="5_bkcko"]
 
-[node name="Shotgun" type="Node2D" unique_id=401104156]
-script = ExtResource("1_m3xlh")
-bullet_scene = ExtResource("2_43wd3")
+[node name="Shotgun" type="Node2D" unique_id=401104156 node_paths=PackedStringArray("tip")]
+script = ExtResource("1_mxrt3")
 capacity = 8
-fire_cooldown = 1.0
+bullets_per_shot = 6
+spread_degrees = 20.0
+speed_variation = 0.15
+tip = NodePath("Tip")
 reload_cooldown = 3.0
+atk_scene = ExtResource("2_43wd3")
+atk_cooldown = 1.0
+damage = null
+knockback = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2046971230]
 position = Vector2(5, 0)

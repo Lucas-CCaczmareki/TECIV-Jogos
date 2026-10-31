@@ -16,6 +16,7 @@ signal weapon_changed(weapon: Weapon)
 func _ready() -> void:
 	for scene in weapon_scenes:
 		var w: Weapon = scene.instantiate()
+		w.wielder = get_parent()
 		weapons.append(w)
 	
 	active_weapon = weapons[0]
