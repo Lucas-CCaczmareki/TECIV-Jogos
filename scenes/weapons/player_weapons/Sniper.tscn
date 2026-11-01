@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://oifveveyrf4t" path="res://assets/sprites/weapons/sniper.png" id="1_bah1b"]
 [ext_resource type="Script" uid="uid://beq0bse8jkvm3" path="res://scripts/weapons/player_weapon.gd" id="1_r552j"]
-[ext_resource type="PackedScene" uid="uid://hjmt6h4aab6w" path="res://scenes/weapons/bullets/Laser.tscn" id="2_wxktd"]
+[ext_resource type="PackedScene" uid="uid://hjmt6h4aab6w" path="res://scenes/atk_scenes/bullets/Laser.tscn" id="2_wxktd"]
 
 [node name="Sniper" type="Node2D" unique_id=1187860261 node_paths=PackedStringArray("tip")]
 script = ExtResource("1_r552j")

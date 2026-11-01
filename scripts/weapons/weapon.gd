@@ -2,6 +2,7 @@ extends Node2D
 class_name Weapon
 
 @onready var wielder: CharacterBody2D
+@onready var sprite: Sprite2D
 
 var atk_sfx: AudioStreamPlayer
 var reload_sfx: AudioStreamPlayer

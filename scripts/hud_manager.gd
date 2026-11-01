@@ -19,6 +19,6 @@ func bind_weapon(w: Weapon) -> void:
 		_weapon.ammo_changed.disconnect(ammo_hud._update_ammo)
 	
 	_weapon = w
-	w.ammo_changed.connect(ammo_hud._update_ammo)
-	ammo_hud._update_ammo(w.ammo, w.capacity)
-	(ammo_hud.get_node("VBoxContainer/WeaponImg")).texture = (w.get_node("Sprite2D")).texture
+	#w.ammo_changed.connect(ammo_hud._update_ammo)
+	#ammo_hud._update_ammo(w.ammo, w.capacity)
+	#(ammo_hud.get_node("VBoxContainer/WeaponImg")).texture = (w.get_node("Sprite2D")).texture

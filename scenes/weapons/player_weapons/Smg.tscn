@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cahiytqrlvudi" path="res://assets/sprites/weapons/smg.png" id="1_hna0a"]
 [ext_resource type="Script" uid="uid://beq0bse8jkvm3" path="res://scripts/weapons/player_weapon.gd" id="1_pm6sv"]
-[ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/weapons/bullets/Bullet1.tscn" id="2_gmuok"]
+[ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/atk_scenes/bullets/Bullet1.tscn" id="2_gmuok"]
 
 [node name="Smg" type="Node2D" unique_id=760365875 node_paths=PackedStringArray("tip")]
 script = ExtResource("1_pm6sv")
