@@ -12,6 +12,7 @@ var reload_sfx: AudioStreamPlayer
 var atk_cooldownTimer: float = 0.0
 @export var damage: float = 0.0
 @export var knockback: float = 0.0
+@export var tip: Marker2D
 
 var blocked_by_action: bool = false
 var blocked_by_cooldown: bool = false

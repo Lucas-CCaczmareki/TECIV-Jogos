@@ -11,11 +11,11 @@ script = ExtResource("1_fbsj1")
 capacity = 6
 bullets_per_shot = 1
 spread_degrees = 5.0
-tip = NodePath("Tip")
 reload_cooldown = 0.85
 atk_scene = ExtResource("2_n4pqw")
 atk_cooldown = 0.25
 damage = 3.0
+tip = NodePath("Tip")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=429493222]
 position = Vector2(6, -3)

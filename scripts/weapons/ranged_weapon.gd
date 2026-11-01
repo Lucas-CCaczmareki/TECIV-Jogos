@@ -6,11 +6,9 @@ var ammo: int
 @export var bullets_per_shot: int
 @export var spread_degrees: float
 @export var speed_variation: float
-@export var tip: Marker2D
 
 @export var reload_cooldown: float = 0.0 #time reloading after pressing 'R'
 var reload_cooldownTimer: float = 0.0
-
 var blocked_by_reload: bool = false
 
 # signals

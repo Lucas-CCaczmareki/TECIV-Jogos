@@ -1,4 +1,4 @@
-extends Bullet
+extends AtkScene
 
 @onready var sprite: Sprite2D = $Area2D/Sprite2D
 @onready var col_shape: CollisionShape2D = $Area2D/CollisionShape2D
