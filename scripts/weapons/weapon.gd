@@ -1,14 +1,14 @@
 extends Node2D
 class_name Weapon
 
-# isso vai ter que mudar, precisa achar o dono
 @onready var wielder: CharacterBody2D
 
 var atk_sfx: AudioStreamPlayer
+var reload_sfx: AudioStreamPlayer
+
 @export var atk_scene: PackedScene
 @export var atk_cooldown: float = 0.0
 var atk_cooldownTimer: float = 0.0
-
 @export var damage: float = 0.0
 @export var knockback: float = 0.0
 

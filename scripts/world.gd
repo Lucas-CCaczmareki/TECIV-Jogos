@@ -5,12 +5,14 @@ extends Node2D
 @export var chunks_scene: PackedScene
 
 @onready var companion_pos: Marker2D = $CompanionPosition
+@onready var player_pos: Marker2D = $MCPosition
 
 func _ready() -> void:
 	var player = player_scene.instantiate()
 	var chunk_manager = chunks_scene.instantiate()
 	var companion = companion_scene.instantiate()
 	
+	player.global_position = player_pos.global_position
 	companion.global_position = companion_pos.global_position
 	
 	add_child(player)

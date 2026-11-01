@@ -1,8 +1,6 @@
 extends Weapon
 class_name RangedWeapon
 
-@onready var reload_sfx: AudioStreamPlayer = $ReloadSound
-
 var ammo: int
 @export var capacity: int
 @export var bullets_per_shot: int
@@ -22,7 +20,8 @@ signal reload_started(duration: float)
 
 func _ready() -> void:
 	super()
-	atk_sfx = $FireSound
+	atk_sfx = $FireSound # fica aqui pq é definido na weapon
+	reload_sfx = $ReloadSound
 	ammo = capacity
 
 func _reload() -> void:

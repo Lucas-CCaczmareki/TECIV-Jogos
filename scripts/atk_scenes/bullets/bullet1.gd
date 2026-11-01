@@ -1,8 +1,4 @@
-extends Node2D
-
-@export var direction: Vector2
-@export var speed: float = 500.0
-@onready var collision: Area2D = $Area2D
+extends Bullet
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,9 +17,9 @@ func _physics_process(delta: float) -> void:
 
 # it's necessary to receive the node as a parameter because is sent by the signal
 # if not received, it will launch an error. It sends the body/area you collided
-func _process_collision(target: Node2D) -> void:
-	# remove o nodo do script e seus filhos
-	if target.has_method("take_damage"):
-		target.take_damage(10);
-	queue_free();
-	pass
+#func _process_collision(target: Node2D) -> void:
+	## remove o nodo do script e seus filhos
+	#if target.has_method("take_damage"):
+		#target.take_damage(10);
+	#queue_free();
+	#pass

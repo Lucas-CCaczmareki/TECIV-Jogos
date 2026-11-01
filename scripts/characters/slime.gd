@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var life: int = 20
+@onready var life: int = 14
 
 @export var hurtAnimation_duration: 	 float = 0.50
 var 		animation_timer: 		 float = 0

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://hjmt6h4aab6w"]
+
+[ext_resource type="Script" uid="uid://bbaxjasuofaft" path="res://scripts/atk_scenes/bullets/laser.gd" id="1_w3lok"]
+[ext_resource type="Texture2D" uid="uid://bjr0xoh8awvdj" path="res://assets/sprites/bullets/sniper_bullet.png" id="2_w3lok"]
+
+[node name="Laser" type="Node2D" unique_id=1520165187]
+script = ExtResource("1_w3lok")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1723125469]
+collision_layer = 4
+collision_mask = 33
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=1356702804]
+texture = ExtResource("2_w3lok")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1628949581]
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=94194190]
+target_position = Vector2(0, 0)
+collide_with_areas = true

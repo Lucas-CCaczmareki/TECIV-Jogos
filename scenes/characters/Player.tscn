@@ -7,9 +7,11 @@
 [ext_resource type="Script" uid="uid://dwmrypmaab585" path="res://scripts/weapons/weapon_manager.gd" id="4_rpfb3"]
 [ext_resource type="PackedScene" uid="uid://gu66j5k05lat" path="res://scenes/weapons/player_weapons/Revolver.tscn" id="5_gj1sn"]
 [ext_resource type="PackedScene" uid="uid://rkwplteb0sku" path="res://scenes/weapons/player_weapons/Shotgun.tscn" id="5_miirx"]
+[ext_resource type="PackedScene" uid="uid://bqxwexlyqqwgx" path="res://scenes/weapons/Sword.tscn" id="5_mqro2"]
 [ext_resource type="PackedScene" uid="uid://bcggnwpp1jtex" path="res://scenes/weapons/player_weapons/Smg.tscn" id="6_7lms1"]
 [ext_resource type="Texture2D" uid="uid://cv3a438cs1ww1" path="res://assets/sprites/progress bar most rounded over.png" id="6_miirx"]
 [ext_resource type="Texture2D" uid="uid://dtg6f2xoqn6a3" path="res://assets/sprites/progress bar most rounded progress tintable grey.png" id="6_rpfb3"]
+[ext_resource type="PackedScene" uid="uid://7dm1p8334vhx" path="res://scenes/weapons/player_weapons/Sniper.tscn" id="6_ufbvs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkuii"]
 atlas = ExtResource("2_miirx")
@@ -599,7 +601,7 @@ shape = SubResource("RectangleShape2D_ucufk")
 
 [node name="WeaponManager" type="Node2D" parent="." unique_id=928151443 node_paths=PackedStringArray("weapon_pivot")]
 script = ExtResource("4_rpfb3")
-weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("6_7lms1"), ExtResource("5_miirx")])
+weapon_scenes = Array[PackedScene]([ExtResource("5_mqro2"), ExtResource("5_gj1sn"), ExtResource("6_ufbvs"), ExtResource("6_7lms1"), ExtResource("5_miirx")])
 weapon_pivot = NodePath("../WeaponPivot")
 
 [node name="WeaponPivot" type="Node2D" parent="." unique_id=108244274]
@@ -619,4 +621,6 @@ texture_under = ExtResource("6_miirx")
 texture_progress = ExtResource("6_rpfb3")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1274320752]
-zoom = Vector2(0.6, 0.6)
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0

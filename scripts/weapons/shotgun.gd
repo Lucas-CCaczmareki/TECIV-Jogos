@@ -1,6 +1,5 @@
 extends PlayerWeapon
 
-
 # Por enquanto usa o _ready e _process padrão
 # IDEIA: reload has to be equivalent to how many bullets you can put  
 # ex: ammo is 6/8, so the reload time is just for 2 bullets
@@ -11,6 +10,8 @@ func atk() -> void:
 		var bullet: Node2D = atk_scene.instantiate()
 		var half_deg: float = spread_degrees / 2.0
 		var bullet_offset: float = deg_to_rad(randf_range(-half_deg, half_deg))
+		
+		bullet.set_damage(damage)
 		
 		# Faz o sprite da bala nascer na ponta da arma
 		bullet.global_position = tip.global_position

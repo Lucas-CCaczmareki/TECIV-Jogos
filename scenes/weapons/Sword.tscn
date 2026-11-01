@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bqxwexlyqqwgx"]
+
+[ext_resource type="Script" uid="uid://c6hnsnxb46xhw" path="res://scripts/weapons/sword.gd" id="1_feku7"]
+[ext_resource type="Texture2D" uid="uid://cxsafxruve53r" path="res://assets/sprites/weapons/sword.png" id="1_m7h3f"]
+
+[node name="Sword" type="Node2D" unique_id=2029888725]
+script = ExtResource("1_feku7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1908554355]
+texture = ExtResource("1_m7h3f")

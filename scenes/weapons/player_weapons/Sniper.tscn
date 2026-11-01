@@ -1,16 +1,27 @@
 [gd_scene format=3 uid="uid://7dm1p8334vhx"]
 
 [ext_resource type="Texture2D" uid="uid://oifveveyrf4t" path="res://assets/sprites/weapons/sniper.png" id="1_bah1b"]
-[ext_resource type="Script" uid="uid://dxera2y020od8" path="res://scripts/weapons/player_weapons/sniper.gd" id="1_r552j"]
+[ext_resource type="Script" uid="uid://beq0bse8jkvm3" path="res://scripts/weapons/player_weapon.gd" id="1_r552j"]
+[ext_resource type="PackedScene" uid="uid://hjmt6h4aab6w" path="res://scenes/weapons/bullets/Laser.tscn" id="2_wxktd"]
 
-[node name="Sniper" type="Node2D" unique_id=1187860261]
+[node name="Sniper" type="Node2D" unique_id=1187860261 node_paths=PackedStringArray("tip")]
 script = ExtResource("1_r552j")
+capacity = 4
+bullets_per_shot = 1
+spread_degrees = 1.0
+tip = NodePath("Tip")
+reload_cooldown = 1.65
+atk_scene = ExtResource("2_wxktd")
+atk_cooldown = 1.5
+damage = 7.5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1010061817]
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_bah1b")
+offset = Vector2(2, 0)
 
 [node name="Tip" type="Marker2D" parent="." unique_id=1990994416]
-position = Vector2(69, -7)
+position = Vector2(22, -2)
 
 [node name="FireSound" type="AudioStreamPlayer" parent="." unique_id=1544014950]
 
