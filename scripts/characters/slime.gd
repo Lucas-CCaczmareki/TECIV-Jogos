@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var life: int = 14
+@onready var life: int = 35
 
 @export var hurtAnimation_duration: 	 float = 0.50
 var 		animation_timer: 		 float = 0
@@ -14,7 +14,6 @@ func _physics_process(delta: float) -> void:
 		
 		if animation_timer <= 0:
 			was_hurt = false
-			print(life)
 			if life <= 0:
 				queue_free()
 	else:

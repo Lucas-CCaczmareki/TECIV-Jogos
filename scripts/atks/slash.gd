@@ -10,6 +10,9 @@ func _physics_process(_delta: float) -> void:
 
 func _process_collision(target: Node2D) -> void:
 	if target.has_method("take_damage"):
-		print("dmg", damage)
 		target.take_damage(10);
+		
+		# acho que aqui emite um sinal q acertou pra aumentar o combo count
+		#hit.emit()
+
 	pass

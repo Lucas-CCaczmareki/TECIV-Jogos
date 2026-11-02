@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ofvxq6nukbtq"
-path="res://.godot/imported/sword_slash_down.png-f86bc19f4f17819d7ca805d2077a8189.ctex"
+uid="uid://crj75biu35vuf"
+path="res://.godot/imported/sword_slash_combo3.png-c49234b97681a4be92eb0b82e4b84514.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/slashes/sword_slash_down.png"
-dest_files=["res://.godot/imported/sword_slash_down.png-f86bc19f4f17819d7ca805d2077a8189.ctex"]
+source_file="res://assets/sprites/slashes/sword_slash_combo3.png"
+dest_files=["res://.godot/imported/sword_slash_combo3.png-c49234b97681a4be92eb0b82e4b84514.ctex"]
 
 [params]
 

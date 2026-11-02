@@ -4,7 +4,7 @@ class_name WeaponManager
 # @onready var weapon_sprite: Sprite2D = $Weapon
 @export var weapon_scenes: Array[PackedScene]
 @export var weapon_pivot: WeaponPivot
-const MAX_WEAPONS: int = 1
+const MAX_WEAPONS: int = 5
 
 var active_weapon: Weapon
 var weapons: Array[Weapon] = [] # começa vazio

@@ -7,6 +7,8 @@ class_name AtkScene
 @onready var collision: Area2D = $Area2D
 @onready var damage: float
 
+#signal hit()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# connect this signal with the function
@@ -32,6 +34,7 @@ func _process_collision(target: Node2D) -> void:
 	if target.has_method("take_damage"):
 		print("dmg: ", damage)
 		target.take_damage(damage);
+		#hit.emit()
 	queue_free();	
 	pass
 	

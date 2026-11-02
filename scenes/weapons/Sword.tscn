@@ -6,9 +6,11 @@
 
 [node name="Sword" type="Node2D" unique_id=2029888725 node_paths=PackedStringArray("tip")]
 script = ExtResource("1_feku7")
-slight_mov = 5.0
+slight_mov = 10.0
+max_combo = 3
+combo_window = 0.75
 atk_scene = ExtResource("2_x6a7j")
-atk_cooldown = 0.15
+atk_cooldown = 0.35
 damage = 10.0
 tip = NodePath("Tip")
 
@@ -18,4 +20,4 @@ rotation = 2.3561945
 texture = ExtResource("1_m7h3f")
 
 [node name="Tip" type="Marker2D" parent="." unique_id=1201221875]
-position = Vector2(22, 0)
+position = Vector2(30, 0)

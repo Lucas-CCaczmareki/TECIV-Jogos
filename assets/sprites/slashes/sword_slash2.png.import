@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwdgcw01oi7n6"
-path="res://.godot/imported/sword_slash_right.png-dc19034ec3bddf48c11c3914bc2d6ef5.ctex"
+uid="uid://b5jn2p318y3yd"
+path="res://.godot/imported/sword_slash2.png-056883f8cc74c8a97f710b1a0d1ddf4e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/slashes/sword_slash_right.png"
-dest_files=["res://.godot/imported/sword_slash_right.png-dc19034ec3bddf48c11c3914bc2d6ef5.ctex"]
+source_file="res://assets/sprites/slashes/sword_slash2.png"
+dest_files=["res://.godot/imported/sword_slash2.png-056883f8cc74c8a97f710b1a0d1ddf4e.ctex"]
 
 [params]
 

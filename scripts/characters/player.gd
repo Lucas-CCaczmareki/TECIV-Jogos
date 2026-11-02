@@ -34,8 +34,11 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload
+	
 	#for w in weapon_manager.weapons:
 		#w.reload_started.connect(_reload_started)
+		
+		
 		#weapon.reload_finish.connect()
 	pass
 	
