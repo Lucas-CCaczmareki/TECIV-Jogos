@@ -8,6 +8,8 @@ var atk_sfx: AudioStreamPlayer
 var reload_sfx: AudioStreamPlayer
 
 @export var atk_scene: PackedScene
+var atkInstance: Node2D
+
 @export var atk_cooldown: float = 0.0
 var atk_cooldownTimer: float = 0.0
 @export var damage: float = 0.0
@@ -34,6 +36,10 @@ func _can_atk() -> bool:
 	# depois vai empilhando os blockeds com or (nas subclasses)
 	# dessa maneira a própria arma gerencia o disparo
 	return (not (blocked_by_action or blocked_by_cooldown))
+
+func _atk_action() -> bool:
+	print("does nothing. must be overwritten")
+	return false
 
 func atk() -> void:
 	print("does nothing. must be overwritten")

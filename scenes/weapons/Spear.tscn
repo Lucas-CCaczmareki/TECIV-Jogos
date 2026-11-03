@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bcj41mmybbnux"]
+
+[ext_resource type="Texture2D" uid="uid://c4qef0jrfes70" path="res://assets/sprites/weapons/spear.png" id="1_ayolc"]
+
+[node name="Spear" type="Node2D" unique_id=1907825551]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1028273737]
+position = Vector2(18, 0)
+rotation = 0.7853982
+texture = ExtResource("1_ayolc")
+
+[node name="Tip" type="Marker2D" parent="." unique_id=938623604]

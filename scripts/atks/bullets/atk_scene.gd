@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 func _process_collision(target: Node2D) -> void:
 	# remove o nodo do script e seus filhos
 	if target.has_method("take_damage"):
-		print("dmg: ", damage)
+		#print("dmg: ", damage)
 		target.take_damage(damage);
 		#hit.emit()
 	queue_free();	

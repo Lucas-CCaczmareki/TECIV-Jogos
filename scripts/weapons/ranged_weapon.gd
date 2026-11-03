@@ -22,6 +22,16 @@ func _ready() -> void:
 	reload_sfx = $ReloadSound
 	ammo = capacity
 
+func _process(delta: float) -> void:
+	_atk_cooldown(delta) # 'delta' is the elapsed time since the previous frame.
+	_reload_cooldown(delta)
+	
+	if _atk_action() and _can_atk():
+		atk()
+		
+	if _reload_action():
+		_reload() #activate the cooldown to reload and set ammo
+
 func _reload() -> void:
 	if reload_sfx:
 		reload_sfx.play()
@@ -42,6 +52,10 @@ func _reload_cooldown(delta: float) -> void:
 			ammo_changed.emit(ammo, capacity)
 			blocked_by_reload = false
 	pass
+
+func _reload_action() -> bool:
+	print("does nothing, must be overwritten")
+	return false
 
 func _can_atk() -> bool:
 	# sobre escreve a função, fica mais simples de ler

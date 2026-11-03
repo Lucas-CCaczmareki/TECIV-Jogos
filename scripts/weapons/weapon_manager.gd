@@ -4,7 +4,7 @@ class_name WeaponManager
 # @onready var weapon_sprite: Sprite2D = $Weapon
 @export var weapon_scenes: Array[PackedScene]
 @export var weapon_pivot: WeaponPivot
-const MAX_WEAPONS: int = 5
+const MAX_WEAPONS: int = 4
 
 var active_weapon: Weapon
 var weapons: Array[Weapon] = [] # começa vazio
@@ -25,6 +25,8 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
+	# TODO: eu preciso bloquear a troca de arma se o cara tiver recém instanciando uma atkscene
+	# tem um bug que a atk scene nunca é liberada se eu fizer isso
 	if Input.is_action_just_pressed("switch_weapon"):
 		switch_weapon(active_weapon_idx + 1);
 

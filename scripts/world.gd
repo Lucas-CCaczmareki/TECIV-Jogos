@@ -22,7 +22,7 @@ func _ready() -> void:
 	var weapon_manager = player.get_node("WeaponManager")
 	var weapon = weapon_manager.get_weapon()
 	
-	#weapon_manager.weapon_changed.connect($HudManager.bind_weapon)
-	#$HudManager.bind_weapon(weapon)
+	weapon_manager.weapon_changed.connect($HudManager.bind_weapon)
+	$HudManager.bind_weapon(weapon)
 	
 	pass # Replace with function body.

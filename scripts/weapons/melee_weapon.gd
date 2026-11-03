@@ -7,35 +7,41 @@ var combo_count: int = 1
 var comboTimer: float = 0.0
 var in_combo: bool = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	sprite = $Sprite2D
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:	
 	_atk_cooldown(delta) # 'delta' is the elapsed time since the previous frame.
 	
 	if in_combo:
-		#print(comboTimer)
 		comboTimer -= delta
 		if comboTimer <= 0:
 			combo_count = 1
 			comboTimer = 0
 			in_combo = false
 			
-	if Input.is_action_just_pressed("fire") and _can_atk():
+	if _atk_action() and _can_atk():
 		atk()
 		_combo_count()
 		wielder.set_can_move(false) 
 	pass
 
+func _atk_cooldown(delta: float) -> void:
+	if blocked_by_cooldown:
+		atk_cooldownTimer -= delta
+		if atk_cooldownTimer <= 0:
+			blocked_by_cooldown = false
+			
+			# TODO: eu preciso padronizar se weapon q cuida de acabar a atk scene ou se a atk scene se tira da arvore mesmo
+			atkInstance.queue_free()  
+			wielder.set_can_move(true)
+
+
 func _combo_count() -> void:
 	# se entrou aqui significa que acertou um hit
 	comboTimer = combo_window # inicia o timer
 	in_combo = true
-	
-	#print(combo_count)
 	
 	if combo_count < max_combo: 
 		combo_count += 1
@@ -44,3 +50,7 @@ func _combo_count() -> void:
 
 func set_combo_count(value: int) -> void:
 	combo_count = value
+	
+func _atk_action() -> bool:
+	print("does nothing. must be overwritten")
+	return false

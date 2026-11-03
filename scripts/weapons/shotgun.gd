@@ -7,7 +7,8 @@ extends PlayerWeapon
 func atk() -> void:
 	atk_sfx.play()
 	for i in bullets_per_shot:
-		var bullet: Node2D = atk_scene.instantiate()
+		# aqui blz ser bullet e n usar atk_instance, já q n é uma instancia única
+		var bullet: Node2D = atk_scene.instantiate() 
 		var half_deg: float = spread_degrees / 2.0
 		var bullet_offset: float = deg_to_rad(randf_range(-half_deg, half_deg))
 		
