@@ -5,7 +5,9 @@ class_name AtkScene
 @export var direction: Vector2
 @export var speed: float = 500.0
 @onready var collision: Area2D = $Area2D
+
 @onready var damage: float
+@onready var knockback_force: float
 
 #signal hit()
 
@@ -34,9 +36,17 @@ func _process_collision(target: Node2D) -> void:
 	if target.has_method("take_damage"):
 		#print("dmg: ", damage)
 		target.take_damage(damage);
+	
+	if target.has_method("apply_knockback"):
+		# simplesmente multiplica a direção (1,0) pela força (200) -> (200,0)
+		target.apply_knockback(direction * knockback_force)
+	
 		#hit.emit()
 	queue_free();	
 	pass
 	
 func set_damage(dmg: float) -> void:
 	damage = dmg
+	
+func set_knockback_force(force: float) -> void:
+	knockback_force = force

@@ -9,19 +9,21 @@ script = ExtResource("1_r552j")
 capacity = 4
 bullets_per_shot = 1
 spread_degrees = 1.0
-tip = NodePath("Tip")
 reload_cooldown = 1.65
 atk_scene = ExtResource("2_wxktd")
 atk_cooldown = 1.5
 damage = 7.5
+knockback_force = 165.0
+tip = NodePath("Tip")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1010061817]
+position = Vector2(9, 0)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_bah1b")
 offset = Vector2(2, 0)
 
 [node name="Tip" type="Marker2D" parent="." unique_id=1990994416]
-position = Vector2(22, -2)
+position = Vector2(31, -2)
 
 [node name="FireSound" type="AudioStreamPlayer" parent="." unique_id=1544014950]
 

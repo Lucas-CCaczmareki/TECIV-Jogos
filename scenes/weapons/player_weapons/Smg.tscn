@@ -10,17 +10,19 @@ capacity = 30
 bullets_per_shot = 1
 spread_degrees = 30.0
 speed_variation = 0.1
-tip = NodePath("Tip")
 reload_cooldown = 1.5
 atk_scene = ExtResource("2_gmuok")
 atk_cooldown = 0.15
 damage = 1.5
+knockback_force = 80.0
+tip = NodePath("Tip")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1458100896]
+position = Vector2(5, 1)
 texture = ExtResource("1_hna0a")
 
 [node name="Tip" type="Marker2D" parent="." unique_id=491863038]
-position = Vector2(14, -3)
+position = Vector2(19, -2)
 
 [node name="FireSound" type="AudioStreamPlayer" parent="." unique_id=1015167347]
 

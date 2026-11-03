@@ -2,6 +2,14 @@ extends MeleeWeapon
 
 @export var slight_mov: float
 
+# só pra eu conseguir testar a melee com o player
+var ammo: int
+@export var capacity: int
+@export var bullets_per_shot: int
+signal reload_started(duration: float)
+signal ammo_changed(current: int, max: int)
+
+
 func atk() -> void:
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
@@ -13,6 +21,7 @@ func atk() -> void:
 	
 	atkInstance = atk_scene.instantiate()
 	atkInstance.set_damage(damage)
+	atkInstance.set_knockback_force(knockback_force)
 	
 	if abs(distance.y) >= abs(distance.x):
 		if mouse_pos.y < pivot_pos.y: 
@@ -40,7 +49,7 @@ func atk() -> void:
 	# as rotações e posições da atk scene vem depois do movimento do personagem
 	atkInstance.global_position = tip.global_position
 	atkInstance.global_rotation = tip.global_rotation
-	atkInstance.scale.x *= -1
+	#atkInstance.scale.x *= -1
 	#slash.hit.connect(_combo_count, CONNECT_ONE_SHOT)
 	
 	var animation: AnimatedSprite2D = atkInstance.get_node("Area2D/AnimatedSprite2D")

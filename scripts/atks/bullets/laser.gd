@@ -4,8 +4,9 @@ extends AtkScene
 @onready var col_shape: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var ray: RayCast2D = $RayCast2D
 
+# TODO: projetar sistema de max_range/lifetime pra bullets
 @export var thickness: float = 7.5
-@export var max_range: float = 800
+@export var max_range: float = 1200 # isso aqui tinha que virar padrão pra bullets
 var length: float = 0.0
 
 func _ready() -> void:
@@ -64,4 +65,9 @@ func _process_collision(target: Node2D) -> void:
 	if target.has_method("take_damage"):
 		#print("dmg", damage)
 		target.take_damage(10);
+		
+	if target.has_method("apply_knockback"):
+		# simplesmente multiplica a direção (1,0) pela força (200) -> (200,0)
+		target.apply_knockback(direction * knockback_force)
+		
 	pass

@@ -12,6 +12,7 @@ combo_window = 0.75
 atk_scene = ExtResource("2_x6a7j")
 atk_cooldown = 0.35
 damage = 10.0
+knockback_force = 150.0
 tip = NodePath("Tip")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1908554355]

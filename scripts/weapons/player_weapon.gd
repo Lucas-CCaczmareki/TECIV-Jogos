@@ -22,8 +22,11 @@ func atk() -> void:
 	atkInstance.global_position = tip.global_position
 	atkInstance.global_rotation = global_rotation + bullet_offset
 	
-	# instancia a bala ligada na SceneTree atual
+	# passa os atributos necessários pra atk scene
 	atkInstance.set_damage(damage)
+	atkInstance.set_knockback_force(knockback_force)
+	
+	# instancia a bala ligada na SceneTree atual
 	get_tree().current_scene.add_child(atkInstance)
 	ammo = ammo - 1
 	ammo_changed.emit(ammo, capacity)

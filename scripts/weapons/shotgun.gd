@@ -13,6 +13,7 @@ func atk() -> void:
 		var bullet_offset: float = deg_to_rad(randf_range(-half_deg, half_deg))
 		
 		bullet.set_damage(damage)
+		bullet.set_knockback_force(knockback_force)
 		
 		# Faz o sprite da bala nascer na ponta da arma
 		bullet.global_position = tip.global_position

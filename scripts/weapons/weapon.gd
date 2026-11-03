@@ -13,7 +13,7 @@ var atkInstance: Node2D
 @export var atk_cooldown: float = 0.0
 var atk_cooldownTimer: float = 0.0
 @export var damage: float = 0.0
-@export var knockback: float = 0.0
+@export var knockback_force: float = 0.0
 @export var tip: Marker2D
 
 var blocked_by_action: bool = false

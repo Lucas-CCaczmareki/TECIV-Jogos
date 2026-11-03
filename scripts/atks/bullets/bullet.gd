@@ -11,15 +11,3 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 	pass
-
-# O próprio node Area2D da bullet scene dispara o sinal e me envia como parãmetro 
-# o nodo que entrou na área de colisão
-
-# it's necessary to receive the node as a parameter because is sent by the signal
-# if not received, it will launch an error. It sends the body/area you collided
-#func _process_collision(target: Node2D) -> void:
-	## remove o nodo do script e seus filhos
-	#if target.has_method("take_damage"):
-		#target.take_damage(10);
-	#queue_free();
-	#pass
