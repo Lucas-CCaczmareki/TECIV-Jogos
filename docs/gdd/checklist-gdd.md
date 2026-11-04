@@ -22,7 +22,7 @@ ISSO VAI VIRAR UM PROJECT NO GITHUB, P/ MANTER HISTÓRICO VIA ISSUES
 
 ## 3. Personagens
 - [ ] Protagonista (habilidades, motivação, arco)
-- [ ] NPCs e antagonistas principais
+- [ ] Antagonista principal
 - [ ] Inimigos/enemies (tipos, comportamento, IA básica)
 - [ ] Progressão do personagem (upgrades, níveis, skill tree)
 

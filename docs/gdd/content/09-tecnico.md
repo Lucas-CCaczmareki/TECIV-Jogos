@@ -18,5 +18,4 @@ Godot
 - Tutorial integrado ao primeiro chunk e acessível novamente pelo menu de pause.
 - Armas novas desbloqueáveis
 - Ações desbloqueáveis do companion
-- Boss intermediário
 - Boss final

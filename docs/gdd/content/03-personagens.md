@@ -1,5 +1,6 @@
-## Protagonista: 
-<!--falta preencher motivação, arco, imagem antes/depois etc.-->
+## Protagonista
+
+Aventureiro respeitado do reino, enviado pelo Rei para recuperar um artefato místico na torre. Morre ao cruzar o portal, desperta como esqueleto e passa a depender do lobo para sobreviver. Identidade, motivação, arco e voz em [Protagonista](../narrative/02-protagonista.md).
 
 **Habilidades:** 
 - arma modular (ver [Arma modular](02-gameplay.md#arma-modular)); 
@@ -12,8 +13,9 @@
 </div>
 
 ---
-## Companion: 
-<!-- ações disponíveis, forma de controle, o que é, de onde veio, qual o objetivo? -->
+## Companion
+
+Lobo espectral, fragmento de uma sentinela espiritual que mantinha o equilíbrio da torre. Foi despedaçado pela corrupção do Rei e reativado quando o protagonista o resgata. Seu objetivo é restaurar a ordem da torre, o que o leva a apoiar a destruição do artefato. Origem, natureza e personalidade em [Lobo](../narrative/03-lobo.md).
 
 **Ações disponíveis** (via menu contextual):
 - Ações base: mover, esquivar (dash/rolagem), atacar, ficar parado (desativa a IA).
@@ -28,16 +30,13 @@
 ---
 ## Boss final
 
-Não existem NPCs na versão da feira. O único antagonista com função narrativa e de combate é o boss final.
-<!-- (resumo funcional, detalhe de motivação vai em `docs/narrativa/`) --> 
+O Rei Corrompido: o monarca que enviou o protagonista em missão, perdido no tempo e transformado pela corrupção. É o único antagonista com função narrativa e de combate. Motivação e manifestação na luta em [Vilão principal](../narrative/05-vilao-principal.md).
 
 ---
 ## Inimigos comuns: 
-<!-- tipos, comportamento, IA básica -->
 Tipos, comportamento e atributos detalhados em [Inimigos](02-gameplay.md#inimigos). 
 
 ---
 ## Progressão de personagem (upgrades, skill tree), se houver
 
----
-## Boss final
+Não há progressão permanente entre partidas. As melhorias vêm de power-ups temporários e permanentes da partida, descritos em [Itens](02-gameplay.md#itens).
