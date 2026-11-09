@@ -18,4 +18,7 @@ script = ExtResource("4_d1c63")
 ammo_hud_scene = ExtResource("5_1lgw5")
 
 [node name="CompanionPosition" type="Marker2D" parent="." unique_id=709840001]
-position = Vector2(104, 97)
+position = Vector2(289, 253)
+
+[node name="MCPosition" type="Marker2D" parent="." unique_id=1024451636]
+position = Vector2(315, 402)

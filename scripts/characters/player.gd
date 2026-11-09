@@ -18,8 +18,10 @@ var can_dodge: bool = true
 
 var is_reloading: bool = false
 
+var can_move: bool = true
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var weapon_pivot: WeaponPivot = $WeaponPivot
+@onready var weapon_manager: WeaponManager = $WeaponManager
 @onready var reload_bar: TextureProgressBar = $ReloadBar
 
 signal dodge_started
@@ -31,15 +33,22 @@ func _enter_tree() -> void:
 	add_to_group("player") 
 
 func _ready() -> void:
-	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload
-	for w in weapon_pivot.weapons:
+	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload	
+	for w in weapon_manager.weapons:
 		w.reload_started.connect(_reload_started)
+		
 		#weapon.reload_finish.connect()
-
+	pass
+	
 func _process(delta: float) -> void:
 	_update_reloadBar(delta)
 
 func _physics_process(delta: float) -> void: # called ~60x times per sec
+	if not can_move:
+		velocity = Vector2.ZERO
+		move_and_slide()  # opcional, mas mantém a física consistente
+		return
+	
 	# WASD movement
 	# Action strenght will return a value between [0, 1] if pressed
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -53,7 +62,6 @@ func _physics_process(delta: float) -> void: # called ~60x times per sec
 	_update_animation()
 
 func _reload_started(reload_time: float) -> void:
-	print("entrei")
 	reload_bar.value = 0
 	reload_bar.min_value = 0
 	reload_bar.max_value = reload_time
@@ -88,7 +96,7 @@ func _process_dodge(delta: float) -> void:
 			dodgeCooldown_timer = dodge_cooldown
 			dodge_started.emit()
 			can_dodge = false
-			weapon_pivot.set_weapon_visibility(false)
+			weapon_manager.set_weapon_visibility(false)
 			
 			last_direction = _get_dodge_animation_direction(input_vector)
 			is_dodging = true
@@ -98,7 +106,7 @@ func _process_dodge(delta: float) -> void:
 		if dodge_timer <= 0:
 			is_dodging = false
 			dodge_ended.emit()
-			weapon_pivot.set_weapon_visibility(true)
+			weapon_manager.set_weapon_visibility(true)
 			
 		velocity = dodge_direction * dodge_speed
 	
@@ -136,3 +144,6 @@ func _update_animation() -> void:
 		else: # is idle
 			sprite.play("idle_" + last_direction)
 	
+	
+func set_can_move(value: bool) -> void:
+	can_move = value

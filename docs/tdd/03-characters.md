@@ -2,6 +2,11 @@
 
 **Cena:** `scenes/characters/Player.tscn` · **Script:** `scripts/player.gd` (`CharacterBody2D`)
 
+# ABSURDAMENTE NECESSÁRIO
+separar as responsas dos scrippts, hj o script do player faz 3 ou 4 funções sozinho
+era ok quando eu tava aprendendo a engine, agr vou ter que organizar e fazer essa porra direito
+vou focar em ajeitar o sistema de armas primeiro, então dps eu volto e despoluo e planejo direito essa seção do tdd
+
 ## [PLANEJADO] Ciclo de vida
 
 O `Player` é instanciado **uma vez** pelo `World` e vive durante todo o jogo. Como é filho do `World` (e não de uma chunk), **sobrevive à troca de chunks** sem precisar salvar/restaurar dados. O `Companion` segue a mesma lógica.

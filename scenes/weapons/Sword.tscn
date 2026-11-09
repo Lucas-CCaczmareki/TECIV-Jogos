@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bqxwexlyqqwgx"]
+
+[ext_resource type="Script" uid="uid://c6hnsnxb46xhw" path="res://scripts/weapons/test_sword.gd" id="1_feku7"]
+[ext_resource type="Texture2D" uid="uid://cxsafxruve53r" path="res://assets/sprites/weapons/sword.png" id="1_m7h3f"]
+[ext_resource type="PackedScene" uid="uid://cb6oiy5hrpo4l" path="res://scenes/atk_scenes/Slash.tscn" id="2_x6a7j"]
+
+[node name="Sword" type="Node2D" unique_id=2029888725 node_paths=PackedStringArray("tip")]
+script = ExtResource("1_feku7")
+slight_mov = 10.0
+max_combo = 3
+combo_window = 0.75
+atk_scene = ExtResource("2_x6a7j")
+atk_cooldown = 0.35
+damage = 10.0
+knockback_force = 150.0
+tip = NodePath("Tip")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1908554355]
+position = Vector2(7, 0)
+rotation = 2.3561945
+texture = ExtResource("1_m7h3f")
+
+[node name="Tip" type="Marker2D" parent="." unique_id=1201221875]
+position = Vector2(30, 0)
