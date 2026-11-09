@@ -1,7 +1,6 @@
 # 04 — Sistema de armas
 
 **Arquivos:** `scripts/weapons/weapon.gd`, `weapon_pivot.gd`, `revolver.gd`, `rifle.gd`, `bullets/bullet.gd`
-
 **Cenas:** `scenes/weapons/{Revolver,Rifle,Shotgun}.tscn`, `scenes/weapons/bullets/Bullet.tscn`
 
 ## Visão geral
@@ -47,10 +46,8 @@ Bullet (Node2D)            [bullet.gd]
     ├── Sprite2D
     └── CollisionShape2D   (círculo)
 ```
-- Ao colidir, a própria bala chama `take_damage` no alvo (se ele tiver o método) e em seguida se dá `queue_free()`. Parede não tem `take_damage`, então só destrói a bala.
+- Ao colidir, a própria AtkScene gerencia o seu processo de colisão. Bullets se movem pelo mapa no eixo x da direção onde foram instanciadas, e ao colidir chamam take_damage e se destroem. Parede não tem `take_damage`, então só destrói a bala.
 - `@export var lifetime` no script da bala, para o caso em que ela não acerta nada.
-- Flag interna `spent` (variável comum, sem `@export`) para não causar dano em dois alvos no mesmo frame.
-
 
 ### Divisão de papéis
 
@@ -73,10 +70,11 @@ flowchart LR
     - Segura a arma ativa do personagem e aponta pro alvo (ex: no caso do player é o mouse).
     - As scenes de arma são instanciadas como filhas do Pivot.
 
-- `WeaponSwitcher`
-    - Responsável pela lógica de gerenciamento da scenes de armas. 
+- `WeaponManager`
     - Cuida do sistema de equip e troca de armas no "Player".
-    - Preciso descrever melhor oq ela vai fazer na prática e como vai se conectar com os outros sistemas.
+    - Responsável pela lógica de gerenciamento da scenes de armas (instantiate e free). 
+    - Manipula diretamente o WeaponPivot do player. Setando o alvo para rotação
+    - 
 
 ## [OK] Armas concretas
 
@@ -84,8 +82,8 @@ flowchart LR
 |---|---|---|---|
 | Revolver | `revolver.gd` | Player | [OK] capacidade 6, cooldown 0.28 s, reload 1.5 s | 
 | Shotgun | `shotgun.gd` | Player | [OK] capacidade 8, cooldown 1.0s, reload 3.0s, pellets 6, spread_degree 20, speed_variation 0.20 |
-| Smg | `smg.gd` | Player | [PARCIAL] cena e sprite existem, script em branco |
-| Sniper | `sniper.gd` | Player | [PARCIAL] cena e sprite existem, script em branco |
+| Smg | `smg.gd` | Player | [OK] capacidade 30, cooldown x.xs, reload x.xs, spread_degree x. |
+| Sniper | `sniper.gd` | Player | [OK] capacidade 4, cooldown x.xs, reload x.xs, spread_degree x. |
 
 Cada weapon é uma scene própria. Gerencia a maneira que instancia sua AtkScene e contém os atributos de dano e comportamento específico.
 
@@ -96,20 +94,26 @@ Cada weapon é uma scene própria. Gerencia a maneira que instancia sua AtkScene
 
 ### No caso dos outros Characters
 - Caso utilize arma, segue a mesma lógica do player. WeaponPivot cuida da rotação do sprite, e segue lógica do sistema de armas
-- Caso não utilize arma (dano por contado, ataque melee). O próprio Character atua como "Weapon" e instancia sua atk scene.
+- Caso não utilize arma (dano por contato ou ataque melee). O próprio Character atua como "Weapon" e instancia sua atk scene.
 
 ## AtkScene
-Como as atks scenes interagem com os donos?
-O que acontece?
-Qual parte é responsável pelo quê?
-Isso ainda precisa ser pensado e feito
+
+### Classe de scripts
+```mermaid
+flowchart TD
+    A((AtkScene)) --> B((Bullet))
+    A --> C((Laser))
+    A --> D((Slash))
+    A --> E((Explosion))
+    A --> F((...))
+```
+
+Cada ataque é instanciado pela arma como uma cena separada.
+Inimigos de colisão são tratados como arma e cena de ataque em si.
 
 ## Em aberto
-- [ABERTO] Renomear o `fire()` interno para `attack()`.
-- [ABERTO] Estrutura da hitbox do `MeleeSwing` (ver [05](05-colisao-combate.md)).
-- [ABERTO] Munição e reload de inimigos: infinita, ou usam o mesmo sistema do Player?
-- [ABERTO] Onde os ataques nascem na árvore (hoje `current_scene`, ver acima).
 
+- [ABERTO] Munição e reload de inimigos: infinita, ou usam o mesmo sistema do Player?
 ## Pra resolver
 - [RESOLVER] A bala é filha de `get_tree().current_scene` (o `World`), **não** da arma nem da chunk. Consequência: ela não se move junto com o player e não some se a chunk em que nasceu for descarregada. Ver também o alerta de `current_scene` em [01](01-main-scene-tree.md#observações-do-código).
 - [RESOLVER] Isso também implica que a scene da bala precisa ser destruída. Caso contrário pode acabar enchendo a memória.

@@ -12,9 +12,14 @@ https://zerie.itch.io/tiny-rpg-character-asset-pack
 https://zerie.itch.io/tiny-rpg-character-asset-pack-02
 https://admurin.itch.io/enemy-galore-1
 https://oboropixel.itch.io/characters-animations-asset-pack
+https://seartsy.itch.io/spear-knight
 
 ## weapons:
 https://ranitaya-studios.itch.io/ranitayas-guns-pack-16-pixelart-guns
+https://umoral.itch.io/spears-pack
+https://cosmiconion.itch.io/32x32-medieval-weapons-pixel-art-pack
+https://shield-arc.itch.io/pixel-swords-and-spears
+https://snoopethduckduck.itch.io/swords
 
 ## bullets:
 https://bdragon1727.itch.io/fire-pixel-bullet-16x16

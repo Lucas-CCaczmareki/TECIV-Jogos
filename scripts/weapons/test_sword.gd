@@ -9,6 +9,10 @@ var ammo: int
 signal reload_started(duration: float)
 signal ammo_changed(current: int, max: int)
 
+func _ready() -> void:
+	super()
+	wielder.dodge_started.connect(func(): blocked_by_action = true)
+	wielder.dodge_ended.connect(func(): blocked_by_action = false)
 
 func atk() -> void:
 	var tween = create_tween()

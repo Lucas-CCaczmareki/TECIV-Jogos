@@ -25,6 +25,7 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
+	weapon_pivot.set_aim(get_global_mouse_position())
 	# TODO: eu preciso bloquear a troca de arma se o cara tiver recém instanciando uma atkscene
 	# tem um bug que a atk scene nunca é liberada se eu fizer isso
 	if Input.is_action_just_pressed("switch_weapon"):

@@ -8,6 +8,8 @@ extends CharacterBody2D
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 @onready var atk_sfx: AudioStreamPlayer = $AttackSound
 
+@export var weapon_pivot: WeaponPivot
+@export var weapon_scene: PackedScene
 
 var direction: Vector2 = Vector2.ZERO
 var distance: float = 0.0
@@ -18,7 +20,18 @@ var animation_cooldown: float = 0.2
 # ao invés de percorrer tudo. Acelera o processo quando ter várias comparações
 var current_animation: StringName = &"" 
 
+func _ready() -> void:
+	# TODO: não tá funcionando, vou ter que arrumar. Enfim, ver oq tem que fazer agr
+	# acho que o principal é começar a focar nos scripts dos personagens ou das atk scenes
+	# e fazer as classes separadinhas direito
+	
+	#var weapon := weapon_scene.instantiate()
+	#weapon_pivot.add_child(weapon)
+	#weapon_pivot.set_aim(get_global_mouse_position())
+	pass
+	
 # TODO: collision shape should change depending on which animation the companion is having
+# TODO: o weapon pivot também vai ter que mudar dependendo de pra que lado o companion tá
 func _physics_process(delta: float) -> void:
 	animation_timer -= delta
 	if player == null: return
