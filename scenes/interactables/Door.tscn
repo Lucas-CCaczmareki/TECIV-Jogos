@@ -1,24 +1,112 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://dwh7o3l2ka04t"]
 
-[ext_resource type="Script" path="res://scripts/interactables/door.gd" id="1_door"]
+[ext_resource type="Script" uid="uid://ch8mxashy7nj2" path="res://scripts/interactables/door.gd" id="1_door"]
+[ext_resource type="Texture2D" uid="uid://2nsgr54p5kqr" path="res://assets/sprites/tiles/doors_lever_chest_animation.png" id="2_lwuoo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwuoo"]
+atlas = ExtResource("2_lwuoo")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q377"]
+atlas = ExtResource("2_lwuoo")
+region = Rect2(96, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vml38"]
+atlas = ExtResource("2_lwuoo")
+region = Rect2(96, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffm35"]
+atlas = ExtResource("2_lwuoo")
+region = Rect2(96, 144, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x04xi"]
+atlas = ExtResource("2_lwuoo")
+region = Rect2(96, 192, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_63kva"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwuoo")
+}],
+"loop": 1,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8q377")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vml38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffm35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x04xi")
+}],
+"loop": 0,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lefu"]
+size = Vector2(7.125, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interaction"]
+size = Vector2(32, 7.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
-size = Vector2(48, 96)
+size = Vector2(19, 26)
 
-[node name="Door" type="Area2D"]
+[node name="Door" type="Area2D" unique_id=319017114]
+y_sort_enabled = true
 collision_layer = 256
 collision_mask = 6
 script = ExtResource("1_door")
 
-[node name="Visual" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-24, -48, 24, -48, 24, 48, -24, 48)
-color = Color(0.75, 0.2, 0.15, 1)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1264180357]
+position = Vector2(0, -24)
+sprite_frames = SubResource("SpriteFrames_63kva")
+animation = &"open"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_door")
+[node name="InteractionPrompt" type="Label" parent="." unique_id=1141267317]
+z_index = 1
+offset_left = -30.0
+offset_top = -42.0
+offset_right = 33.0
+offset_bottom = -25.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "abrir porta"
+horizontal_alignment = 1
 
-[node name="BlockingBody" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="allways_on_collision" type="StaticBody2D" parent="." unique_id=357247740]
+position = Vector2(0, -24)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BlockingBody"]
+[node name="allways_on_collision" type="CollisionShape2D" parent="allways_on_collision" unique_id=1779804021]
+position = Vector2(-12.4375, 7)
+shape = SubResource("RectangleShape2D_8lefu")
+
+[node name="allways_on_collision2" type="CollisionShape2D" parent="allways_on_collision" unique_id=1011661276]
+position = Vector2(13, 7)
+shape = SubResource("RectangleShape2D_8lefu")
+
+[node name="InteractionShape2D" type="CollisionShape2D" parent="." unique_id=290693942]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_interaction")
+
+[node name="InteractionShape2D2" type="CollisionShape2D" parent="." unique_id=1914699264]
+position = Vector2(0, -36)
+shape = SubResource("RectangleShape2D_interaction")
+
+[node name="BlockingBody" type="StaticBody2D" parent="." unique_id=1189886663]
+position = Vector2(0, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlockingBody" unique_id=1564308407]
+position = Vector2(0.5, 4)
 shape = SubResource("RectangleShape2D_door")

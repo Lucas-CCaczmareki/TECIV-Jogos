@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d0qrnpy1453bv" path="res://scenes/world/Chunk_manager.tscn" id="6_chunkmgr"]
 
 [node name="World" type="Node2D" unique_id=205870259]
+y_sort_enabled = true
 script = ExtResource("1_32lhk")
 player_scene = ExtResource("2_7g83o")
 companion_scene = ExtResource("3_hlk0d")

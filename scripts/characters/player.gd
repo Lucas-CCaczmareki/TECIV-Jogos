@@ -1,16 +1,16 @@
 extends CharacterBody2D
 
 # @export makes the var controllable with inspector
-@export var speed: float = 240.0 
-@export var dodge_speed: float = speed*2.3
+@export var speed: float = 240.0
+@export var dodge_speed: float = speed * 2.3
 
-@export var dodge_duration: 	 float = 0.60
-var 		dodge_timer: 		 float = 0
-@export var dodge_cooldown: 	 float = 0.20 # the entire time of dodge_duration + cooldown
-var 		dodgeCooldown_timer: float = 0
+@export var dodge_duration: float = 0.60
+var dodge_timer: float = 0
+@export var dodge_cooldown: float = 0.20 # the entire time of dodge_duration + cooldown
+var dodgeCooldown_timer: float = 0
 
-var input_vector : Vector2 = Vector2.ZERO # Vector2 is similar to std::pair<float, float>
-var last_direction: String = "down" 
+var input_vector: Vector2 = Vector2.ZERO # Vector2 is similar to std::pair<float, float>
+var last_direction: String = "down"
 
 var dodge_direction: Vector2 = Vector2.ZERO
 var is_dodging: bool = false
@@ -23,6 +23,7 @@ var can_move: bool = true
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var weapon_manager: WeaponManager = $WeaponManager
 @onready var reload_bar: TextureProgressBar = $ReloadBar
+@onready var weapon_pivot: Node2D = $WeaponPivot
 
 signal dodge_started
 signal dodge_ended
@@ -30,7 +31,7 @@ signal dodge_ended
 func _enter_tree() -> void:
 	# adiciona uma etiqueta no nodo quando ele entra na scene tree
 	# torna mais fácil pra nodos filhos encontrarem a referência e se conectar aos signals emitidos
-	add_to_group("player") 
+	add_to_group("player")
 
 func _ready() -> void:
 	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload	
@@ -46,13 +47,13 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void: # called ~60x times per sec
 	if not can_move:
 		velocity = Vector2.ZERO
-		move_and_slide()  # opcional, mas mantém a física consistente
+		move_and_slide() # opcional, mas mantém a física consistente
 		return
 	
 	# WASD movement
 	# Action strenght will return a value between [0, 1] if pressed
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") # -y = up, + y = down	
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up") # -y = up, + y = down
 	input_vector = input_vector.normalized()
 	
 	velocity = input_vector * speed # each direction is multiplied by speed
@@ -77,7 +78,7 @@ func _update_reloadBar(delta: float) -> void:
 	
 #func _switch_weapon()
 
-func _get_dodge_animation_direction(input_vector: Vector2) -> String: 
+func _get_dodge_animation_direction(input_vector: Vector2) -> String:
 	# first evaluates the X direction, that means diagonal rolls take this animation
 	if input_vector.x != 0:
 		return "right" if input_vector.x > 0 else "left"
@@ -101,7 +102,7 @@ func _process_dodge(delta: float) -> void:
 			last_direction = _get_dodge_animation_direction(input_vector)
 			is_dodging = true
 		
-	if is_dodging: 
+	if is_dodging:
 		dodge_timer -= delta
 		if dodge_timer <= 0:
 			is_dodging = false
@@ -117,31 +118,23 @@ func _process_dodge(delta: float) -> void:
 
 func _update_animation() -> void:
 	if is_dodging:
-		# last direction while dodging is defined once in _process_dodge
 		sprite.play("dodge_" + last_direction)
-		
 	else:
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		var pivot_pos: Vector2 = get_global_position()
 		var distance: Vector2 = mouse_pos - pivot_pos
-		
+
 		if abs(distance.y) >= abs(distance.x):
-			if mouse_pos.y < pivot_pos.y: 
-				last_direction = "up"
-				sprite.z_index = 1 # coloca o sprite do personagem uma layer pra cima
-			else: 
-				last_direction = "down" 
-				sprite.z_index = 0
-		else: # dist x > dist y
-			if mouse_pos.x > pivot_pos.x: 
-				last_direction = "right"
-				sprite.z_index = 0
-			else: 
-				last_direction = "left"
-				sprite.z_index = 0
-		if input_vector != Vector2.ZERO: # if have movement
+			last_direction = "up" if mouse_pos.y < pivot_pos.y else "down"
+		else:
+			last_direction = "right" if mouse_pos.x > pivot_pos.x else "left"
+
+		# arma atrás do corpo só quando mirando para cima (sem mexer em z_index)
+		weapon_pivot.show_behind_parent = (last_direction == "up")
+
+		if input_vector != Vector2.ZERO:
 			sprite.play("walk_" + last_direction)
-		else: # is idle
+		else:
 			sprite.play("idle_" + last_direction)
 	
 	

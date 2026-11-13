@@ -590,10 +590,9 @@ collision_mask = 33
 script = ExtResource("1_rpfb3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
-z_as_relative = false
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_ucufk")
-animation = &"idle_down"
+animation = &"walk_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=922055785]
 position = Vector2(-2.5, 23.5)
