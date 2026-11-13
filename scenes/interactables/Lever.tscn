@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://b1wjf8s2cb5xr"]
+
+[ext_resource type="Script" uid="uid://bttgdhgi360cg" path="res://scripts/interactables/lever.gd" id="1_lever"]
+[ext_resource type="Texture2D" uid="uid://2nsgr54p5kqr" path="res://assets/sprites/tiles/doors_lever_chest_animation.png" id="2_t5pod"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5pod"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5hjo"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhjbe"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvo5i"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 144, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qo4rg"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 192, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8lefu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5pod")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5hjo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhjbe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvo5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qo4rg")
+}],
+"loop": 0,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interaction"]
+size = Vector2(32, 24)
+
+[node name="Lever" type="Area2D" unique_id=571007979]
+position = Vector2(0, -8)
+collision_layer = 256
+collision_mask = 2
+script = ExtResource("1_lever")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1890015282]
+sprite_frames = SubResource("SpriteFrames_8lefu")
+animation = &"open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1667524556]
+shape = SubResource("RectangleShape2D_interaction")
+
+[node name="InteractionPrompt" type="Label" parent="." unique_id=905308288]
+visible = false
+offset_left = -32.0
+offset_top = -30.0
+offset_right = 32.0
+offset_bottom = -14.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "Pressione E"
+horizontal_alignment = 1

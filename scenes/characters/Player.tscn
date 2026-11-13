@@ -590,21 +590,23 @@ collision_mask = 33
 script = ExtResource("1_rpfb3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
+position = Vector2(2.3333359, -45.999996)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_ucufk")
 animation = &"walk_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=922055785]
-position = Vector2(-2.5, 23.5)
+position = Vector2(-0.16666412, -22.499994)
 shape = SubResource("RectangleShape2D_ucufk")
 
 [node name="WeaponManager" type="Node2D" parent="." unique_id=928151443 node_paths=PackedStringArray("weapon_pivot")]
+position = Vector2(2.3333359, -45.999996)
 script = ExtResource("4_rpfb3")
 weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("6_ufbvs"), ExtResource("6_7lms1"), ExtResource("5_miirx"), ExtResource("9_mqro2")])
 weapon_pivot = NodePath("../WeaponPivot")
 
 [node name="WeaponPivot" type="Node2D" parent="." unique_id=108244274]
-position = Vector2(21, 43)
+position = Vector2(23.333336, -2.9999914)
 scale = Vector2(3, 3)
 script = ExtResource("4_oihyf")
 
@@ -620,6 +622,7 @@ texture_under = ExtResource("6_miirx")
 texture_progress = ExtResource("6_rpfb3")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1274320752]
+position = Vector2(2.3333359, -45.999996)
 zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
