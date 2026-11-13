@@ -3,6 +3,22 @@
 [ext_resource type="Script" uid="uid://bttgdhgi360cg" path="res://scripts/interactables/lever.gd" id="1_lever"]
 [ext_resource type="Texture2D" uid="uid://2nsgr54p5kqr" path="res://assets/sprites/tiles/doors_lever_chest_animation.png" id="2_t5pod"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_sa6vl"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4f6wc"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 144, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01quk"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q848x"]
+atlas = ExtResource("2_t5pod")
+region = Rect2(0, 48, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_t5pod"]
 atlas = ExtResource("2_t5pod")
 region = Rect2(0, 0, 16, 16)
@@ -27,10 +43,27 @@ region = Rect2(0, 192, 16, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t5pod")
+"texture": SubResource("AtlasTexture_sa6vl")
 }],
 "loop": 0,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4f6wc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01quk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q848x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5pod")
+}],
+"loop": 0,
+"name": &"disable",
 "speed": 5.0
 }, {
 "frames": [{
@@ -47,7 +80,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_qo4rg")
 }],
 "loop": 0,
-"name": &"open",
+"name": &"enable",
 "speed": 5.0
 }]
 
@@ -55,16 +88,17 @@ animations = [{
 size = Vector2(32, 24)
 
 [node name="Lever" type="Area2D" unique_id=571007979]
-position = Vector2(0, -8)
 collision_layer = 256
 collision_mask = 2
 script = ExtResource("1_lever")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1890015282]
+y_sort_enabled = true
+position = Vector2(-1, 8)
 sprite_frames = SubResource("SpriteFrames_8lefu")
-animation = &"open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1667524556]
+position = Vector2(-1, 8)
 shape = SubResource("RectangleShape2D_interaction")
 
 [node name="InteractionPrompt" type="Label" parent="." unique_id=905308288]

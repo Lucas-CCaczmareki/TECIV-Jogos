@@ -5,8 +5,9 @@ signal toggled(is_on: bool)
 enum State { OFF, ON }
 
 @export var state: State = State.OFF
-@export var off_animation: StringName = &"default"
-@export var on_animation: StringName = &"open"
+@export var off_animation: StringName = &"disable"
+@export var on_animation: StringName = &"enable"
+@export var initial_off_animation: StringName = &"default"
 
 var _player: Node2D
 var _input_down := false
@@ -17,7 +18,7 @@ var _input_down := false
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	_update_visual()
+	_set_initial_visual()
 	_update_prompt()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -48,5 +49,21 @@ func _update_visual() -> void:
 	if _animated_sprite.sprite_frames.has_animation(animation):
 		_animated_sprite.play(animation)
 
+func _set_initial_visual() -> void:
+	var animation := on_animation if state == State.ON else initial_off_animation
+	if not _animated_sprite.sprite_frames.has_animation(animation):
+		return
+
+	_animated_sprite.animation = animation
+	_animated_sprite.stop()
+	_animated_sprite.frame = (
+		_animated_sprite.sprite_frames.get_frame_count(animation) - 1
+		if state == State.ON else 0
+	)
+
 func _update_prompt() -> void:
 	_prompt.visible = _player != null
+	
+func _draw() -> void:
+	if OS.is_debug_build():
+		draw_line(Vector2(-30, 0), Vector2(30, 0), Color.RED, 2.0)

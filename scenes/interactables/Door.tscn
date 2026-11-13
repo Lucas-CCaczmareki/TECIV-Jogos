@@ -67,16 +67,16 @@ collision_mask = 6
 script = ExtResource("1_door")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1264180357]
-position = Vector2(0, -24)
+position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_63kva")
 animation = &"open"
 
 [node name="InteractionPrompt" type="Label" parent="." unique_id=1141267317]
 z_index = 1
 offset_left = -30.0
-offset_top = -42.0
+offset_top = -34.0
 offset_right = 33.0
-offset_bottom = -25.0
+offset_bottom = -17.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 1
@@ -86,7 +86,7 @@ text = "abrir porta"
 horizontal_alignment = 1
 
 [node name="allways_on_collision" type="StaticBody2D" parent="." unique_id=357247740]
-position = Vector2(0, -24)
+position = Vector2(0, -16)
 
 [node name="allways_on_collision" type="CollisionShape2D" parent="allways_on_collision" unique_id=1779804021]
 position = Vector2(-12.4375, 7)
@@ -97,15 +97,15 @@ position = Vector2(13, 7)
 shape = SubResource("RectangleShape2D_8lefu")
 
 [node name="InteractionShape2D" type="CollisionShape2D" parent="." unique_id=290693942]
-position = Vector2(0, -3.5)
+position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_interaction")
 
 [node name="InteractionShape2D2" type="CollisionShape2D" parent="." unique_id=1914699264]
-position = Vector2(0, -36)
+position = Vector2(0, -28)
 shape = SubResource("RectangleShape2D_interaction")
 
 [node name="BlockingBody" type="StaticBody2D" parent="." unique_id=1189886663]
-position = Vector2(0, -24)
+position = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlockingBody" unique_id=1564308407]
 position = Vector2(0.5, 4)

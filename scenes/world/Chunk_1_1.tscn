@@ -7,7 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dwh7o3l2ka04t" path="res://scenes/interactables/Door.tscn" id="4_door_scene"]
 [ext_resource type="Texture2D" uid="uid://ba0766ovls2pk" path="res://assets/sprites/tiles/water_details_animation.png" id="4_w7vle"]
 [ext_resource type="Script" uid="uid://bw0o1iv6bsdn6" path="res://scripts/world/walls_collision.gd" id="5_walls_collision"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/Lever.tscn" id="8_vjxk6"]
+[ext_resource type="PackedScene" uid="uid://b1wjf8s2cb5xr" path="res://scenes/interactables/Lever.tscn" id="8_vjxk6"]
+[ext_resource type="PackedScene" uid="uid://c2dww0l1seve8" path="res://scenes/interactables/Chest.tscn" id="9_d6rck"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w7vle"]
 texture = ExtResource("2_lm2ja")
@@ -3919,7 +3920,7 @@ sources/1 = SubResource("TileSetAtlasSource_o8mwl")
 
 [node name="Node2D" type="Node2D" unique_id=880528380]
 y_sort_enabled = true
-position = Vector2(-1989, 4620.9995)
+position = Vector2(-1846.0001, 3645)
 scale = Vector2(5, 5)
 script = ExtResource("1_lm2ja")
 slime_scene = ExtResource("2_tbnbh")
@@ -3964,10 +3965,13 @@ position = Vector2(98.79999, 115.6)
 position = Vector2(602.00006, -67.2)
 
 [node name="Door2" parent="." unique_id=812808381 instance=ExtResource("4_door_scene")]
-position = Vector2(314, -627.2)
+position = Vector2(314.00003, -635.2)
 
 [node name="Door3" parent="." unique_id=1788886484 instance=ExtResource("4_door_scene")]
 position = Vector2(602, 236.8)
 
 [node name="Lever" parent="." unique_id=970431175 instance=ExtResource("8_vjxk6")]
-position = Vector2(311.4, -915.59985)
+position = Vector2(278.40002, -723.00006)
+
+[node name="Chest" parent="." unique_id=571007979 instance=ExtResource("9_d6rck")]
+position = Vector2(329.60004, -725.8)

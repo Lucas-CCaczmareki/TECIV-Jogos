@@ -140,3 +140,7 @@ func _update_animation() -> void:
 	
 func set_can_move(value: bool) -> void:
 	can_move = value
+	
+func _draw() -> void:
+	if OS.is_debug_build():
+		draw_line(Vector2(-30, 0), Vector2(30, 0), Color.RED, 2.0)
