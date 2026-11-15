@@ -2,7 +2,7 @@
 
 ## Sinopse
 
-O protagonista entra em uma torre anômala que existe fora do espaço-tempo e aprisiona almas. Depois de morrer no interior da estrutura, ele desperta ligado a um lobo espectral, uma sentinela que tenta restaurar o equilíbrio da torre. Os dois atravessam a estrutura para chegar ao artefato que sustenta a anomalia e enfrentar o Rei Corrompido — o mesmo monarca que enviou o aventureiro em missão.
+O protagonista entra em uma torre anômala que existe fora do espaço-tempo e aprisiona almas. Depois de morrer no interior da estrutura, ele desperta ligado a um lobo espectral, uma sentinela que tenta restaurar o equilíbrio da torre. Os dois atravessam a estrutura para chegar ao artefato que sustenta a anomalia e enfrentar o Rei Corrompido: o mesmo monarca que enviou o aventureiro em missão.
 
 ## Ambientação
 
@@ -36,6 +36,6 @@ A narrativa é linear e curta. A história é entregue por:
 
 ## Arco narrativo
 
-1. **Prólogo — A Queda e o Despertar:** o aventureiro aceita a missão do Rei, entra na torre, morre e desperta como esqueleto.
-2. **Meio — A Ascensão:** o resgate do lobo cria o vínculo; a torre abre o caminho; as inscrições revelam a corrupção e o ciclo de mortos.
-3. **Final — O Encontro Temporal:** o aventureiro encontra o Rei Corrompido, descobre a verdade e destrói o artefato.
+1. **Prólogo - A Queda e o Despertar:** o aventureiro aceita a missão do Rei, entra na torre, morre e desperta como esqueleto.
+2. **Meio - A Ascensão:** o resgate do lobo cria o vínculo; a torre abre o caminho; as inscrições revelam a corrupção e o ciclo de mortos.
+3. **Final - O Encontro Temporal:** o aventureiro encontra o Rei Corrompido, descobre a verdade e destrói o artefato.

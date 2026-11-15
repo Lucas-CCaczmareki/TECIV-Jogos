@@ -18,7 +18,8 @@ Console (PS5, Xbox, Switch)
 14-16 anos
 
 ### **Diferenciais/Unique selling points:**
-- *Arma modular:* modifique sua arma durante e fora do combate ao invés de alternar entre inúmeras diferentes armas. Upgrades podem modificar o padrão de tiro (reto, cone, carregado...) em vez de trocar de arma fixa.
+- *Diferentes armas:* alterne seu arsenal durante e fora do combate ao invés de alternar entre inúmeras diferentes armas. 
+Diferentes armas tem diferentes padrões de disparo e tiro. Upgrades podem modificar os atributos da arma.
 
 - *Companion controlável:* O jogador comanda a ação (ataque, defesa, esquiva), a movimentação e habilidades do companion durante o combate.
 
