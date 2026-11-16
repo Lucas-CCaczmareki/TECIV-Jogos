@@ -5,35 +5,72 @@ signal opened
 
 @export var blocking_body_path: NodePath = ^"BlockingBody"
 
-var _blocking_body: StaticBody2D
+@export var blocking_body: StaticBody2D
+@export var open_animation: StringName = &"open"
+@export var closed_animation: StringName = &"closed"
+
+var _player: Node2D # só definido enquanto o player estiver na área
+
+@onready var _animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _interaction_prompt: Label = $InteractionPrompt
 
 func _ready() -> void:
-	_blocking_body = get_node_or_null(blocking_body_path) as StaticBody2D
-	if _blocking_body == null:
-		push_error("Door requires a StaticBody2D at '%s'." % blocking_body_path)
+	blocking_body = get_node_or_null(blocking_body_path) as StaticBody2D
+	if blocking_body == null:
+		push_error("Door '%s' precisa de um blocking_body." % name)
+
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+
+	set_process_unhandled_input(false) # só liga com o player por perto
+	_update_prompt()
+
+	if _animated_sprite.sprite_frames.has_animation(closed_animation):
+		_animated_sprite.play(closed_animation)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("interact"):
+		get_viewport().set_input_as_handled()
+		interact(_player)
 
 func open() -> void:
-	if not enabled or _interacted:
-		return
-
 	interact(null)
 
-func interact(_actor: Node) -> void:
+func interact(actor: Node) -> void:
 	if not enabled or _interacted:
 		return
 
-	super.interact(_actor)
+	super.interact(actor)
 	_set_open_state()
 	opened.emit()
 
 func _set_open_state() -> void:
 	enabled = false
-	monitoring = false
 	monitorable = false
 
-	if _blocking_body != null:
-		_blocking_body.set_deferred("collision_layer", 0)
-		_blocking_body.set_deferred("collision_mask", 0)
-		for child in _blocking_body.get_children():
-			if child is CollisionShape2D or child is CollisionPolygon2D:
-				child.set_deferred("disabled", true)
+	if blocking_body != null:
+		blocking_body.set_deferred("collision_layer", 0)
+		blocking_body.set_deferred("collision_mask", 0)
+
+	if _animated_sprite.sprite_frames.has_animation(open_animation):
+		_animated_sprite.play(open_animation)
+
+	_player = null
+	set_process_unhandled_input(false)
+	_update_prompt()
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		_player = body
+		set_process_unhandled_input(enabled)
+		_update_prompt()
+
+func _on_body_exited(body: Node2D) -> void:
+	if body == _player:
+		_player = null
+		set_process_unhandled_input(false)
+		_update_prompt()
+
+func _update_prompt() -> void:
+	if is_instance_valid(_interaction_prompt):
+		_interaction_prompt.visible = enabled and _player != null
