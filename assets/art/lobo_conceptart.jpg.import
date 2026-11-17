@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7pu3fih2u3uf"
-path="res://.godot/imported/lobo_conceptart.jpg-59bdeb9dcdd2e1783837382b27290021.ctex"
+path="res://.godot/imported/lobo_conceptart.jpg-a6e399339ddb5a33c301ddb65e6245a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/art/lobo_conceptart.jpg"
-dest_files=["res://.godot/imported/lobo_conceptart.jpg-59bdeb9dcdd2e1783837382b27290021.ctex"]
+source_file="res://assets/art/lobo_conceptart.jpg"
+dest_files=["res://.godot/imported/lobo_conceptart.jpg-a6e399339ddb5a33c301ddb65e6245a9.ctex"]
 
 [params]
 

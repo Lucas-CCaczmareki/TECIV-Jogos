@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cabaxexschead"
-path="res://.godot/imported/scene4_frame3.jpg-507d4d3522251d63fc9a568c63393418.ctex"
+path="res://.godot/imported/scene4_frame3.jpg-fbbe7dd62978b8a4f236cfac45dab3de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/art/scene4_frame3.jpg"
-dest_files=["res://.godot/imported/scene4_frame3.jpg-507d4d3522251d63fc9a568c63393418.ctex"]
+source_file="res://assets/art/scene4_frame3.jpg"
+dest_files=["res://.godot/imported/scene4_frame3.jpg-fbbe7dd62978b8a4f236cfac45dab3de.ctex"]
 
 [params]
 

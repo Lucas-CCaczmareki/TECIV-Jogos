@@ -13,6 +13,11 @@ https://zerie.itch.io/tiny-rpg-character-asset-pack-02
 https://admurin.itch.io/enemy-galore-1
 https://oboropixel.itch.io/characters-animations-asset-pack
 https://seartsy.itch.io/spear-knight
+https://atari-boy.itch.io/skull-wolf-pixel-art
+https://admurin.itch.io/bosses-gollux
+https://admurin.itch.io/enemy-galore-1
+https://antarcticbees.itch.io/rpg-characters
+https://penzilla.itch.io/hooded-protagonist
 
 ## weapons:
 https://ranitaya-studios.itch.io/ranitayas-guns-pack-16-pixelart-guns

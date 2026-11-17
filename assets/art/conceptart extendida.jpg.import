@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://qvhv38dwhxq2"
-path="res://.godot/imported/conceptart extendida.jpg-62d5df2388c9f73e048c8ee4a58a73be.ctex"
+path="res://.godot/imported/conceptart extendida.jpg-e432cc5ab3cacfed1f1648edb7a0c0df.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/art/conceptart extendida.jpg"
-dest_files=["res://.godot/imported/conceptart extendida.jpg-62d5df2388c9f73e048c8ee4a58a73be.ctex"]
+source_file="res://assets/art/conceptart extendida.jpg"
+dest_files=["res://.godot/imported/conceptart extendida.jpg-e432cc5ab3cacfed1f1648edb7a0c0df.ctex"]
 
 [params]
 

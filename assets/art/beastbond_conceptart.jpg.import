@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://2apn27quvbh5"
-path="res://.godot/imported/beastbond_conceptart.jpg-007eb416384a897b920a93ae5cef0821.ctex"
+path="res://.godot/imported/beastbond_conceptart.jpg-1877a7971b97e7a6672ecea33d963fb3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/art/beastbond_conceptart.jpg"
-dest_files=["res://.godot/imported/beastbond_conceptart.jpg-007eb416384a897b920a93ae5cef0821.ctex"]
+source_file="res://assets/art/beastbond_conceptart.jpg"
+dest_files=["res://.godot/imported/beastbond_conceptart.jpg-1877a7971b97e7a6672ecea33d963fb3.ctex"]
 
 [params]
 

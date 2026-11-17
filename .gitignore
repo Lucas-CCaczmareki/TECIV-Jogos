@@ -1,6 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+/tests/
 
 # Builds exportadas do jogo
 export.cfg

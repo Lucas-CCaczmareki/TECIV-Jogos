@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmj11jglhl6b7"
-path="res://.godot/imported/wolf_icon.jpg-ba5c116a7106cc8700a79de26d45b10f.ctex"
+path="res://.godot/imported/wolf_icon.jpg-942c303217d43d52dd1421bcef0257c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/art/wolf_icon.jpg"
-dest_files=["res://.godot/imported/wolf_icon.jpg-ba5c116a7106cc8700a79de26d45b10f.ctex"]
+source_file="res://assets/art/wolf_icon.jpg"
+dest_files=["res://.godot/imported/wolf_icon.jpg-942c303217d43d52dd1421bcef0257c0.ctex"]
 
 [params]
 
