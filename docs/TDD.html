@@ -1,0 +1,2644 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Beastbond — TDD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+    <style>
+      @font-face {
+        font-family: PublicPixel;
+        src: url(../assets/fonts/PublicPixel.ttf);
+        unicode-range: U+0020-007E;
+      }
+      :root {
+        --void: #0d1020;
+        --deep: #212742;
+        --stone: #2b3158;
+        --rune: #53558e;
+        --mist: #5f81c1;
+        --wolf: #5dc2dc;
+        --glow: #70e8e9;
+        --gold: #e6b34a;
+        --ember: #d97733;
+        --ink: #dfe8f7;
+        --mute: #b9c6e8;
+        --px: 4px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        padding: 70px 16px 60px;
+        color: var(--ink);
+        font:
+          25px/1.3 "VT323",
+          monospace;
+        background: var(--void);
+        background-image:
+          radial-gradient(var(--rune) 1px, transparent 1.5px), radial-gradient(var(--mist) 1px, transparent 1.5px);
+        background-size:
+          90px 90px,
+          140px 140px;
+        background-position:
+          0 0,
+          45px 60px;
+      }
+      h1,
+      h2,
+      h3,
+      .pix {
+        font-family: PublicPixel, "Press Start 2P", monospace;
+        font-weight: 400;
+        line-height: 1.5;
+      }
+      .bar {
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 9;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        padding: 8px 12px;
+        background: var(--deep);
+        border-bottom: var(--px) solid var(--rune);
+        overflow-x: auto;
+      }
+      .bar a {
+        font:
+          12px PublicPixel,
+          "Press Start 2P",
+          monospace;
+        color: var(--ink);
+        text-decoration: none;
+        background: var(--stone);
+        padding: 8px 9px;
+        box-shadow:
+          inset -3px -3px 0 var(--void),
+          inset 3px 3px 0 var(--rune);
+        white-space: nowrap;
+      }
+      .bar a:hover {
+        color: var(--glow);
+      }
+      .page {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto 44px;
+        padding: 40px 44px 50px;
+        background: var(--deep);
+        box-shadow:
+          0 -4px 0 var(--rune),
+          0 4px 0 var(--rune),
+          -4px 0 0 var(--rune),
+          4px 0 0 var(--rune),
+          0 0 0 8px var(--void),
+          0 0 40px 8px rgba(93, 194, 220, 0.18);
+      }
+      .page::before,
+      .page::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border: 4px solid var(--gold);
+      }
+      .page::before {
+        top: 10px;
+        left: 10px;
+        border-right: 0;
+        border-bottom: 0;
+      }
+      .page::after {
+        bottom: 10px;
+        right: 10px;
+        border-left: 0;
+        border-top: 0;
+      }
+      .hd {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        border-bottom: var(--px) solid var(--rune);
+        padding-bottom: 16px;
+        margin-bottom: 26px;
+      }
+      .num {
+        flex: none;
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        font:
+          18px PublicPixel,
+          monospace;
+        color: var(--void);
+        background: var(--gold);
+        box-shadow:
+          inset -4px -4px 0 var(--ember),
+          inset 4px 4px 0 #ffe29a;
+      }
+      .hd h2 {
+        margin: 0;
+        font-size: 20px;
+        color: var(--glow);
+        text-shadow: 3px 3px 0 var(--void);
+      }
+      .hd small {
+        display: block;
+        margin-top: 8px;
+        font:
+          23px "VT323",
+          monospace;
+        color: var(--mute);
+      }
+      h3 {
+        margin: 6px 0 12px;
+        font-size: 13px;
+        color: var(--gold);
+      }
+      h3::before {
+        content: "◆ ";
+        color: var(--wolf);
+      }
+      .box {
+        background: var(--stone);
+        padding: 14px 18px;
+        margin-bottom: 22px;
+        box-shadow:
+          inset 0 0 0 3px var(--rune),
+          inset 0 0 0 6px var(--deep);
+      }
+      .hl {
+        background: var(--void);
+        box-shadow:
+          inset 0 0 0 3px var(--wolf),
+          0 0 18px rgba(93, 194, 220, 0.3);
+      }
+      .c2,
+      .c3 {
+        display: grid;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+      .c2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .c3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .c2 > .box,
+      .c3 > .box {
+        margin: 0;
+      }
+      ul {
+        margin: 0;
+        padding-left: 22px;
+        list-style: square;
+      }
+      li::marker {
+        color: var(--wolf);
+      }
+      li {
+        margin: 3px 0;
+      }
+      p {
+        margin: 6px 0 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 22px;
+        background: var(--stone);
+      }
+      th,
+      td {
+        padding: 8px 12px;
+        text-align: left;
+        vertical-align: top;
+        border: 3px solid var(--deep);
+      }
+      th {
+        font:
+          11px PublicPixel,
+          monospace;
+        color: var(--void);
+        background: var(--mist);
+      }
+      tr:nth-child(even) td {
+        background: #262c4e;
+      }
+      code {
+        color: var(--glow);
+        font: inherit;
+      }
+      .fx {
+        margin: 6px 0 8px;
+      }
+      .fx svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: var(--void);
+        box-shadow: inset 0 0 0 3px var(--rune);
+      }
+      .fx svg text {
+        font-family: "VT323", monospace;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .fx svg .pix {
+        font-family: PublicPixel, "Press Start 2P", monospace;
+      }
+      .fx-leg {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 22px;
+        margin: 10px 0 22px;
+        font:
+          22px "VT323",
+          monospace;
+        color: var(--mute);
+      }
+      .fx-leg span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .fx-leg i {
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        box-shadow:
+          inset 3px 3px 0 rgba(255, 255, 255, 0.3),
+          inset -3px -3px 0 rgba(0, 0, 0, 0.3);
+      }
+      .fx-leg i.dado {
+        box-shadow: none;
+        border: 3px dashed var(--mute);
+      }
+      .fx-leg svg {
+        width: 36px;
+        height: 14px;
+      }
+      .cover {
+        text-align: center;
+        padding: 56px 40px;
+      }
+      .cover h1 {
+        font-size: 36px;
+        color: var(--glow);
+        text-shadow:
+          4px 4px 0 var(--rune),
+          8px 8px 0 var(--void);
+        margin: 14px 0 6px;
+      }
+      .cover .tag {
+        font:
+          13px PublicPixel,
+          monospace;
+        color: var(--gold);
+      }
+      .toc {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 30px;
+        text-align: left;
+        max-width: 800px;
+        margin: 26px auto 0;
+      }
+      .toc a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .toc a:hover {
+        color: var(--glow);
+      }
+      .toc span {
+        color: var(--gold);
+        font:
+          12px PublicPixel,
+          monospace;
+        margin-right: 8px;
+      }
+      .foot {
+        text-align: center;
+        color: var(--mute);
+        margin-top: 26px;
+      }
+      @media (max-width: 700px) {
+        .page {
+          padding: 28px 18px 50px;
+        }
+        .c2,
+        .c3,
+        .toc {
+          grid-template-columns: 1fr;
+        }
+        .hd h2 {
+          font-size: 14px;
+        }
+        .cover h1 {
+          font-size: 22px;
+        }
+      }
+      @media print {
+        body {
+          background: #fff;
+          padding: 0;
+        }
+        .bar {
+          display: none;
+        }
+        .page {
+          box-shadow: none;
+          margin: 0;
+          page-break-after: always;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+    <script>
+      /* Motor de diagramas (mesma linguagem visual do fluxo de telas do GDD).
+   n: [id, coluna, linha, tipo, 'texto\nlinhas', {cs,rs,w,h}]   (a 1ª linha é o título do nó)
+   l: [de, lado, para, lado, tipo, 'rótulo', {da,db,via}]       lados: t b l r; via em unidades de grade */
+      const KN = {
+        no: ["#2b3158", "#dfe8f7", "Nó / cena"],
+        base: ["#e6b34a", "#0d1020", "Classe base"],
+        comp: ["#5dc2dc", "#0d1020", "Componente"],
+        glob: ["#d97733", "#0d1020", "Autoload"],
+        ui: ["#5f81c1", "#0d1020", "Tela / HUD"],
+        dec: ["#70e8e9", "#0d1020", "Decisão"],
+        dado: [null, "#b9c6e8", "Dado / engine"],
+      };
+      const KE = {
+        c: "Chamada direta",
+        cb: "Chamada nos dois sentidos",
+        s: "Signal (aviso)",
+        h: "Herança (é um)",
+        o: "Composição (tem um)",
+        d: "Instancia / lê dados",
+      };
+      function FX(id, o) {
+        const NS = "http://www.w3.org/2000/svg",
+          cw = o.cw || 250,
+          ch = o.ch || 110,
+          gx = o.gx == null ? 36 : o.gx,
+          N = {};
+        const el = (t, a, p) => {
+          const e = document.createElementNS(NS, t);
+          for (const k in a) e.setAttribute(k, a[k]);
+          if (p) p.appendChild(e);
+          return e;
+        };
+        (o.n || []).forEach((a) => {
+          const x = a[5] || {},
+            cs = x.cs || 1,
+            rs = x.rs || 1,
+            L = a[4].split("\n");
+          const w = x.w || cs * cw - gx,
+            h = x.h || Math.max(52, 26 + 24 + (L.length - 1) * 21);
+          N[a[0]] = { x: (a[1] + cs / 2) * cw - w / 2, y: (a[2] + rs / 2) * ch - h / 2, w, h, k: a[3], L };
+        });
+        const P = (i, s, d) => {
+          d = d || 0;
+          const n = N[i];
+          return s == "t"
+            ? [n.x + n.w / 2 + d, n.y]
+            : s == "b"
+              ? [n.x + n.w / 2 + d, n.y + n.h]
+              : s == "l"
+                ? [n.x, n.y + n.h / 2 + d]
+                : [n.x + n.w, n.y + n.h / 2 + d];
+        };
+        const R = (p0, p1, sa, sb, via) => {
+          if (via)
+            return [p0].concat(
+              via.map((v) => [v[0] * cw, v[1] * ch]),
+              [p1],
+            );
+          const v0 = sa == "t" || sa == "b",
+            v1 = sb == "t" || sb == "b",
+            mx = (p0[0] + p1[0]) / 2,
+            my = (p0[1] + p1[1]) / 2,
+            e = (a, b) => Math.abs(a - b) < 1;
+          if (v0 && v1) return e(p0[0], p1[0]) ? [p0, p1] : [p0, [p0[0], my], [p1[0], my], p1];
+          if (!v0 && !v1) return e(p0[1], p1[1]) ? [p0, p1] : [p0, [mx, p0[1]], [mx, p1[1]], p1];
+          return v0 ? [p0, [p0[0], p1[1]], p1] : [p0, [p1[0], p0[1]], p1];
+        };
+        const box = document.getElementById(id),
+          W = o.cols * cw,
+          H = o.rows * ch;
+        const svg = el("svg", {
+          viewBox: "0 -16 " + W + " " + (H + 16),
+          role: "img",
+          "aria-label": o.aria || "Diagrama",
+        });
+        box.appendChild(svg);
+        const df = el("defs", {}, svg),
+          mk = (n, d, f, s, ref, sz) => {
+            const m = el(
+              "marker",
+              {
+                id: id + n,
+                viewBox: "0 0 10 10",
+                refX: ref,
+                refY: 5,
+                markerWidth: sz,
+                markerHeight: sz,
+                orient: "auto-start-reverse",
+              },
+              df,
+            );
+            el("path", { d: d, fill: f, stroke: s || "none", "stroke-width": 1.5 }, m);
+          };
+        const T = "M0,0 L10,5 L0,10 z";
+        mk("a", T, "#b9c6e8", 0, 9, 5);
+        mk("s", T, "#5dc2dc", 0, 9, 5);
+        mk("h", T, "#212742", "#b9c6e8", 10, 8);
+        mk("o", "M0,5 L5,1 L10,5 L5,9 z", "#e6b34a", 0, 10, 8);
+        mk("d", T, "#e6b34a", 0, 9, 5);
+        (o.m || []).forEach((f) => {
+          const x = f[0] * cw + 4,
+            y = f[1] * ch + 4,
+            w = f[2] * cw - 8,
+            h = f[3] * ch - 8;
+          el(
+            "rect",
+            {
+              x,
+              y,
+              width: w,
+              height: h,
+              fill: "#5dc2dc",
+              "fill-opacity": 0.05,
+              stroke: "#5dc2dc",
+              "stroke-width": 3,
+              "stroke-dasharray": "10 6",
+            },
+            svg,
+          );
+          const t = el(
+            "text",
+            { x: x + 16, y: y, "font-size": 12, fill: "#5dc2dc", class: "pix", style: "text-anchor:start" },
+            svg,
+          );
+          t.textContent = f[4];
+          const b = t.getBBox();
+          svg.insertBefore(
+            el("rect", { x: b.x - 6, y: b.y - 3, width: b.width + 12, height: b.height + 6, fill: "#0d1020" }),
+            t,
+          );
+        });
+        const labs = [],
+          ST = {
+            c: ["#b9c6e8", "", "a"],
+            cb: ["#b9c6e8", "", "a"],
+            s: ["#5dc2dc", "10 6", "s"],
+            h: ["#b9c6e8", "", "h"],
+            o: ["#e6b34a", "", "o"],
+            d: ["#e6b34a", "4 5", "d"],
+          };
+        (o.l || []).forEach((e) => {
+          const k = e[4] || "c",
+            op = e[6] || {},
+            s = ST[k],
+            pts = R(P(e[0], e[1], op.da), P(e[2], e[3], op.db), e[1], e[3], op.via && op.via);
+          const a = {
+            points: pts.map((p) => p.join(",")).join(" "),
+            fill: "none",
+            stroke: s[0],
+            "stroke-width": 3,
+            "stroke-linejoin": "miter",
+          };
+          if (s[1]) a["stroke-dasharray"] = s[1];
+          if (k == "o") a["marker-start"] = "url(#" + id + "o)";
+          else a["marker-end"] = "url(#" + id + s[2] + ")";
+          if (k == "cb") a["marker-start"] = "url(#" + id + "a)";
+          el("polyline", a, svg);
+          if (e[5]) {
+            let b = null,
+              m = -1;
+            for (let i = 0; i < pts.length - 1; i++) {
+              const d = Math.abs(pts[i + 1][0] - pts[i][0]) + Math.abs(pts[i + 1][1] - pts[i][1]);
+              if (d > m) {
+                m = d;
+                b = [(pts[i][0] + pts[i + 1][0]) / 2, (pts[i][1] + pts[i + 1][1]) / 2];
+              }
+            }
+            labs.push([e[5], b, k == "s" ? "#5dc2dc" : "#e6b34a"]);
+          }
+        });
+        for (const i in N) {
+          const n = N[i],
+            s = KN[n.k];
+          if (n.k == "dado")
+            el(
+              "rect",
+              {
+                x: n.x + 2,
+                y: n.y + 2,
+                width: n.w - 4,
+                height: n.h - 4,
+                fill: "#0d1020",
+                stroke: "#b9c6e8",
+                "stroke-width": 3,
+                "stroke-dasharray": "8 5",
+              },
+              svg,
+            );
+          else {
+            const b = 4,
+              r = (x, y, w, h, f, op) => el("rect", { x, y, width: w, height: h, fill: f, "fill-opacity": op }, svg);
+            r(n.x, n.y, n.w, n.h, s[0], 1);
+            r(n.x, n.y, n.w, b, "#fff", 0.28);
+            r(n.x, n.y, b, n.h, "#fff", 0.28);
+            r(n.x, n.y + n.h - b, n.w, b, "#000", 0.3);
+            r(n.x + n.w - b, n.y, b, n.h, "#000", 0.3);
+          }
+          const nl = n.L.length,
+            y0 = n.y + n.h / 2 - (nl > 1 ? (24 + (nl - 2) * 21) / 2 : 0);
+          n.L.forEach((ln, j) => {
+            const t = el(
+              "text",
+              {
+                x: n.x + n.w / 2,
+                y: y0 + (j ? 24 + (j - 1) * 21 : 0),
+                "font-size": j ? 20 : 24,
+                fill: j ? (s[1] == "#dfe8f7" ? "#b9c6e8" : s[1]) : s[1],
+                "fill-opacity": j ? 0.92 : 1,
+              },
+              svg,
+            );
+            t.textContent = ln;
+          });
+        }
+        labs.forEach((r) => {
+          const t = el("text", { x: r[1][0], y: r[1][1], "font-size": 21, fill: r[2] }, svg);
+          t.textContent = r[0];
+          const b = t.getBBox();
+          svg.insertBefore(
+            el("rect", { x: b.x - 6, y: b.y - 1, width: b.width + 12, height: b.height + 2, fill: "#0d1020" }),
+            t,
+          );
+        });
+        const lg = (o.leg || "").split("|"),
+          h = ['<div class="fx-leg">'];
+        (lg[0] ? lg[0].split(",") : []).forEach((k) =>
+          h.push(
+            '<span><i class="' +
+              (k == "dado" ? "dado" : "") +
+              '" style="background:' +
+              (KN[k][0] || "none") +
+              '"></i> ' +
+              ((o.lab && o.lab[k]) || KN[k][2]) +
+              "</span>",
+          ),
+        );
+        (lg[1] ? lg[1].split(",") : []).forEach((k) => {
+          const s = ST[k];
+          h.push(
+            '<span><svg viewBox="0 0 36 14"><line x1="1" y1="7" x2="' +
+              (k == "o" ? 35 : 30) +
+              '" y2="7" stroke="' +
+              s[0] +
+              '" stroke-width="3"' +
+              (s[1] ? ' stroke-dasharray="' + s[1] + '"' : "") +
+              "/>" +
+              (k == "o"
+                ? '<path d="M1,7 L6,3 L11,7 L6,11z" fill="#e6b34a"/>'
+                : '<path d="M36,7 L29,3 L29,11z" fill="' +
+                  (k == "h" ? "#212742" : s[0]) +
+                  '" stroke="' +
+                  s[0] +
+                  '"/>') +
+              "</svg> " +
+              KE[k] +
+              "</span>",
+          );
+        });
+        h.push("</div>");
+        box.insertAdjacentHTML("afterend", h.join(""));
+      }
+      function SNAKE(id, it, o) {
+        o = o || {};
+        const per = o.per || 4,
+          n = [],
+          l = [];
+        it.forEach((a, i) => {
+          const r = Math.floor(i / per),
+            p = i % per,
+            c = r % 2 ? per - 1 - p : p;
+          n.push(["n" + i, c, r, a[0], a[1]]);
+          if (i) {
+            const same = Math.floor((i - 1) / per) == r;
+            let sa = "b",
+              sb = "t";
+            if (same) {
+              sa = r % 2 ? "l" : "r";
+              sb = r % 2 ? "r" : "l";
+            }
+            l.push(["n" + (i - 1), sa, "n" + i, sb, a[3] || "c", a[2] || ""]);
+          }
+        });
+        FX(
+          id,
+          Object.assign({ cols: per, rows: Math.ceil(it.length / per), cw: 300, ch: o.ch || 112, gx: 70, n, l }, o),
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <div class="bar">
+      <a href="#s0">00 Leitura</a><a href="#s1">01 Princípios</a><a href="#s2">02 Estrutura</a
+      ><a href="#s3">03 Classes</a><a href="#s4">04 Comunicação</a><a href="#s5">05 Dano</a><a href="#s6">06 Armas</a
+      ><a href="#s7">07 Player</a><a href="#s8">08 Lobo</a><a href="#s9">09 Inimigos</a><a href="#s10">10 Itens</a
+      ><a href="#s11">11 Mundo</a><a href="#s12">12 Interface</a><a href="#s13">13 Áudio</a>
+    </div>
+
+    <section class="page cover" id="s0">
+      <div class="tag">TECHNICAL DESIGN DOCUMENT</div>
+      <h1>BEASTBOND</h1>
+      <p>Como o jogo é construído: estrutura, classes, fluxos de execução e comunicação entre sistemas.</p>
+      <div class="box" style="text-align: left; margin-top: 26px">
+        <h3>Sobre este documento</h3>
+        <p>
+          <b>Beastbond</b> é um jogo de ação top-down em que o jogador controla um personagem armado e um lobo
+          companheiro. Ele é feito em <b>Godot 4</b> com <b>GDScript</b>. O <i>GDD</i> descreve o que o jogo é (regras,
+          mundo, personagens, arte). Este <i>TDD</i> descreve <b>como o código se organiza para realizar isso</b>: quais
+          classes existem, o que cada uma faz, quem chama quem e em que ordem as coisas acontecem.
+        </p>
+        <p>
+          O texto não pressupõe conhecimento prévio do projeto. Nomes em <code>fonte de código</code> são classes,
+          cenas, métodos ou signals reais. Detalhes de implementação ficam de fora de propósito: o documento define
+          <b>responsabilidades e contratos</b>, e a implementação os cumpre.
+        </p>
+      </div>
+      <div class="c2" style="text-align: left">
+        <div class="box">
+          <h3>Vocabulário</h3>
+          <ul>
+            <li><b>Chunk:</b> uma área do mapa, carregada como uma cena inteira.</li>
+            <li><b>Room:</b> região de uma chunk que tranca a saída e dispara ondas de inimigos.</li>
+            <li><b>Atk scene:</b> cena temporária que representa um ataque no mundo (bala, laser, golpe, explosão).</li>
+            <li><b>Dono (wielder):</b> o personagem que segura uma arma: jogador, lobo ou inimigo.</li>
+            <li><b>Vínculo:</b> recurso do lobo que limita quanto o jogador pode comandá-lo.</li>
+            <li><b>Signal:</b> aviso do Godot. Quem emite não sabe quem escuta.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Como ler os diagramas</h3>
+          <ul>
+            <li>Cada <b>cor</b> de caixa é um tipo de elemento (legenda sob cada diagrama).</li>
+            <li>Linha <b>contínua</b> = chamada direta. Linha <b>tracejada ciano</b> = signal.</li>
+            <li><b>Seta com triângulo vazado</b> = herança, apontando para a classe-pai.</li>
+            <li><b>Losango</b> = composição: o nó de onde parte contém o nó de destino.</li>
+            <li>Em classes, o símbolo <code>◆</code> indica um componente que a classe contém.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="toc">
+        <a href="#s1"><span>01</span>Princípios de projeto</a><a href="#s8"><span>08</span>Lobo e menu de comandos</a>
+        <a href="#s2"><span>02</span>Estrutura geral</a><a href="#s9"><span>09</span>Inimigos e boss</a>
+        <a href="#s3"><span>03</span>Hierarquia de classes</a><a href="#s10"><span>10</span>Itens e inventário</a>
+        <a href="#s4"><span>04</span>Comunicação</a><a href="#s11"><span>11</span>Mundo e puzzles</a>
+        <a href="#s5"><span>05</span>Combate e dano</a><a href="#s12"><span>12</span>Interface</a>
+        <a href="#s6"><span>06</span>Armas e ataques</a><a href="#s13"><span>13</span>Áudio e narrativa</a>
+        <a href="#s7"><span>07</span>Player</a>
+      </div>
+    </section>
+
+    <section class="page" id="s1">
+      <div class="hd">
+        <div class="num">01</div>
+        <div>
+          <h2>Princípios de projeto</h2>
+          <small>As regras que todos os sistemas seguem</small>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Princípio</th>
+          <th>Como se aplica</th>
+          <th>Por quê</th>
+        </tr>
+        <tr>
+          <td>Chamar para baixo, avisar para cima</td>
+          <td>
+            Um nó chama métodos dos seus filhos. Para falar com um pai ou com nós distantes, ele emite um signal. Sinais
+            que cruzam sistemas passam pelo autoload <code>Events</code>.
+          </td>
+          <td>Mantém as dependências em uma só direção e impede que um sistema precise conhecer a árvore inteira.</td>
+        </tr>
+        <tr>
+          <td>Composição antes de herança</td>
+          <td>
+            Vida, stamina e hitbox são componentes (nós filhos) reutilizados por vários personagens. Herança só existe
+            para compartilhar comportamento que realmente é o mesmo (<code>Character</code>, <code>Weapon</code>,
+            <code>AtkScene</code>).
+          </td>
+          <td>A mesma lógica de vida serve ao jogador, ao lobo e a 8 tipos de inimigo.</td>
+        </tr>
+        <tr>
+          <td>O dono manda, a arma obedece</td>
+          <td>
+            Armas não leem teclado nem mouse. O dono chama <code>try_attack()</code> e <code>aim_at()</code>. O jogador
+            faz isso a partir do input; um inimigo, a partir da IA.
+          </td>
+          <td>Uma única implementação de arma funciona para todos.</td>
+        </tr>
+        <tr>
+          <td>Dados em Resources, efeitos em modificadores</td>
+          <td>
+            Itens, tabelas de drop e cutscenes são arquivos <code>.tres</code>. Efeitos temporários e permanentes
+            alteram o dicionário <code>modifiers</code> do personagem, e armas e movimento leem o valor efetivo.
+          </td>
+          <td>Adicionar um item é criar um arquivo de dados, não uma classe.</td>
+        </tr>
+        <tr>
+          <td>Contrato único de dano</td>
+          <td>
+            Qualquer coisa que pode ser ferida implementa <code>take_damage(amount)</code>. Quem causa dano checa se o
+            alvo tem o método e nada mais.
+          </td>
+          <td>Bala, laser, golpe e explosão tratam jogador, lobo, inimigo, totem e barril do mesmo jeito.</td>
+        </tr>
+        <tr>
+          <td>Camadas de colisão por papel</td>
+          <td>
+            Cada tipo de corpo e de ataque tem uma layer própria, e a máscara de cada ataque define quem ele pode
+            atingir (ver 05).
+          </td>
+          <td>Fogo amigo é uma questão de configuração, não de código.</td>
+        </tr>
+        <tr>
+          <td>Dois tempos de pausa</td>
+          <td>
+            Pausa total usa <code>get_tree().paused</code>. O menu do lobo usa câmera lenta (<code
+              >Engine.time_scale = 0.25</code
+            >) e compensa o tempo nos nós que precisam correr em tempo real.
+          </td>
+          <td>Os dois modos coexistem sem reescrever cada script.</td>
+        </tr>
+        <tr>
+          <td>Projéteis fora do dono</td>
+          <td>Todo ataque é instanciado no nó <code>Projectiles</code> do mundo, nunca como filho de quem atirou.</td>
+          <td>
+            O ataque continua existindo se o dono morrer e desaparece junto com o mundo ao trocar de chunk ou reiniciar.
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" id="s2">
+      <div class="hd">
+        <div class="num">02</div>
+        <div>
+          <h2>Estrutura geral</h2>
+          <small>Quem contém quem, e como o jogo inicia</small>
+        </div>
+      </div>
+      <p>
+        O jogo roda dentro de uma cena raiz, <code>Main</code>, que alterna entre menu, cutscenes e a partida. A partida
+        inteira vive dentro de <code>World</code>. Três serviços globais (autoloads) existem durante toda a execução e
+        não pertencem a nenhuma cena.
+      </p>
+      <h3>Árvore de cenas em execução</h3>
+      <div class="fx" id="d1"></div>
+      <script>
+        FX("d1", {
+          cols: 5,
+          rows: 6,
+          cw: 240,
+          ch: 128,
+          aria: "Árvore de cenas",
+          n: [
+            ["main", 2, 0, "no", "Main\nraiz do jogo"],
+            ["menu", 1, 1, "ui", "MainMenu"],
+            ["cut", 2, 1, "ui", "CutsceneScreen"],
+            ["world", 3, 1, "no", "World\ncena da partida"],
+            ["hud", 0, 2, "ui", "HudManager\nCanvasLayer"],
+            ["proj", 1, 2, "no", "Projectiles\nataques ativos"],
+            ["pl", 2, 2, "no", "Player"],
+            ["co", 3, 2, "no", "Companion"],
+            ["cm", 4, 2, "no", "ChunkManager"],
+            ["tel", 0, 3, "ui", "Barras e Munição\nInventário · Pause\nMenu do lobo"],
+            ["pc", 1, 3, "comp", "Health · Stamina\nInventory\nCamera2D"],
+            ["wm", 2, 3, "no", "WeaponManager\nWeaponPivot\n→ Weapon ativa"],
+            ["cc", 3, 3, "comp", "Health · Stamina\nHitbox"],
+            ["ch", 4, 3, "no", "Chunk ativa"],
+            ["cn", 4, 4, "no", "Room · Puzzle\nPickup · Altar\nEnemy"],
+            ["ev", 1, 5, "glob", "Events\nsignals globais"],
+            ["gm", 2, 5, "glob", "Game\nestado da partida"],
+            ["au", 3, 5, "glob", "AudioManager\nmúsica e SFX"],
+          ],
+          m: [[1, 5, 3, 1, "AUTOLOADS"]],
+          l: [
+            ["main", "b", "menu", "t", "o"],
+            ["main", "b", "cut", "t", "o"],
+            ["main", "b", "world", "t", "o"],
+            ["world", "b", "hud", "t", "o"],
+            ["world", "b", "proj", "t", "o"],
+            ["world", "b", "pl", "t", "o"],
+            ["world", "b", "co", "t", "o"],
+            ["world", "b", "cm", "t", "o"],
+            ["hud", "b", "tel", "t", "o"],
+            ["pl", "b", "pc", "t", "o"],
+            ["pl", "b", "wm", "t", "o"],
+            ["co", "b", "cc", "t", "o"],
+            ["cm", "b", "ch", "t", "o"],
+            ["ch", "b", "cn", "t", "o"],
+          ],
+          leg: "no,ui,comp,glob|o",
+        });
+      </script>
+      <div class="c2">
+        <div class="box">
+          <h3>Autoloads</h3>
+          <ul>
+            <li>
+              <code>Events</code>: apenas signals. Não tem lógica nem estado. É o canal para avisos que atravessam
+              sistemas (ver 04).
+            </li>
+            <li>
+              <code>Game</code>: estado da partida em andamento: chunk atual, checkpoint, salas limpas, power-ups
+              permanentes e objetivo atual. Também executa <code>new_run()</code>, <code>respawn()</code> e
+              <code>restart()</code>.
+            </li>
+            <li><code>AudioManager</code>: troca de faixas de música com crossfade e SFX sem dono (ver 13).</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Nós do World</h3>
+          <ul>
+            <li><code>ChunkManager</code> instancia a chunk ativa e faz a transição entre chunks.</li>
+            <li><code>Projectiles</code> (grupo <code>projectiles</code>) recebe todos os ataques.</li>
+            <li><code>Player</code> e <code>Companion</code> persistem entre chunks. Só mudam de posição.</li>
+            <li>
+              <code>HudManager</code> é um <code>CanvasLayer</code> e contém todas as telas sobrepostas (HUD, menu do
+              lobo, inventário, pause, game over, fade).
+            </li>
+          </ul>
+        </div>
+      </div>
+      <h3>Sequência de inicialização</h3>
+      <div class="fx" id="d2"></div>
+      <script>
+        SNAKE(
+          "d2",
+          [
+            ["glob", "Godot carrega\nEvents · Game\nAudioManager"],
+            ["ui", "Main abre o MainMenu\nmúsica de menu"],
+            ["no", "Iniciar jogo\nGame.new_run()"],
+            ["base", "CutsceneScreen\nabertura (pulável)"],
+            ["no", "Main instancia World\ne descarta o menu"],
+            ["no", "World instancia\nPlayer · Companion\nChunkManager"],
+            ["no", "ChunkManager instancia\na chunk inicial\nPlayer no Entry"],
+            ["ui", "HudManager.bind_*()\nvalores iniciais\nmúsica de exploração"],
+          ],
+          { ch: 130, aria: "Sequência de inicialização", leg: "glob,ui,no,base|c", lab: { base: "Cutscene" } },
+        );
+      </script>
+    </section>
+
+    <section class="page" id="s3">
+      <div class="hd">
+        <div class="num">03</div>
+        <div>
+          <h2>Hierarquia de classes</h2>
+          <small>Classes base, derivadas e componentes</small>
+        </div>
+      </div>
+      <h3>Personagens</h3>
+      <p>
+        <code>Character</code> concentra o que todo ser que luta tem em comum: vida, empurrão, modificadores de atributo
+        e o contrato <code>take_damage()</code>. Jogador, lobo e inimigos herdam dele e acrescentam o próprio
+        comportamento.
+      </p>
+      <div class="fx" id="d3"></div>
+      <script>
+        FX("d3", {
+          cols: 4,
+          rows: 4,
+          cw: 290,
+          ch: 175,
+          gx: 40,
+          aria: "Classes de personagens",
+          n: [
+            ["cb", 1.5, 0, "dado", "CharacterBody2D\n(Godot)"],
+            ["ch", 1.5, 1, "base", "Character\n◆ HealthComponent\nmodifiers · knockback\ntake_damage()", { w: 300 }],
+            ["pl", 0.5, 2, "no", "Player\n◆ StaminaComponent\n◆ Inventory\n◆ WeaponManager"],
+            ["co", 1.5, 2, "no", "Companion\n◆ StaminaComponent (Vínculo)\n◆ Hitbox\nestados FOLLOW · ATTACK…"],
+            ["en", 2.5, 2, "base", "Enemy\n◆ Hitbox ou Weapon\n◆ DropTable\nIA por estados"],
+            ["ty", 2, 3, "no", "Slime · Soldado A e B\nTank · Sniper\nSacerdote · Investida"],
+            ["bo", 3, 3, "no", "Boss\nRei Corrompido\nfases 1 a 3"],
+          ],
+          l: [
+            ["ch", "t", "cb", "b", "h"],
+            ["pl", "t", "ch", "b", "h"],
+            ["co", "t", "ch", "b", "h"],
+            ["en", "t", "ch", "b", "h"],
+            ["ty", "t", "en", "b", "h"],
+            ["bo", "t", "en", "b", "h"],
+          ],
+          leg: "dado,base,no|h",
+        });
+      </script>
+      <h3>Armas e ataques</h3>
+      <p>
+        Uma <code>Weapon</code> não causa dano: ela decide <i>quando</i> um ataque nasce e instancia uma
+        <code>AtkScene</code>, que é quem acerta alvos. Assim, armas de fogo, corpo a corpo e explosões compartilham o
+        mesmo pipeline de dano.
+      </p>
+      <div class="fx" id="d4"></div>
+      <script>
+        FX("d4", {
+          cols: 4,
+          rows: 6,
+          cw: 300,
+          ch: 140,
+          gx: 50,
+          aria: "Classes de armas e ataques",
+          n: [
+            ["w", 1.5, 0, "base", "Weapon\ncooldown · dano · knockback\ntry_attack()"],
+            ["rw", 0.5, 1, "base", "RangedWeapon\nmunição · reload\nspread"],
+            ["mw", 2.5, 1, "base", "MeleeWeapon\ncombo · janela de combo\ndeslocamento do dono"],
+            ["rv", 0, 2, "no", "Revolver · SMG\nSniper\n1 AtkScene por tiro"],
+            ["sg", 1, 2, "no", "Shotgun\nN AtkScenes por tiro\nem leque"],
+            ["sw", 2.5, 2, "no", "Espada · Lança\ngolpe da arma"],
+            ["as", 1.5, 4, "base", "AtkScene\ndano · knockback\nmáscara · duração"],
+            ["bu", 0, 5, "no", "Bullet\nsegue em linha reta"],
+            ["la", 1, 5, "no", "Laser\nraio instantâneo"],
+            ["sl", 2, 5, "no", "Slash\nárea do golpe"],
+            ["ex", 3, 5, "no", "Explosion\nárea circular"],
+          ],
+          m: [
+            [0, 0, 4, 3, "ARMAS"],
+            [0, 4, 4, 2, "ATAQUES"],
+          ],
+          l: [
+            ["rw", "t", "w", "b", "h"],
+            ["mw", "t", "w", "b", "h"],
+            ["rv", "t", "rw", "b", "h"],
+            ["sg", "t", "rw", "b", "h"],
+            ["sw", "t", "mw", "b", "h"],
+            ["bu", "t", "as", "b", "h"],
+            ["la", "t", "as", "b", "h"],
+            ["sl", "t", "as", "b", "h"],
+            ["ex", "t", "as", "b", "h"],
+            ["rv", "b", "as", "t", "d"],
+            ["sg", "b", "as", "t", "d", "instancia atk_scene"],
+            ["sw", "b", "as", "t", "d"],
+          ],
+          leg: "base,no|h,d",
+        });
+      </script>
+      <h3>Objetos interativos, skills do lobo e dados</h3>
+      <div class="fx" id="d5"></div>
+      <script>
+        FX("d5", {
+          cols: 7,
+          rows: 4,
+          cw: 172,
+          ch: 135,
+          gx: 24,
+          aria: "Interativos, skills e resources",
+          n: [
+            ["ia", 3, 0, "base", "Interactable\nenabled · interact()\ninteracted(actor)", { w: 200 }],
+            ["i1", 0, 1, "no", "Pickup\ncontato"],
+            ["i2", 1, 1, "no", "Altar\nescolha 1 de 2"],
+            ["i3", 2, 1, "no", "Chest\ntecla F"],
+            ["i4", 3, 1, "no", "Door\nopen()"],
+            ["i5", 4, 1, "no", "Lever\nF ou golpe"],
+            ["i6", 5, 1, "no", "PressurePlate\npeso"],
+            ["i7", 6, 1, "no", "Totem\ndano"],
+            ["ws", 1.5, 2, "base", "WolfSkill\nuse(controller)\ncusto de Vínculo"],
+            ["s1", 0, 3, "no", "SwapSkill\ntrocar posição"],
+            ["s2", 1, 3, "no", "TauntSkill\natrair inimigos"],
+            ["s3", 2, 3, "no", "RestrainSkill\nrestringir"],
+            ["s4", 3, 3, "no", "ShieldSkill\nproteger"],
+            ["r1", 4, 2.5, "dado", "ItemData\nid · tipo · ícone\napply() / remove()"],
+            ["r2", 5, 2.5, "dado", "DropTable\nitem_id → peso"],
+            ["r3", 6, 2.5, "dado", "CutsceneData\nimagem + texto"],
+          ],
+          m: [
+            [0, 0, 7, 2, "OBJETOS INTERATIVOS"],
+            [0, 2, 4, 2, "SKILLS DO LOBO"],
+            [4, 2, 3, 2, "RESOURCES (.tres)"],
+          ],
+          l: [
+            ["i1", "t", "ia", "b", "h"],
+            ["i2", "t", "ia", "b", "h"],
+            ["i3", "t", "ia", "b", "h"],
+            ["i4", "t", "ia", "b", "h"],
+            ["i5", "t", "ia", "b", "h"],
+            ["i6", "t", "ia", "b", "h"],
+            ["i7", "t", "ia", "b", "h"],
+            ["s1", "t", "ws", "b", "h"],
+            ["s2", "t", "ws", "b", "h"],
+            ["s3", "t", "ws", "b", "h"],
+            ["s4", "t", "ws", "b", "h"],
+          ],
+          leg: "base,no,dado|h",
+        });
+      </script>
+      <h3>Componentes reutilizáveis</h3>
+      <table>
+        <tr>
+          <th>Componente</th>
+          <th>Responsabilidade</th>
+          <th>Interface</th>
+        </tr>
+        <tr>
+          <td><code>HealthComponent</code></td>
+          <td>Vida e escudo de qualquer dono. O escudo absorve primeiro e o excedente passa para a vida.</td>
+          <td>
+            <code>take_damage</code>, <code>heal</code>, <code>heal_percent</code>,
+            <code>add_shield(valor, duração)</code>. Signals: <code>health_changed</code>, <code>shield_changed</code>,
+            <code>died</code>.
+          </td>
+        </tr>
+        <tr>
+          <td><code>StaminaComponent</code></td>
+          <td>
+            Um recurso que se gasta e regenera depois de um atraso. Serve de stamina do jogador e de Vínculo do lobo.
+          </td>
+          <td>
+            <code>spend(n) → bool</code>, <code>drain(taxa, delta)</code>. Signals: <code>stamina_changed</code>,
+            <code>depleted</code>.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Hitbox</code></td>
+          <td>
+            Area2D que causa dano por contato (slime, investida, golpe do lobo). Ligada e desligada
+            pelo dono.
+          </td>
+          <td><code>damage</code>, <code>knockback</code>, <code>enable()</code>, <code>disable()</code>.</td>
+        </tr>
+        <tr>
+          <td><code>modifiers</code> (em <code>Character</code>)</td>
+          <td>
+            Dicionário de multiplicadores e flags que itens alteram: <code>ammo_mult</code>, <code>cooldown_mult</code>,
+            <code>speed_mult</code>, <code>bond_mult</code>, <code>infinite_ammo</code>, <code>infinite_stamina</code>.
+          </td>
+          <td>Armas, movimento e Vínculo leem o valor efetivo.</td>
+        </tr>
+      </table>
+    </section>
+    <section class="page" id="s4">
+      <div class="hd">
+        <div class="num">04</div>
+        <div>
+          <h2>Comunicação entre sistemas</h2>
+          <small>Quem avisa quem</small>
+        </div>
+      </div>
+      <p>
+        Há três canais, usados nesta ordem de preferência: <b>chamada direta</b> de pai para filho, <b>signal</b> de
+        filho para pai e <b>signal global</b> via <code>Events</code> quando emissor e ouvinte não têm relação de
+        parentesco. Grupos (<code>player</code>, <code>companion</code>, <code>enemy</code>, <code>projectiles</code>)
+        servem apenas para localizar nós, nunca para trocar mensagens.
+      </p>
+      <h3>Estado dos personagens até a HUD</h3>
+      <p>
+        Componentes emitem signals sempre que o valor muda. O <code>HudManager</code> conecta tudo uma única vez em
+        <code>bind_*()</code> e, no momento da conexão, já entrega o valor atual. A HUD não conhece quem emite, e quem
+        emite não conhece a HUD.
+      </p>
+      <div class="fx" id="d6"></div>
+      <script>
+        FX("d6", {
+          cols: 3,
+          rows: 5,
+          cw: 380,
+          ch: 125,
+          gx: 60,
+          aria: "Signals de estado até a HUD",
+          n: [
+            ["e0", 0, 0, "comp", "Weapon\nammo_changed(cur, max)\nreload_started · reload_finished"],
+            ["e1", 0, 1, "no", "WeaponManager\nweapon_changed(weapon)"],
+            ["e2", 0, 2, "comp", "HealthComponent\nhealth_changed(cur, max)\nshield_changed · died"],
+            ["e3", 0, 3, "comp", "StaminaComponent\nstamina_changed(cur, max)"],
+            ["e4", 0, 4, "no", "Inventory\ninventory_changed\neffect_started · effect_ended"],
+            [
+              "hub",
+              1,
+              0,
+              "ui",
+              "HudManager\nbind_weapon() · bind_player()\nbind_companion() · bind_inventory()\nentrega o valor inicial no bind",
+              { rs: 5, h: 600 },
+            ],
+            ["am", 2, 0, "ui", "AmmoHUD\nmunição e sprite da arma", { rs: 2, h: 90 }],
+            ["hp", 2, 2, "ui", "Barras de vida\nplayer e lobo"],
+            ["st", 2, 3, "ui", "Stamina e Vínculo"],
+            ["cs", 2, 4, "ui", "Slot de consumível\ne barra de efeito"],
+          ],
+          l: [
+            ["e0", "r", "hub", "l", "s", "", { db: -250 }],
+            ["e1", "r", "hub", "l", "s", "", { db: -125 }],
+            ["e2", "r", "hub", "l", "s"],
+            ["e3", "r", "hub", "l", "s", "", { db: 125 }],
+            ["e4", "r", "hub", "l", "s", "", { db: 250 }],
+            ["hub", "r", "am", "l", "c", "", { da: -187.5 }],
+            ["hub", "r", "hp", "l", "c"],
+            ["hub", "r", "st", "l", "c", "", { da: 125 }],
+            ["hub", "r", "cs", "l", "c", "", { da: 250 }],
+          ],
+          leg: "comp,no,ui|s,c",
+        });
+      </script>
+      <h3>Eventos do mundo</h3>
+      <p>
+        Eventos de jogo (inimigo morreu, sala limpa, chunk trocada) interessam a vários sistemas ao mesmo tempo. Quem os
+        produz emite o signal em <code>Events</code>, e quem se interessa se conecta a ele.
+      </p>
+      <div class="fx" id="d7"></div>
+      <script>
+        FX("d7", {
+          cols: 3,
+          rows: 6,
+          cw: 380,
+          ch: 118,
+          gx: 60,
+          aria: "Eventos globais",
+          n: [
+            ["e0", 0, 0, "no", "Enemy\ndied → enemy_died"],
+            ["e1", 0, 1, "no", "Room\nroom_started · room_cleared"],
+            ["e2", 0, 2, "no", "ChunkManager\nchunk_changed(id)"],
+            ["e3", 0, 3, "no", "Player · Companion\ndied → run_failed"],
+            ["e4", 0, 4, "no", "Boss\nboss_started · boss_defeated"],
+            ["e5", 0, 5, "no", "WolfCommandController\nwolf_menu_opened · _closed"],
+            [
+              "hub",
+              1,
+              0,
+              "glob",
+              "Events\nautoload, só signals\nenemy_died · room_started\nroom_cleared · chunk_changed\nboss_started · boss_defeated\nwolf_menu_opened/closed\nrun_failed · objective_changed",
+              { rs: 6, h: 680 },
+            ],
+            ["c0", 2, 0, "no", "Room\ncontabiliza enemy_died"],
+            ["c1", 2, 2, "glob", "Game\ncheckpoint · salas limpas\nrespawn() em run_failed"],
+            ["c2", 2, 3, "glob", "AudioManager\ntroca a faixa de música"],
+            ["c3", 2, 5, "ui", "HudManager\nobjetivo · fade · Game Over"],
+          ],
+          l: [
+            ["e0", "r", "hub", "l", "s", "", { db: -295 }],
+            ["e1", "r", "hub", "l", "s", "", { db: -177 }],
+            ["e2", "r", "hub", "l", "s", "", { db: -59 }],
+            ["e3", "r", "hub", "l", "s", "", { db: 59 }],
+            ["e4", "r", "hub", "l", "s", "", { db: 177 }],
+            ["e5", "r", "hub", "l", "s", "", { db: 295 }],
+            ["hub", "r", "c0", "l", "s", "", { da: -295 }],
+            ["hub", "r", "c1", "l", "s", "", { da: -59 }],
+            ["hub", "r", "c2", "l", "s", "", { da: 59 }],
+            ["hub", "r", "c3", "l", "s", "", { da: 295 }],
+          ],
+          leg: "no,glob,ui|s",
+        });
+      </script>
+      <div class="box">
+        <h3>Regras</h3>
+        <ul>
+          <li>Quem emite não verifica quem escuta. Se o ouvinte não existir, nada acontece.</li>
+          <li>
+            Signals carregam o <b>dado</b> (identificador, valor), nunca referências a nós internos de outro sistema.
+          </li>
+          <li>Pedidos que exigem resposta (ex.: "posso atacar?") são chamadas diretas, não signals.</li>
+          <li>
+            Puzzles têm o próprio canal local: elementos avisam o <code>PuzzleController</code>, que avisa a
+            <code>Door</code> (ver 11).
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page" id="s5">
+      <div class="hd">
+        <div class="num">05</div>
+        <div>
+          <h2>Combate e dano</h2>
+          <small>Do ataque criado até as consequências</small>
+        </div>
+      </div>
+      <p>
+        Todo dano segue o mesmo caminho, não importa a origem. Um ataque (<code>AtkScene</code>) detecta o alvo pela
+        física, verifica se o alvo sabe receber dano e entrega o valor. O alvo decide sozinho o que isso causa.
+      </p>
+      <div class="fx" id="d8"></div>
+      <script>
+        FX("d8", {
+          cols: 4,
+          rows: 8,
+          cw: 300,
+          ch: 120,
+          gx: 80,
+          aria: "Pipeline de dano",
+          n: [
+            ["atk", 1.5, 0, "no", "AtkScene em Projectiles\nArea2D com a máscara do dono", { w: 280 }],
+            ["col", 1.5, 1, "no", "body_entered(alvo)\nlayer e mask filtram o alvo"],
+            ["dec", 1.5, 2, "dec", "alvo tem\ntake_damage()?"],
+            ["wall", 0, 2, "no", "Parede ou objeto\nsem o método"],
+            ["td", 1.5, 3, "no", "take_damage(n)\nCharacter repassa"],
+            ["kb", 3, 3, "no", "apply_knockback(v)\nempurrão com atrito"],
+            ["hc", 1.5, 4, "comp", "HealthComponent\nescudo → vida"],
+            ["hud", 0, 4, "ui", "HUD e EnemyBar\n(health_changed)"],
+            ["chk", 1.5, 5, "dec", "vida = 0?"],
+            ["died", 1.5, 6, "no", "died (signal)\nCharacter._on_death()"],
+            ["e1", 0, 7, "no", "Enemy\nenemy_died + drop"],
+            ["e2", 1.5, 7, "no", "Player · Companion\nrun_failed"],
+            ["e3", 3, 7, "no", "Objeto\nquebra ou explode"],
+          ],
+          l: [
+            ["atk", "b", "col", "t"],
+            ["col", "b", "dec", "t"],
+            ["dec", "l", "wall", "r", "c", "não"],
+            ["dec", "b", "td", "t", "c", "sim"],
+            ["dec", "r", "kb", "t", "c", "se tiver"],
+            ["td", "b", "hc", "t"],
+            ["hc", "l", "hud", "r", "s"],
+            ["hc", "b", "chk", "t"],
+            ["chk", "b", "died", "t", "c", "sim"],
+            ["died", "b", "e1", "t"],
+            ["died", "b", "e2", "t"],
+            ["died", "b", "e3", "t"],
+          ],
+          leg: "no,comp,ui,dec|c,s",
+        });
+      </script>
+      <div class="c2">
+        <div class="box">
+          <h3>Contrato de dano</h3>
+          <ul>
+            <li><code>take_damage(amount)</code>: obrigatório para quem pode ser ferido.</li>
+            <li><code>apply_knockback(vetor)</code>: opcional. Se existir, o ataque também empurra.</li>
+            <li>Não existe invulnerabilidade por esquiva: rolar tira o jogador da linha de ataque, não o protege.</li>
+            <li>
+              Cada alvo é atingido <b>uma vez por ataque</b> (golpes e explosões guardam a lista de quem já foi
+              atingido).
+            </li>
+            <li>Balas somem ao acertar. Laser e golpes atravessam tudo no alcance.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Escudo e cura</h3>
+          <ul>
+            <li>
+              Escudo tem valor e validade. Enquanto existe, o dano o consome antes da vida; o que sobra segue para a
+              vida.
+            </li>
+            <li>Cura é percentual (<code>heal_percent</code>) ou absoluta e nunca passa do máximo.</li>
+            <li>
+              Ao chegar a zero, o componente emite <code>died</code> uma única vez. A reação é do dono: inimigo solta
+              itens e avisa o mundo; jogador e lobo encerram a tentativa.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <h3>Camadas e máscaras</h3>
+      <table>
+        <tr>
+          <th>Quem</th>
+          <th>Layer</th>
+          <th>Mask (o que atinge ou colide)</th>
+        </tr>
+        <tr>
+          <td>Paredes e cenário</td>
+          <td><code>world</code></td>
+          <td>nenhuma</td>
+        </tr>
+        <tr>
+          <td>Player</td>
+          <td><code>player</code></td>
+          <td><code>world</code>, <code>enemy</code></td>
+        </tr>
+        <tr>
+          <td>Companion</td>
+          <td><code>companion</code></td>
+          <td><code>world</code>, <code>enemy</code></td>
+        </tr>
+        <tr>
+          <td>Inimigo</td>
+          <td><code>enemy</code></td>
+          <td><code>world</code>, <code>player</code>, <code>companion</code></td>
+        </tr>
+        <tr>
+          <td>Ataque do player</td>
+          <td><code>player_projectile</code></td>
+          <td><code>world</code>, <code>enemy</code>, <code>interactable</code> (totens, alavancas)</td>
+        </tr>
+        <tr>
+          <td>Golpe do lobo</td>
+          <td><code>companion_hitbox</code></td>
+          <td><code>enemy</code>, <code>interactable</code></td>
+        </tr>
+        <tr>
+          <td>Ataque inimigo</td>
+          <td><code>enemy_projectile</code> / <code>enemy_hitbox</code></td>
+          <td><code>world</code>, <code>player</code>, <code>companion</code></td>
+        </tr>
+        <tr>
+          <td>Itens e gatilhos</td>
+          <td><code>interactable</code></td>
+          <td>só detectam <code>player</code> e <code>companion</code></td>
+        </tr>
+      </table>
+      <p>
+        A máscara do ataque não é escrita na cena da bala. Ela é entregue pela arma ao criar o ataque (ver 06), por isso
+        a mesma cena de <code>Bullet</code> serve a jogador e inimigo.
+      </p>
+    </section>
+
+    <section class="page" id="s6">
+      <div class="hd">
+        <div class="num">06</div>
+        <div>
+          <h2>Armas e ataques</h2>
+          <small>Sistema modular: dono → arma → atk scene</small>
+        </div>
+      </div>
+      <p>
+        Um dono (jogador, lobo ou inimigo) possui um <code>WeaponPivot</code> que gira a arma em direção ao alvo. A arma
+        só reage a duas chamadas: <code>try_attack()</code> e, se for de fogo, <code>try_reload()</code>. Tudo que
+        acontece depois é responsabilidade dela e da atk scene.
+      </p>
+      <div class="fx" id="d9"></div>
+      <script>
+        FX("d9", {
+          cols: 4,
+          rows: 7,
+          cw: 300,
+          ch: 138,
+          gx: 70,
+          aria: "Fluxo de um ataque",
+          n: [
+            ["dono", 1.5, 0, "no", "Dono\nPlayer · Lobo · Inimigo\ndecide quando e para onde"],
+            ["pv", 0, 1, "no", "WeaponPivot\ngira e espelha a arma"],
+            ["try", 1.5, 1, "no", "weapon.try_attack()\nchamado pelo dono"],
+            ["can", 1.5, 2, "dec", "pode atacar?\ncooldown · munição\nreload · dono livre"],
+            ["no", 0, 2, "no", "Ignora a chamada"],
+            ["atk", 1.5, 3, "no", "atk()\ninstancia a atk_scene\n(uma ou várias)"],
+            [
+              "cfg",
+              3,
+              3,
+              "no",
+              "Configura cada ataque\nposição = Tip da arma\nrotação = pivô + spread\ndano · knockback · máscara",
+            ],
+            ["add", 1.5, 4, "no", "add_child → Projectiles"],
+            ["upd", 1.5, 5, "comp", "ammo − 1 · cooldown\nammo_changed"],
+            ["hud", 3, 5, "ui", "AmmoHUD\natualiza o contador"],
+            ["end", 1.5, 6, "dado", "AtkScene assume\n(ver 05 Combate e dano)"],
+          ],
+          l: [
+            ["dono", "l", "pv", "t", "c", "aim_at(posição)"],
+            ["dono", "b", "try", "t"],
+            ["try", "b", "can", "t"],
+            ["can", "l", "no", "r", "c", "não"],
+            ["can", "b", "atk", "t", "c", "sim"],
+            ["atk", "r", "cfg", "l", "d"],
+            ["atk", "b", "add", "t"],
+            ["add", "b", "upd", "t"],
+            ["upd", "r", "hud", "l", "s"],
+            ["upd", "b", "end", "t"],
+          ],
+          leg: "no,dec,comp,ui,dado|c,s,d",
+        });
+      </script>
+      <div class="c2">
+        <div class="box">
+          <h3>Contrato da arma</h3>
+          <ul>
+            <li>
+              <code>setup(wielder, target_mask)</code>: chamado quando a arma é equipada. Define o dono e quem os
+              ataques podem atingir.
+            </li>
+            <li>
+              <code>try_attack()</code>: valida e ataca. A validação consulta cooldown, munição, reload em curso e
+              <code>wielder.attack_blocked</code> (ex.: durante esquiva).
+            </li>
+            <li>
+              <code>try_reload()</code> e os signals <code>reload_started(duração)</code> /
+              <code>reload_finished</code> existem em armas de fogo. A barra de recarga só mostra o que o signal
+              informa.
+            </li>
+            <li>
+              Valores efetivos = valor base × <code>modifiers</code> do dono (<code>ammo_mult</code>,
+              <code>cooldown_mult</code>, <code>infinite_ammo</code>).
+            </li>
+            <li>Armas de inimigos têm munição infinita. Só o cooldown limita.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>WeaponManager</h3>
+          <ul>
+            <li>Guarda as armas possuídas e os <b>slots equipados</b> (2, ou 3 com o Coldre extra).</li>
+            <li><code>switch_weapon</code> alterna entre as equipadas. Trocar cancela uma recarga em andamento.</li>
+            <li><code>equip(slot, weapon_id)</code> é chamado pelo inventário.</li>
+            <li>Emite <code>weapon_changed(weapon)</code>. A HUD usa isso para religar munição e sprite (ver 04).</li>
+          </ul>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Arma</th>
+          <th>Atk scene</th>
+          <th>Comportamento</th>
+        </tr>
+        <tr>
+          <td>Revolver</td>
+          <td><code>Bullet</code></td>
+          <td>Cadência média, 6 tiros, dano médio.</td>
+        </tr>
+        <tr>
+          <td>SMG</td>
+          <td><code>Bullet</code></td>
+          <td>Cadência alta, pente grande, dano baixo, dispersão.</td>
+        </tr>
+        <tr>
+          <td>Shotgun</td>
+          <td><code>Bullet</code> × N</td>
+          <td>Vários projéteis por tiro em leque, de curto alcance e alto dano total.</td>
+        </tr>
+        <tr>
+          <td>Sniper</td>
+          <td><code>Laser</code></td>
+          <td>
+            Raio instantâneo até o cursor. Dano alto, pente pequeno. Atinge tudo no caminho, inclusive totens alinhados.
+          </td>
+        </tr>
+        <tr>
+          <td>Espada</td>
+          <td><code>Slash</code></td>
+          <td>
+            Combo de 3 golpes dentro de uma janela de tempo. A hitbox só existe nos quadros de impacto e o dono avança
+            levemente a cada golpe.
+          </td>
+        </tr>
+        <tr>
+          <td>Lança</td>
+          <td><code>Slash</code></td>
+          <td>Golpe único de maior alcance, sem combo.</td>
+        </tr>
+        <tr>
+          <td>Explosão</td>
+          <td><code>Explosion</code></td>
+          <td>Não é arma equipável. É usada por inimigos e objetos: dano em área circular, uma vez por alvo.</td>
+        </tr>
+      </table>
+      <p>
+        <b>Armas de inimigos:</b> a Sniper inimiga mostra uma linha de mira durante cerca de um segundo antes de o laser
+        sair. O Soldado B usa Revolver ou SMG com a mesma classe do jogador.
+      </p>
+    </section>
+
+    <section class="page" id="s7">
+      <div class="hd">
+        <div class="num">07</div>
+        <div>
+          <h2>Player</h2>
+          <small>Controle, recursos e estados</small>
+        </div>
+      </div>
+      <p>
+        <code>Player</code> herda de <code>Character</code>, contém <code>StaminaComponent</code>,
+        <code>Inventory</code> e <code>WeaponManager</code>, e é a única classe que converte input em ações do jogo.
+      </p>
+      <div class="c2">
+        <div class="box">
+          <h3>Estados</h3>
+          <ul>
+            <li><b>MOVE:</b> andar em 8 direções, velocidade multiplicada por <code>speed_mult</code>.</li>
+            <li>
+              <b>SPRINT:</b> mantém <code>sprint</code> pressionado com stamina disponível; velocidade × 1,5 e gasta
+              stamina por segundo.
+            </li>
+            <li>
+              <b>DODGE:</b> rolagem em uma direção, com custo fixo de stamina. Sem invulnerabilidade. Nos quadros
+              centrais, a flag <code>airborne</code> fica ligada e só o hazard do esgoto a lê.
+            </li>
+            <li><b>DEAD:</b> input desligado. O jogador não é removido; o fluxo de game over assume (ver 12).</li>
+            <li><b>Travado:</b> flag <code>can_move = false</code> usada por golpes melee e pelo menu do lobo.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Stamina</h3>
+          <ul>
+            <li>Compartilhada entre sprint e esquiva. Começa a regenerar depois de um intervalo sem gasto.</li>
+            <li>Sem stamina, o sprint para e a esquiva é recusada.</li>
+            <li><code>modifiers.infinite_stamina</code> ignora todo gasto.</li>
+            <li>O Vínculo do lobo usa o mesmo componente com outros números.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Mapa de entradas</h3>
+      <table>
+        <tr>
+          <th>Ação de input</th>
+          <th>Tecla / mouse</th>
+          <th>Quem trata</th>
+        </tr>
+        <tr>
+          <td><code>move_*</code></td>
+          <td>W A S D</td>
+          <td>Player</td>
+        </tr>
+        <tr>
+          <td><code>sprint</code></td>
+          <td>Shift</td>
+          <td>Player</td>
+        </tr>
+        <tr>
+          <td><code>dodge</code></td>
+          <td>Espaço</td>
+          <td>Player</td>
+        </tr>
+        <tr>
+          <td><code>fire</code> · <code>reload</code></td>
+          <td>Botão esquerdo · R</td>
+          <td>Player → <code>try_attack()</code> / <code>try_reload()</code></td>
+        </tr>
+        <tr>
+          <td><code>switch_weapon</code></td>
+          <td>Tab</td>
+          <td>WeaponManager</td>
+        </tr>
+        <tr>
+          <td><code>interact</code></td>
+          <td>F</td>
+          <td>Interactable mais próximo</td>
+        </tr>
+        <tr>
+          <td><code>use_consumable</code></td>
+          <td>E</td>
+          <td>Inventory</td>
+        </tr>
+        <tr>
+          <td><code>wolf_menu</code></td>
+          <td>Q</td>
+          <td>WolfCommandController</td>
+        </tr>
+        <tr>
+          <td><code>skill_1..3</code></td>
+          <td>1 · 2 · 3 (durante o menu do lobo)</td>
+          <td>WolfCommandController</td>
+        </tr>
+        <tr>
+          <td><code>inventory</code></td>
+          <td>I</td>
+          <td>HudManager → InventoryScreen</td>
+        </tr>
+        <tr>
+          <td><code>pause</code></td>
+          <td>Esc</td>
+          <td>HudManager → PauseScreen</td>
+        </tr>
+      </table>
+      <p>
+        <b>Câmera:</b> um <code>Camera2D</code> filho do Player recebe de <code>ChunkManager</code> os limites do
+        <code>Bounds</code> da chunk ativa e nunca mostra fora do mapa.
+      </p>
+      <p>
+        <b>Interface pública usada por outros sistemas:</b> <code>health</code>, <code>stamina</code>,
+        <code>modifiers</code>, <code>weapon_manager</code>, <code>inventory</code>, <code>airborne</code>,
+        <code>attack_blocked</code>. HUD, itens e puzzles dependem apenas disso.
+      </p>
+    </section>
+
+    <section class="page" id="s8">
+      <div class="hd">
+        <div class="num">08</div>
+        <div>
+          <h2>Lobo e menu de comandos</h2>
+          <small>Companion como máquina de estados</small>
+        </div>
+      </div>
+      <p>
+        Fora do menu, o lobo age sozinho: segue o jogador. Ao abrir o menu, o tempo desacelera e o jogador passa a
+        controlar o lobo diretamente por um período limitado, gastando <b>Vínculo</b> a cada habilidade.
+      </p>
+      <h3>Estados do Companion</h3>
+      <div class="fx" id="d10"></div>
+      <script>
+        FX("d10", {
+          cols: 4,
+          rows: 3,
+          cw: 300,
+          ch: 170,
+          gx: 80,
+          aria: "Estados do lobo",
+          n: [
+            ["fo", 0, 1, "no", "FOLLOW\nsegue a distância fixa"],
+            ["cm", 1.5, 1, "comp", "COMMANDED\nWASD move · skills 1 2 3\nrelógio em contagem"],
+            ["sk", 1.5, 0, "no", "SKILL\ngasta Vínculo\naplica o efeito"],
+            ["at", 3, 0, "no", "ATTACK\nvai ao alvo e golpeia"],
+            ["ho", 3, 2, "no", "HOLD\nfica parado no ponto"],
+          ],
+          l: [
+            ["fo", "r", "cm", "l", "cb", "Q / fim do menu"],
+            ["cm", "t", "sk", "b", "cb", "1 · 2 · 3"],
+            ["cm", "r", "at", "l", "cb", "atacar"],
+            ["cm", "r", "ho", "l", "cb", "ficar parado"],
+          ],
+          leg: "no,comp|cb",
+        });
+      </script>
+      <p>
+        <b>FOLLOW</b> é o estado padrão. <b>COMMANDED</b> só existe com o menu aberto. <b>ATTACK</b> e <b>HOLD</b> são
+        ordens: ATTACK volta ao COMMANDED ao terminar o golpe; HOLD persiste depois que o menu fecha, até o jogador
+        abrir o menu e ordenar que o lobo siga.
+      </p>
+      <h3>Ciclo do menu</h3>
+      <div class="fx" id="d11"></div>
+      <script>
+        SNAKE(
+          "d11",
+          [
+            ["no", "Tecla Q\nwolf_menu"],
+            ["comp", "WolfCommandController\nvalida Vínculo mínimo"],
+            ["no", "time_scale = 0,25\nPlayer sem input"],
+            ["ui", "HudManager escurece\nmostra relógio e botões"],
+            ["no", "Jogador comanda\nWASD · skills · botões", "", "c"],
+            ["no", "Termina por relógio\nbotão ou Q"],
+            ["no", "time_scale = 1,0\nPlayer recupera controle"],
+            ["comp", "Vínculo regenera\n(tempo de recarga do menu)"],
+          ],
+          { ch: 125, aria: "Ciclo do menu do lobo", leg: "no,comp,ui|c" },
+        );
+      </script>
+      <div class="c2">
+        <div class="box">
+          <h3>Vínculo</h3>
+          <ul>
+            <li>É um <code>StaminaComponent</code> do lobo. Cada skill tem um custo em Vínculo.</li>
+            <li>Não regenera enquanto o menu está aberto. Regenera depois, e esse tempo é a recarga do menu.</li>
+            <li>O menu só abre se houver Vínculo para a skill mais barata equipada.</li>
+            <li>
+              O relógio e o lobo se movem em tempo real: usam <code>delta / Engine.time_scale</code> para compensar a
+              câmera lenta.
+            </li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Equipar skills</h3>
+          <ul>
+            <li>O jogador equipa 2 skills (3 com a Runa extra) na tela de inventário.</li>
+            <li>
+              <code>WolfCommandController</code> lê apenas a lista de equipadas. Tecla e botão chamam o mesmo
+              <code>use_skill(i)</code>.
+            </li>
+            <li>
+              O lobo também interage com puzzles: um golpe aciona a <code>Lever</code>; ficar sobre a
+              <code>PressurePlate</code> a mantém pressionada.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Skill</th>
+          <th>Efeito</th>
+          <th>Implementação</th>
+        </tr>
+        <tr>
+          <td>Atrair inimigos</td>
+          <td>Inimigos com visão passam a mirar o lobo por alguns segundos.</td>
+          <td>Define <code>taunt_target</code> nos inimigos em alcance. A IA prioriza esse campo.</td>
+        </tr>
+        <tr>
+          <td>Restringir</td>
+          <td>Prende um inimigo no lugar. Bosses são imunes.</td>
+          <td>
+            Modo de mira: o cursor vira uma mira e uma linha mostra o alcance. Um alvo válido recebe
+            <code>freeze(t)</code>. Clicar em qualquer botão cancela sem custo.
+          </td>
+        </tr>
+        <tr>
+          <td>Trocar posição</td>
+          <td>Jogador e lobo trocam de lugar.</td>
+          <td>Troca de <code>global_position</code>.</td>
+        </tr>
+        <tr>
+          <td>Proteger</td>
+          <td>Escudo temporário em ambos.</td>
+          <td><code>add_shield(percentual da vida, duração)</code> nos dois.</td>
+        </tr>
+      </table>
+    </section>
+    <section class="page" id="s9">
+      <div class="hd">
+        <div class="num">09</div>
+        <div>
+          <h2>Inimigos e boss</h2>
+          <small>Uma base, comportamento por estado</small>
+        </div>
+      </div>
+      <p>
+        Todo inimigo herda de <code>Enemy</code>, que implementa percepção, escolha de alvo, máquina de estados, barra
+        de vida e drop. Cada tipo só sobrescreve o que o diferencia: como persegue, como ataca e se reage de forma
+        especial ao dano.
+      </p>
+      <h3>Estados</h3>
+      <div class="fx" id="d12"></div>
+      <script>
+        FX("d12", {
+          cols: 4,
+          rows: 3,
+          cw: 340,
+          ch: 150,
+          gx: 140,
+          aria: "Estados do inimigo",
+          n: [
+            ["id", 0, 1, "no", "IDLE\naguarda ou patrulha"],
+            ["ch", 1, 1, "no", "CHASE\nalvo: taunt_target ou\naliado mais próximo"],
+            ["at", 2, 1, "no", "ATTACK\nHitbox ou Weapon"],
+            ["de", 3, 1, "glob", "DEAD\n(de qualquer estado)\ndrop + enemy_died"],
+            ["st", 1.5, 2, "no", "STUN / FREEZE\nIA parada por t segundos"],
+          ],
+          l: [
+            ["id", "r", "ch", "l", "c", "vê o alvo"],
+            ["ch", "r", "at", "l", "c", "em alcance"],
+            [
+              "at",
+              "t",
+              "ch",
+              "t",
+              "c",
+              "recuperação",
+              {
+                via: [
+                  [2.5, 0.75],
+                  [1.5, 0.75],
+                ],
+              },
+            ],
+            ["at", "r", "de", "l", "c", "vida = 0"],
+            ["ch", "b", "st", "t", "cb", "stun() · freeze()"],
+            ["at", "b", "st", "t", "cb"],
+          ],
+          leg: "no,glob|c,cb",
+        });
+      </script>
+      <div class="c2">
+        <div class="box">
+          <h3>Enemy (base)</h3>
+          <ul>
+            <li>
+              <b>Percepção:</b> distância de detecção mais um <code>RayCast2D</code> de visão. Sem pathfinding global: o
+              inimigo se move em direção ao alvo e desvia de paredes com o raio.
+            </li>
+            <li>
+              <b>Alvo:</b> <code>taunt_target</code> (se definido pela skill do lobo) ou o personagem aliado mais
+              próximo.
+            </li>
+            <li>
+              <b>Barra de vida:</b> cena <code>EnemyBar</code> filha do inimigo, ligada ao <code>health_changed</code>.
+            </li>
+            <li>
+              <b>Controle de IA:</b> <code>stun(t)</code> e <code>freeze(t)</code> interrompem qualquer estado e
+              devolvem ao CHASE.
+            </li>
+            <li><b>Cobertura:</b> pontos <code>Marker2D</code> na chunk, escolhidos pelo Soldado B.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Drops</h3>
+          <ul>
+            <li><code>DropTable</code> (Resource): lista de itens com peso.</li>
+            <li>A cura é sorteada entre as três variantes, com peso maior para quem tem mais vida faltando.</li>
+            <li>Inimigos fortes (Tank, Sniper, Sacerdote) têm maior chance de power-up.</li>
+            <li>O drop vira um <code>Pickup</code> no ponto da morte (ver 10).</li>
+          </ul>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Inimigo</th>
+          <th>Comportamento</th>
+          <th>Peça específica</th>
+        </tr>
+        <tr>
+          <td>Slime</td>
+          <td>
+            Persegue e causa dano por contato. Ao morrer divide-se em dois menores (3 gerações), cada um mais rápido e
+            com menos vida.
+          </td>
+          <td>
+            <code>Hitbox</code> de contato; <code>split()</code> instancia as filhas. Lentidão no jogador:
+            <code>speed_mult</code> temporário.
+          </td>
+        </tr>
+        <tr>
+          <td>Soldado A</td>
+          <td>Corpo a corpo. Empurra e atordoa o alvo.</td>
+          <td><code>MeleeWeapon</code> + <code>stun()</code> no alvo.</td>
+        </tr>
+        <tr>
+          <td>Soldado B</td>
+          <td>Atira de longe. Busca cobertura e reposiciona.</td>
+          <td>Arma de fogo + <code>Marker2D</code> de cobertura.</td>
+        </tr>
+        <tr>
+          <td>Tank</td>
+          <td>Muito resistente e lento. Ataques frontais não causam dano.</td>
+          <td>Em <code>take_damage</code>, compara o ângulo do ataque com a direção do corpo.</td>
+        </tr>
+        <tr>
+          <td>Sniper</td>
+          <td>Fica a distância com tiro de alto dano precedido de linha de mira.</td>
+          <td>Laser telegrafado, ligeiramente transparente até atirar.</td>
+        </tr>
+        <tr>
+          <td>Sacerdote</td>
+          <td>Não causa dano. Cura aliados ou ergue escudo, e foge do jogador.</td>
+          <td><code>HealZone</code> (Area2D com tick de cura) e <code>ShieldBubble</code> (bloqueia dano).</td>
+        </tr>
+        <tr>1
+          <td>Investida</td>
+          <td>Move-se em zigue-zague, telegrafa e dispara em linha reta. Bater em parede ou aliado o atordoa.</td>
+          <td>Estado CHARGE com colisão que chama <code>stun()</code>.</td>
+        </tr>
+        <!-- <tr>
+          <td>Bomber</td>
+          <td>Corre até perto e explode.</td>
+          <td><code>Explosion</code> como ataque.</td>
+        </tr> -->
+      </table>
+      <h3>Boss: Rei Corrompido</h3>
+      <div class="fx" id="d13"></div>
+      <script>
+        FX("d13", {
+          cols: 4,
+          rows: 3,
+          cw: 300,
+          ch: 150,
+          gx: 70,
+          aria: "Fases do boss",
+          n: [
+            ["f1", 0, 0, "no", "FASE 1\n100% a 66% da vida\npadrões base"],
+            ["f2", 1.5, 0, "no", "FASE 2\n66% a 33%\npadrões novos\ndistorções temporais"],
+            ["f3", 3, 0, "no", "FASE 3\nabaixo de 33%\ninimigos extras\ntodos os padrões"],
+            ["at", 1.5, 1, "dado", "Tabela de ataques por fase\npesos sorteados a cada ciclo", { w: 320 }],
+            ["eco", 0.5, 2, "no", "Eco\nrepete o último ataque\nna mesma posição"],
+            ["zn", 2.5, 2, "no", "Zona congelada\nárea telegrafada que\nzera a velocidade"],
+          ],
+          l: [
+            ["f1", "r", "f2", "l", "c", "< 66%"],
+            ["f2", "r", "f3", "l", "c", "< 33%"],
+            ["f1", "b", "at", "t", "d"],
+            ["f2", "b", "at", "t", "d"],
+            ["f3", "b", "at", "t", "d"],
+            ["at", "b", "eco", "t"],
+            ["at", "b", "zn", "t"],
+          ],
+          leg: "no,dado|c,d",
+        });
+      </script>
+      <ul>
+        <li>
+          O boss herda de <code>Enemy</code> com resistência total a empurrão e imunidade à skill Restringir. A troca de
+          fase acontece ao observar o próprio <code>health_changed</code>.
+        </li>
+        <li>Cada ataque é um método ou cena independente, sorteado por pesos conforme a fase.</li>
+        <li>
+          Ao entrar na arena, a <code>Room</code> tranca as portas e o boss emite <code>boss_started</code>. A morte
+          emite <code>boss_defeated</code> e inicia a cinemática final.
+        </li>
+      </ul>
+    </section>
+
+    <section class="page" id="s10">
+      <div class="hd">
+        <div class="num">10</div>
+        <div>
+          <h2>Itens, power-ups e inventário</h2>
+          <small>Dados em Resource, efeitos por modificadores</small>
+        </div>
+      </div>
+      <p>
+        Todo item é um <code>ItemData</code> (arquivo <code>.tres</code>) com identificador, tipo, ícone, descrição e os
+        métodos <code>apply()</code> e <code>remove()</code>. O mundo só contém <code>Pickup</code>s que apontam para um
+        item pelo identificador.
+      </p>
+      <div class="fx" id="d14"></div>
+      <script>
+        FX("d14", {
+          cols: 4,
+          rows: 7,
+          cw: 300,
+          ch: 108,
+          gx: 70,
+          aria: "Do item ao efeito",
+          n: [
+            ["s1", 0, 0, "no", "Inimigo morre\nDropTable sorteia"],
+            ["s2", 1.5, 0, "no", "Baú · Altar\ninteração com F"],
+            ["s3", 3, 0, "no", "Local fixo\n(Pulso temporal)"],
+            ["pk", 1.5, 1, "no", "Pickup\neffect_id"],
+            ["co", 1.5, 2, "no", "collected(actor, id)\nsignal"],
+            ["db", 1.5, 3, "dado", "ItemDB\nid → ItemData (.tres)"],
+            ["kd", 1.5, 4, "dec", "ItemData.kind?"],
+            ["he", 0, 5, "no", "CURA\naplica ao pisar"],
+            ["cn", 1.5, 5, "no", "CONSUMÍVEL\nInventory.add(id)"],
+            ["pm", 3, 5, "no", "PERMANENTE\nGame.add_permanent(id)"],
+            ["hc", 0, 6, "comp", "HealthComponent\nheal_percent(p)"],
+            ["ef", 1.5, 6, "comp", "use_consumable() (E)\napply() + timer → remove()"],
+            ["md", 3, 6, "comp", "Character.modifiers\nrecalculados"],
+          ],
+          l: [
+            ["s1", "b", "pk", "t"],
+            ["s2", "b", "pk", "t"],
+            ["s3", "b", "pk", "t"],
+            ["pk", "b", "co", "t"],
+            ["co", "b", "db", "t"],
+            ["db", "b", "kd", "t"],
+            ["kd", "b", "he", "t"],
+            ["kd", "b", "cn", "t"],
+            ["kd", "b", "pm", "t"],
+            ["he", "b", "hc", "t"],
+            ["cn", "b", "ef", "t"],
+            ["pm", "b", "md", "t"],
+            ["ef", "r", "md", "l", "d", "altera"],
+          ],
+          leg: "no,dado,dec,comp|c,d",
+        });
+      </script>
+      <div class="c2">
+        <div class="box">
+          <h3>Inventory (filho do Player)</h3>
+          <ul>
+            <li>
+              <code>weapons_owned</code>, <code>consumables</code> (identificador → quantidade),
+              <code>consumable_equipped</code>, <code>permanents</code> (2 slots) e <code>wolf_skills</code>.
+            </li>
+            <li>
+              <code>use_consumable()</code> aplica o efeito, inicia o timer e emite <code>effect_started</code> /
+              <code>effect_ended</code>.
+            </li>
+            <li><code>inventory_changed</code> faz a tela de inventário se redesenhar.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Altares e persistência</h3>
+          <ul>
+            <li>
+              O <code>Altar</code> oferece dois itens. Escolher um consome o altar e entrega o item permanente
+              (<code>Game.add_permanent</code>).
+            </li>
+            <li>Power-ups <b>temporários</b> e consumíveis são perdidos ao voltar a um checkpoint.</li>
+            <li>Os <b>permanentes</b> e as armas ficam guardados em <code>Game</code> e retornam em todo respawn.</li>
+          </ul>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Item</th>
+          <th>Tipo</th>
+          <th>Efeito</th>
+        </tr>
+        <tr>
+          <td>Curas A, B e C</td>
+          <td>Cura</td>
+          <td><code>heal_percent</code> no jogador, no lobo ou em ambos, aplicada ao pisar. Não ocupa slot.</td>
+        </tr>
+        <tr>
+          <td>Fôlego do morto</td>
+          <td>Consumível</td>
+          <td><code>infinite_stamina</code> e aumento de velocidade por ~12 s.</td>
+        </tr>
+        <tr>
+          <td>Véu espectral</td>
+          <td>Consumível</td>
+          <td>Escudo temporário nos dois.</td>
+        </tr>
+        <tr>
+          <td>Balas fantasma</td>
+          <td>Consumível</td>
+          <td><code>infinite_ammo</code> por ~10 s e pente recarregado na ativação.</td>
+        </tr>
+        <tr>
+          <td>Fúria do gatilho</td>
+          <td>Consumível</td>
+          <td><code>cooldown_mult</code> reduzido por ~12 s.</td>
+        </tr>
+        <tr>
+          <td>Pulso temporal</td>
+          <td>Item fixo</td>
+          <td>Dano em todos os inimigos visíveis. Ignora escudos; no boss, a fração é limitada.</td>
+        </tr>
+        <tr>
+          <td>Cartucheira · Elo reforçado</td>
+          <td>Permanente</td>
+          <td><code>ammo_mult</code> × 1,5 (arredonda para cima) · <code>bond_mult</code> × 1,4.</td>
+        </tr>
+        <tr>
+          <td>Coldre extra · Runa extra</td>
+          <td>Permanente</td>
+          <td>Terceiro slot de arma · terceiro slot de skill do lobo.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" id="s11">
+      <div class="hd">
+        <div class="num">11</div>
+        <div>
+          <h2>Mundo, puzzles e progressão</h2>
+          <small>Chunks, salas, checkpoint e estado da partida</small>
+        </div>
+      </div>
+      <p>
+        O mapa é linear: <b>Chunk 1 → Chunk 2 → Arena do boss</b>. Cada chunk é uma cena independente com um formato
+        fixo.
+      </p>
+      <div class="c2">
+        <div class="box">
+          <h3>Contrato de uma Chunk</h3>
+          <ul>
+            <li>
+              Raiz <code>Node2D</code> com <code>Entry</code> (<code>Marker2D</code>: onde o jogador nasce),
+              <code>Exit</code> (<code>Area2D</code> que dispara a troca) e <code>Bounds</code> (retângulo para a
+              câmera).
+            </li>
+            <li>
+              Paredes em <code>TileMapLayer</code> com colisão na layer <code>world</code>. Chão com
+              <code>z_index</code> negativo e objetos ordenados por Y.
+            </li>
+            <li>
+              Conteúdo: <code>Room</code>s, puzzles, altares, baús, pontos de cobertura e checkpoints
+              (<code>Marker2D</code>).
+            </li>
+            <li>Emite <code>exit_reached(next_id)</code> ao ser atravessada.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Game (estado da partida)</h3>
+          <ul>
+            <li>
+              <code>current_chunk</code>, <code>checkpoint</code>, <code>cleared_rooms</code>, <code>permanents</code>,
+              <code>objective</code>.
+            </li>
+            <li>
+              <code>respawn()</code>: recarrega a chunk do último checkpoint, cura os dois, remove temporários e mantém
+              salas limpas (seus inimigos não voltam) e permanentes.
+            </li>
+            <li><code>restart(skip_cutscene)</code>: começa uma nova partida, pulando a abertura quando pedido.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Ciclo de uma Room</h3>
+      <div class="fx" id="d15"></div>
+      <script>
+        SNAKE(
+          "d15",
+          [
+            ["no", "Jogador entra\nno gatilho da Room"],
+            ["no", "Doors fecham\nroom_started"],
+            ["no", "Spawna a onda\nnos Marker2D"],
+            ["comp", "Combate\nenemy_died a cada baixa"],
+            ["no", "Onda vazia?\nsim: próxima onda ou fim", "", "c"],
+            ["no", "room_cleared(id)\nDoors abrem"],
+            ["glob", "Game guarda o id\nem cleared_rooms"],
+            ["glob", "AudioManager volta\nà música de exploração"],
+          ],
+          { ch: 125, aria: "Ciclo da Room", leg: "no,comp,glob|c" },
+        );
+      </script>
+      <p>
+        As ondas são definidas no Inspector (lista de cena, ponto de spawn e atraso), sem código por sala. Uma sala já
+        limpa não reativa ao voltar.
+      </p>
+      <h3>Troca de chunk</h3>
+      <div class="fx" id="d16"></div>
+      <script>
+        SNAKE(
+          "d16",
+          [
+            ["no", "Jogador entra\nna Exit (Area2D)"],
+            ["no", "Chunk emite\nexit_reached(next_id)"],
+            ["ui", "ScreenFade\nescurece"],
+            ["glob", "Game salva\nsalas e checkpoint"],
+            ["no", "A chunk atual sai e\na próxima é instanciada"],
+            ["no", "Player e Companion\nvão para o Entry"],
+            ["no", "Camera2D recebe os\nlimites do Bounds"],
+            ["ui", "ScreenFade clareia\nchunk_changed(id)"],
+          ],
+          { ch: 125, aria: "Troca de chunk", leg: "no,ui,glob|c" },
+        );
+      </script>
+      <p>
+        Entre Chunk 1 e Chunk 2 há um checkpoint e uma mensagem curta de transição. A arena do boss é uma chunk com uma
+        <code>Room</code> que tranca as portas ao entrar.
+      </p>
+      <h3>Puzzles</h3>
+      <p>
+        Elementos de puzzle emitem signals próprios (<code>pressed</code>, <code>toggled</code>,
+        <code>activated</code>). O <code>PuzzleController</code> os agrupa com uma regra (todos, sequência ou janela de
+        tempo) e emite <code>solved</code>, que abre uma <code>Door</code>. Falhar num desafio o reinicia sem afetar o
+        resto da chunk.
+      </p>
+      <div class="fx" id="d17"></div>
+      <script>
+        FX("d17", {
+          cols: 5,
+          rows: 3,
+          cw: 240,
+          ch: 150,
+          gx: 34,
+          aria: "Puzzles",
+          n: [
+            ["a1", 0, 0, "no", "Jogador rola\n(dodge)"],
+            ["a2", 1, 0, "no", "airborne = true\nnos quadros centrais"],
+            ["a3", 2, 0, "comp", "SewerHazard\nmata, exceto se airborne\nou sobre plataforma"],
+            ["a4", 3, 0, "no", "Chave\n(Pickup)"],
+            ["a5", 4, 0, "no", "Door.open()"],
+            ["b1", 0, 1, "no", "Lobo em cima\nda PressurePlate"],
+            ["b2", 1, 1, "comp", "PuzzleController\npressed / released"],
+            ["b3", 2, 1, "no", "Porta 1 aberta\nenquanto pressionada"],
+            ["b4", 3, 1, "no", "Lobo golpeia a Lever\n(ordem atacar)"],
+            ["b5", 4, 1, "no", "toggled → Porta 2\nDoor.open()"],
+            ["c1", 0, 2, "no", "Laser da Sniper\natravessa o alinhamento"],
+            ["c2", 1, 2, "no", "Totem.take_damage()\nemite activated"],
+            ["c3", 2, 2, "comp", "PuzzleController\njanela de ~1,5 s"],
+            ["c4", 3, 2, "dec", "todos ativos\nna janela?"],
+            ["c5", 4, 2, "no", "solved\nDoor.open()"],
+          ],
+          m: [
+            [0, 0, 5, 1, "1 · CANAL DE ESGOTO"],
+            [0, 1, 5, 1, "2 · LOBO E ALAVANCA"],
+            [0, 2, 5, 1, "3 · TOTENS ALINHADOS"],
+          ],
+          l: [
+            ["a1", "r", "a2", "l"],
+            ["a2", "r", "a3", "l"],
+            ["a3", "r", "a4", "l"],
+            ["a4", "r", "a5", "l"],
+            ["b1", "r", "b2", "l"],
+            ["b2", "r", "b3", "l"],
+            ["b3", "r", "b4", "l"],
+            ["b4", "r", "b5", "l"],
+            ["c1", "r", "c2", "l"],
+            ["c2", "r", "c3", "l"],
+            ["c3", "r", "c4", "l"],
+            ["c4", "r", "c5", "l", "c", "sim"],
+            [
+              "c4",
+              "t",
+              "c3",
+              "t",
+              "c",
+              "não: reseta",
+              {
+                via: [
+                  [3.5, 2.1],
+                  [2.5, 2.1],
+                ],
+              },
+            ],
+          ],
+          leg: "no,comp,dec|c",
+        });
+      </script>
+      <ul>
+        <li>
+          <b>1. Canal de esgoto:</b> o hazard mata, a menos que o jogador esteja no ar durante a rolagem ou sobre uma
+          plataforma móvel (<code>AnimatableBody2D</code> num <code>Path2D</code>). Morrer ali reposiciona no começo do
+          desafio. Ao final, a chave abre a porta.
+        </li>
+        <li>
+          <b>2. Lobo e alavanca:</b> a <code>PressurePlate</code> só fica ativa com algo sobre ela e segura a primeira
+          porta. A <code>Lever</code> só é atingida pelo golpe do lobo e abre a segunda.
+        </li>
+        <li>
+          <b>3. Totens alinhados:</b> o laser atravessa os totens em fila. Todos precisam ativar dentro da janela de
+          tempo, senão voltam ao estado inicial.
+        </li>
+      </ul>
+    </section>
+
+    <section class="page" id="s12">
+      <div class="hd">
+        <div class="num">12</div>
+        <div>
+          <h2>Interface</h2>
+          <small>HUD, telas e fluxo entre elas</small>
+        </div>
+      </div>
+      <h3>Fluxo de telas</h3>
+      <div class="fx" id="d18"></div>
+      <script>
+        FX("d18", {
+          cols: 5,
+          rows: 5,
+          cw: 240,
+          ch: 135,
+          gx: 40,
+          aria: "Fluxo de telas",
+          n: [
+            ["mm", 2, 0, "ui", "MainMenu"],
+            ["ct", 0, 0, "ui", "Controles"],
+            ["sa", 4, 0, "dado", "Sair do jogo"],
+            ["in", 2, 1, "base", "CutsceneScreen\nabertura"],
+            ["wd", 2, 2, "comp", "World\nChunk 1 → Chunk 2\n→ Arena do boss", { w: 210 }],
+            ["fi", 2, 3, "base", "CutsceneScreen\nfinal e créditos"],
+            ["m2", 2, 4, "dado", "MainMenu"],
+            ["pa", 4, 1, "ui", "PauseScreen\nEsc"],
+            ["pc", 4, 2, "ui", "Controles · Objetivo\nTutorial"],
+            ["iv", 4, 3, "ui", "InventoryScreen\nI · pausa o jogo"],
+            ["wm", 4, 4, "comp", "WolfMenu\nQ · tempo a 0,25"],
+            ["go", 0, 2, "glob", "GameOver\nContinuar?"],
+            ["mg", 0, 1, "dado", "MainMenu"],
+            ["ck", 0, 3, "comp", "Game.respawn()\núltimo checkpoint"],
+          ],
+          l: [
+            ["mm", "l", "ct", "r", "cb"],
+            ["mm", "r", "sa", "l", "c", "sair"],
+            ["mm", "b", "in", "t", "c", "Iniciar jogo"],
+            ["in", "b", "wd", "t"],
+            ["wd", "b", "fi", "t", "c", "boss derrotado"],
+            ["fi", "b", "m2", "t"],
+            ["wd", "r", "pa", "l", "cb"],
+            ["pa", "b", "pc", "t"],
+            ["wd", "r", "iv", "l", "cb"],
+            ["wd", "r", "wm", "l", "cb"],
+            ["wd", "l", "go", "r", "s", "run_failed"],
+            ["go", "b", "ck", "t", "c", "sim"],
+            ["go", "t", "mg", "b", "c", "não"],
+            ["ck", "r", "wd", "l", "c", "", { db: 28 }],
+          ],
+          leg: "ui,base,comp,glob,dado|c,cb,s",
+          lab: { base: "Cutscene" },
+        });
+      </script>
+      <p>
+        No Pause, "Reiniciar" começa uma nova partida a partir do tutorial, sem a cutscene. "Sair" volta ao menu
+        principal. A cutscene também pode ser acionada em momentos-chave durante o jogo e devolve o controle ao
+        terminar.
+      </p>
+      <h3>Telas e responsabilidades</h3>
+      <table>
+        <tr>
+          <th>Tela</th>
+          <th>Conteúdo</th>
+          <th>Funcionamento</th>
+        </tr>
+        <tr>
+          <td>HUD de jogo</td>
+          <td>
+            Canto superior esquerdo: retrato, vida e stamina do jogador; retrato, vida e Vínculo do lobo. Canto inferior
+            direito: munição, sprite da arma e consumível equipado com barra do efeito.
+          </td>
+          <td>
+            Construída pelo <code>HudManager</code> via <code>bind_*()</code>. Nunca consulta os personagens por conta
+            própria (ver 04).
+          </td>
+        </tr>
+        <tr>
+          <td>Barras no mundo</td>
+          <td>Vida sobre cada inimigo e barra de recarga sobre o personagem.</td>
+          <td>Cenas filhas do personagem, fora do <code>HudManager</code>.</td>
+        </tr>
+        <tr>
+          <td>Menu do lobo</td>
+          <td>Mundo escurecido, relógio circular, botão de encerrar, botões 1 a 3 das skills e barra de Vínculo.</td>
+          <td>Controlada pelo <code>WolfCommandController</code> (ver 08).</td>
+        </tr>
+        <tr>
+          <td>Inventário</td>
+          <td>
+            Armas equipadas e grade das armas possuídas (arrastar e soltar); consumível equipado com lista e popup de
+            descrição; 2 slots de permanentes; skills do lobo. A HUD de jogo é ocultada.
+          </td>
+          <td>
+            Pausa o jogo. Armas já equipadas aparecem escurecidas e ignoram cliques. Chama
+            <code>WeaponManager.equip</code> e <code>Inventory.equip</code>.
+          </td>
+        </tr>
+        <tr>
+          <td>Pause</td>
+          <td>Retomar, Controles, Reiniciar (Tutorial), Sair. Mostra o objetivo atual.</td>
+          <td><code>process_mode = WHEN_PAUSED</code>. O objetivo vem de <code>Game.objective</code>.</td>
+        </tr>
+        <tr>
+          <td>Menu principal e Controles</td>
+          <td>Iniciar jogo, Controles, Sair. Controles mostra o esquema de teclado e mouse.</td>
+          <td>A tela de controles é uma só, reutilizada por menu e pause.</td>
+        </tr>
+        <tr>
+          <td>Game over</td>
+          <td>Pergunta se o jogador quer continuar.</td>
+          <td>Disparada por <code>run_failed</code>. Sim chama <code>Game.respawn()</code>; não volta ao menu.</td>
+        </tr>
+        <tr>
+          <td>Cutscene e diálogo</td>
+          <td>Imagem em tela cheia, caixa de texto e botão de pular.</td>
+          <td>Um único script lê um <code>CutsceneData</code> e serve abertura, transições, final e pós-créditos.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" id="s13">
+      <div class="hd">
+        <div class="num">13</div>
+        <div>
+          <h2>Áudio e narrativa</h2>
+          <small>Música reativa e cutscenes data-driven</small>
+        </div>
+      </div>
+      <div class="c2">
+        <div class="box">
+          <h3>AudioManager</h3>
+          <ul>
+            <li><code>play_music(faixa)</code> com crossfade e <code>play_sfx(id)</code> para sons sem dono.</li>
+            <li>
+              SFX de armas, passos e inimigos tocam por <code>AudioStreamPlayer</code> na própria cena, junto de quem os
+              produz.
+            </li>
+            <li>
+              A música reage a signals de <code>Events</code> e nunca é controlada diretamente pelas cenas de jogo.
+            </li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Narrativa</h3>
+          <ul>
+            <li>Toda cutscene é um <code>CutsceneData</code>: lista de pares imagem e texto.</li>
+            <li>Uma única tela as exibe, pulável a qualquer momento.</li>
+            <li>Textos curtos de ambiente podem ser <code>Interactable</code>s que abrem a caixa de texto.</li>
+          </ul>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Gatilho</th>
+          <th>Faixa</th>
+        </tr>
+        <tr>
+          <td>MainMenu aberto</td>
+          <td>Menu</td>
+        </tr>
+        <tr>
+          <td><code>chunk_changed</code> / <code>room_cleared</code></td>
+          <td>Exploração</td>
+        </tr>
+        <tr>
+          <td><code>room_started</code></td>
+          <td>Combate</td>
+        </tr>
+        <tr>
+          <td><code>boss_started</code> e <code>boss_phase_changed</code></td>
+          <td>Boss (uma faixa por fase)</td>
+        </tr>
+        <tr>
+          <td><code>wolf_menu_opened</code> / <code>wolf_menu_closed</code></td>
+          <td>Efeito de câmera lenta sobre a faixa atual</td>
+        </tr>
+        <tr>
+          <td>Cinemática final</td>
+          <td>Final</td>
+        </tr>
+      </table>
+      <p class="foot">Beastbond · Technical Design Document</p>
+    </section>
+
+    <section class="page cover" style="padding-bottom: 30px">
+      <div class="tag">CRONOGRAMA DE IMPLEMENTAÇÃO</div>
+      <h1>BEASTBOND</h1>
+      <p>
+        Lista de marcos por pessoa. Cada marco é uma entrega completa do
+        <a href="#s0" style="color: var(--glow)">TDD</a>, citado entre parênteses.
+      </p>
+      <div class="box" style="text-align: left; margin-top: 22px">
+        <h3>Como usar</h3>
+        <ul>
+          <li><b>◆</b> marca um marco que destrava outros. Priorize os ◆.</li>
+          <li>"Depende" lista os marcos que precisam estar prontos antes de começar.</li>
+          <li>Cada fase só começa quando os ◆ da anterior estiverem prontos. A ordem importa mais que a data.</li>
+          <li>
+            Dentro da divisão do README, Lucas fica com personagens, mecânicas, IAs, HUD/UI e menus. Gustavo fica com
+            level design, progressão, itens, boss, puzzles e narrativa.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="hd">
+        <div class="num">L</div>
+        <div>
+          <h2>Lucas</h2>
+          <small>Personagens · mecânicas · IA · HUD/UI · menus</small>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th></th>
+          <th>Marco</th>
+          <th>Entrega</th>
+          <th>Depende</th>
+        </tr>
+        <tr>
+          <td>☐ L1 ◆</td>
+          <td>Base de combate</td>
+          <td>HealthComponent, Character, take_damage, layers e masks, Projectiles, Events (03, 05)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>☐ L2 ◆</td>
+          <td>Armas de fogo</td>
+          <td>Dono manda: setup, try_attack, reload; SMG, Sniper e Shotgun; WeaponManager com 2 slots (06)</td>
+          <td>L1</td>
+        </tr>
+        <tr>
+          <td>☐ L3</td>
+          <td>Armas melee</td>
+          <td>Espada com combo, Lança, hitbox por golpe, Explosion (06)</td>
+          <td>L2</td>
+        </tr>
+        <tr>
+          <td>☐ L4 ◆</td>
+          <td>Player completo</td>
+          <td>Vida, stamina, sprint, esquiva com airborne, morte, câmera, inputs novos (07)</td>
+          <td>L1</td>
+        </tr>
+        <tr>
+          <td>☐ L5 ◆</td>
+          <td>Enemy base e IA</td>
+          <td>Máquina de estados, percepção, barra de vida, stun e freeze, DropTable (09)</td>
+          <td>L1, L2</td>
+        </tr>
+        <tr>
+          <td>☐ L6</td>
+          <td>Inimigos de contato</td>
+          <td>Slime com divisão, Soldado A, Tank, Investida (09)</td>
+          <td>L5, L3</td>
+        </tr>
+        <tr>
+          <td>☐ L7</td>
+          <td>Inimigos à distância e suporte</td>
+          <td>Soldado B, Sniper, Sacerdote (09)</td>
+          <td>L5</td>
+        </tr>
+        <tr>
+          <td>☐ L8 ◆</td>
+          <td>Lobo em combate</td>
+          <td>Estados FOLLOW, ATTACK e HOLD, vida, Hitbox, interação com alavanca e placa (08)</td>
+          <td>L1, L4</td>
+        </tr>
+        <tr>
+          <td>☐ L9</td>
+          <td>Menu do lobo</td>
+          <td>WolfCommandController, câmera lenta, Vínculo, as 4 skills (08)</td>
+          <td>L8</td>
+        </tr>
+        <tr>
+          <td>☐ L10</td>
+          <td>HUDs de jogo</td>
+          <td>HudManager com bind_*, barras, munição, consumível, barras no mundo (04, 12)</td>
+          <td>L4, L8</td>
+        </tr>
+        <tr>
+          <td>☐ L11</td>
+          <td>Inventário</td>
+          <td>Inventory e tela com arrastar e soltar (10, 12)</td>
+          <td>L2, L10, G3</td>
+        </tr>
+        <tr>
+          <td>☐ L12</td>
+          <td>Menus e fluxo de telas</td>
+          <td>Main.tscn, menu principal, pause, controles, game over (02, 12)</td>
+          <td>G2</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page">
+      <div class="hd">
+        <div class="num">G</div>
+        <div>
+          <h2>Gustavo</h2>
+          <small>Level design · progressão · itens · boss · puzzles · narrativa</small>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th></th>
+          <th>Marco</th>
+          <th>Entrega</th>
+          <th>Depende</th>
+        </tr>
+        <tr>
+          <td>☐ G1 ◆</td>
+          <td>Room e PuzzleController</td>
+          <td>Arena com portas e ondas, controlador de puzzle, Chest e Lever na base Interactable (11)</td>
+          <td>L1</td>
+        </tr>
+        <tr>
+          <td>☐ G2 ◆</td>
+          <td>Game e ChunkManager</td>
+          <td>Autoload Game, troca de chunk com fade, checkpoint, respawn e restart (02, 11)</td>
+          <td>L1</td>
+        </tr>
+        <tr>
+          <td>☐ G3 ◆</td>
+          <td>Itens e power-ups</td>
+          <td>ItemData dos 8 itens, ItemDB, Pickup, drops, altares, baús, balanceamento (10)</td>
+          <td>L5</td>
+        </tr>
+        <tr>
+          <td>☐ G4</td>
+          <td>Chunk 1</td>
+          <td>Layout final com combate, cobertura, lobo, altar e checkpoint (11)</td>
+          <td>G1, G2, L6</td>
+        </tr>
+        <tr>
+          <td>☐ G5</td>
+          <td>Puzzles 1 e 2</td>
+          <td>Canal de esgoto e Lobo com alavanca (11)</td>
+          <td>G1, L4, L8</td>
+        </tr>
+        <tr>
+          <td>☐ G6</td>
+          <td>Puzzle 3</td>
+          <td>Totens alinhados com a Sniper (11)</td>
+          <td>G1, L2</td>
+        </tr>
+        <tr>
+          <td>☐ G7</td>
+          <td>Chunk 2</td>
+          <td>Combate misto, hazards, altar e preparação para o boss (11)</td>
+          <td>G4, L7</td>
+        </tr>
+        <tr>
+          <td>☐ G8</td>
+          <td>Boss: base e fases</td>
+          <td>Herança de Enemy, troca de fases, tabela de ataques, arena trancada (09)</td>
+          <td>L5, G1</td>
+        </tr>
+        <tr>
+          <td>☐ G9</td>
+          <td>Boss: ataques</td>
+          <td>Padrões das fases 2 e 3, inimigos extras, eco e zona congelada (09)</td>
+          <td>G8</td>
+        </tr>
+        <tr>
+          <td>☐ G10</td>
+          <td>Cutscenes e narrativa</td>
+          <td>CutsceneData, tela de cutscene e diálogo, abertura, transição, final, créditos (12, 13)</td>
+          <td>G2</td>
+        </tr>
+        <tr>
+          <td>☐ G11</td>
+          <td>Áudio</td>
+          <td>AudioManager, faixas por estado, SFX faltantes (13)</td>
+          <td>G1, G8</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page">
+      <div class="hd">
+        <div class="num">F</div>
+        <div>
+          <h2>Fases</h2>
+          <small>O que está jogável ao fim de cada uma</small>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>Fase</th>
+          <th>Marcos</th>
+          <th>Resultado jogável</th>
+        </tr>
+        <tr>
+          <td>1 · Fundação</td>
+          <td>L1, L2, L4, G1, G2</td>
+          <td>Jogador com vida e stamina atira e leva dano; sala que tranca e abre; troca de chunk.</td>
+        </tr>
+        <tr>
+          <td>2 · Conteúdo</td>
+          <td>L3, L5 a L9, G3 a G6</td>
+          <td>Chunk 1 completa, com lobo, inimigos, itens e puzzles.</td>
+        </tr>
+        <tr>
+          <td>3 · Integração</td>
+          <td>L10 a L12, G7 a G10</td>
+          <td>Chunk 2, boss, inventário, menus, cutscenes.</td>
+        </tr>
+        <tr>
+          <td>4 · Polimento</td>
+          <td>G11 e ajustes</td>
+          <td>Áudio, balanceamento, correções e teste completo de ponta a ponta.</td>
+        </tr>
+      </table>
+      <!-- <div class="box hl">
+        <h3>Se o tempo apertar, corte nesta ordem</h3>
+        <p>Bomber, eco do boss, Pulso temporal, Lança, skill Restringir (mantém Atrair, Trocar posição e Proteger).</p>
+      </div> -->
+    </section>
+  </body>
+</html>
