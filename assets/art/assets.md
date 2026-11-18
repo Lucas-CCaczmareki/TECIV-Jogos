@@ -36,6 +36,13 @@ https://craftpix.net/freebies/free-pixel-art-dungeon-objects-asset-pack/
 https://craftpix.net/freebies/free-undead-tileset-top-down-pixel-art/
 https://craftpix.net/freebies/free-2d-top-down-pixel-dungeon-asset-pack/
 
+## items/powerups/icons:
+https://ssugmi.itch.io/16x16-rpg-assets
+https://coffee-beans-studio.itch.io/pixel-art-powerup-icons-gems-coins-more
+https://coffee-beans-studio.itch.io/pixel-art-potions-pack-all-genres-320-items
+https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar
+https://glionox.itch.io/items16
+
 ## others:
 https://sethbb.itch.io/32rogues
 https://gradients.app/pt/palette
