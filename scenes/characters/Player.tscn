@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dtg6f2xoqn6a3" path="res://assets/sprites/progress bar most rounded progress tintable grey.png" id="6_rpfb3"]
 [ext_resource type="PackedScene" uid="uid://7dm1p8334vhx" path="res://scenes/weapons/player_weapons/Sniper.tscn" id="6_ufbvs"]
 [ext_resource type="PackedScene" uid="uid://bqxwexlyqqwgx" path="res://scenes/weapons/Sword.tscn" id="9_mqro2"]
+[ext_resource type="Script" uid="uid://80wd66fc28hx" path="res://scripts/characters/health_component.gd" id="13_bpxo2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkuii"]
 atlas = ExtResource("2_miirx")
@@ -627,3 +628,7 @@ position = Vector2(2.3333359, -48.499996)
 zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1998743649]
+script = ExtResource("13_bpxo2")
+metadata/_custom_type_script = "uid://80wd66fc28hx"
