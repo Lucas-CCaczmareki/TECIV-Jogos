@@ -45,7 +45,6 @@ func _on_died() -> void:
 func take_damage(amount: int) -> void:
 	health.take_damage(amount) # repassa pro componente de vida
 
-
 # TODAS modificações (pra aplicar e pra voltar pro padrão) devem passar pelo set_modifier
 # isso garante que os efeitos dos powerups são repassados pros componentes (nodos filhos)
 func set_modifier(key: String, value) -> void:

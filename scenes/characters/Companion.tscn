@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://c32e5ocvf5ceu" path="res://assets/sprites/companion/wolf_attack.png" id="2_ifk3g"]
 [ext_resource type="AudioStream" uid="uid://c7b8taebo0y3r" path="res://assets/sounds/whoosh.mp3" id="6_xw1fr"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="7_3vbd4"]
+[ext_resource type="Script" uid="uid://kksdgc3nmou4" path="res://scripts/characters/directional_sprite.gd" id="7_au3n7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vnsud"]
 atlas = ExtResource("2_ifk3g")
@@ -643,6 +644,7 @@ weapon_scene = ExtResource("2_67lwc")
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_dndu5")
 animation = &"walk_right"
+script = ExtResource("7_au3n7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257473903]
 visible = false

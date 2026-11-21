@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ckx3im1ugw8u3" path="res://scripts/characters/player.gd" id="1_rpfb3"]
 [ext_resource type="Texture2D" uid="uid://ccb5lboeuu1dk" path="res://assets/sprites/mc/mc_dodge.png" id="2_miirx"]
 [ext_resource type="Texture2D" uid="uid://xufru13spmoo" path="res://assets/sprites/mc/mc_skeleton.png" id="3_m6phi"]
+[ext_resource type="Script" uid="uid://kksdgc3nmou4" path="res://scripts/characters/directional_sprite.gd" id="4_cro7t"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="4_oihyf"]
 [ext_resource type="Script" uid="uid://dwmrypmaab585" path="res://scripts/weapons/weapon_manager.gd" id="4_rpfb3"]
 [ext_resource type="PackedScene" uid="uid://gu66j5k05lat" path="res://scenes/weapons/player_weapons/Revolver.tscn" id="5_gj1sn"]
@@ -13,6 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://7dm1p8334vhx" path="res://scenes/weapons/player_weapons/Sniper.tscn" id="6_ufbvs"]
 [ext_resource type="PackedScene" uid="uid://bqxwexlyqqwgx" path="res://scenes/weapons/Sword.tscn" id="9_mqro2"]
 [ext_resource type="Script" uid="uid://80wd66fc28hx" path="res://scripts/characters/health_component.gd" id="13_bpxo2"]
+[ext_resource type="Script" uid="uid://cntwy5yvxihmq" path="res://scripts/camera_2d.gd" id="13_m0xnk"]
+[ext_resource type="Script" uid="uid://bb7ecbaa5lb8" path="res://scripts/characters/stamina_component.gd" id="14_bb7xv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkuii"]
 atlas = ExtResource("2_miirx")
@@ -584,22 +587,33 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
 size = Vector2(55, 101)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0a554"]
+size = Vector2(49.166664, 20)
+
 [node name="Player" type="CharacterBody2D" unique_id=1201743444]
 y_sort_enabled = true
 scale = Vector2(1.2, 1.2)
 collision_layer = 2
 collision_mask = 33
 script = ExtResource("1_rpfb3")
+dodge_cost = 0.0
+sprint_cost = 0.0
+base_speed = 240.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864927634]
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=864927634]
 position = Vector2(2.3333359, -48.499996)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_ucufk")
 animation = &"walk_up"
+script = ExtResource("4_cro7t")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=922055785]
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=922055785]
 position = Vector2(-0.16666412, -24.999996)
 shape = SubResource("RectangleShape2D_ucufk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=436966362]
+position = Vector2(-0.41666746, 3.3333333)
+shape = SubResource("RectangleShape2D_0a554")
 
 [node name="WeaponManager" type="Node2D" parent="." unique_id=928151443 node_paths=PackedStringArray("weapon_pivot")]
 position = Vector2(2.3333359, -48.499996)
@@ -628,7 +642,14 @@ position = Vector2(2.3333359, -48.499996)
 zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
+script = ExtResource("13_m0xnk")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1998743649]
 script = ExtResource("13_bpxo2")
+max_health = 250
 metadata/_custom_type_script = "uid://80wd66fc28hx"
+
+[node name="StaminaComponent" type="Node" parent="." unique_id=534057046]
+script = ExtResource("14_bb7xv")
+max_stamina = 180.0
+metadata/_custom_type_script = "uid://bb7ecbaa5lb8"
