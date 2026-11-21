@@ -1,26 +1,30 @@
-extends CharacterBody2D
+extends Character
 
-@export var speed: float = 220.0 
+# ==============================================================================
+# AJUSTES (editáveis no Inspector)
+# ==============================================================================
 @export var follow_distance: float = 120.0
-@export var follows_player: bool = true
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
-@onready var atk_sfx: AudioStreamPlayer = $AttackSound
+# estados do TDD (08). Por enquanto só FOLLOW, HOLD e DEAD têm comportamento:
+# ATTACK entra no L8 (golpe com Hitbox) e COMMANDED no L9 (menu do lobo).
+enum State { FOLLOW, COMMANDED, ATTACK, HOLD, DEAD }
+@export var state: State = State.FOLLOW # permite deixar o companion parado (HOLD) pelo Inspector pra testar
 
 @export var weapon_pivot: WeaponPivot
 @export var weapon_scene: PackedScene
 
-var direction: Vector2 = Vector2.ZERO
-var distance: float = 0.0
+# ==============================================================================
+# NÓS
+# ==============================================================================
+@onready var sprite: DirectionalSprite = $Sprite
+@onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
+@onready var atk_sfx: AudioStreamPlayer = $AttackSound
 
-var animation_timer: float = 0
-var animation_cooldown: float = 0.2
-# um tipo de string que usa um comparador interno pra ver se é igual
-# ao invés de percorrer tudo. Acelera o processo quando ter várias comparações
-var current_animation: StringName = &"" 
-
+# ==============================================================================
+# CICLO DE VIDA
+# ==============================================================================
 func _ready() -> void:
+	super() # conecta o signal do died no método
 	# TODO: não tá funcionando, vou ter que arrumar. Enfim, ver oq tem que fazer agr
 	# acho que o principal é começar a focar nos scripts dos personagens ou das atk scenes
 	# e fazer as classes separadinhas direito
@@ -29,56 +33,45 @@ func _ready() -> void:
 	#weapon_pivot.add_child(weapon)
 	#weapon_pivot.set_aim(get_global_mouse_position())
 	pass
-	
+
+# ==============================================================================
+# MOVIMENTO
+# ==============================================================================
 # TODO: collision shape should change depending on which animation the companion is having
 # TODO: o weapon pivot também vai ter que mudar dependendo de pra que lado o companion tá
-func _physics_process(delta: float) -> void:
-	animation_timer -= delta
-	if player == null: return
+func _update_movement(_delta: float) -> void:
+	match state:
+		State.FOLLOW:
+			_follow_player()
+		_:
+			# HOLD, ATTACK, COMMANDED e DEAD: parado por enquanto
+			move_velocity = Vector2.ZERO
 	
-	# permite deixar o companion parado
-	if not follows_player:
-		velocity = Vector2.ZERO
-		move_and_slide()
+	# morto não atualiza animação (o sprite fica parado, ver _on_died)
+	if state != State.DEAD:
+		sprite.update_facing(move_velocity)
+		sprite.play_move(move_velocity != Vector2.ZERO)
+
+func _follow_player() -> void:
+	if player == null:
+		move_velocity = Vector2.ZERO
 		return
 	
 	# this is the same as 
-	# gives a Vector2D pointing to player direction
-	distance = global_position.distance_to(player.global_position)
+	# dá um Vector2 apontando pra direção do player
+	var distance: float = global_position.distance_to(player.global_position)
 	
 	if distance > follow_distance:
 		# var direction = (player.global_position - global_position).normalized()
-		direction = global_position.direction_to(player.global_position)
-		velocity = direction * speed
+		var direction: Vector2 = global_position.direction_to(player.global_position)
+		move_velocity = direction * get_speed()
 	else:
-		velocity = Vector2.ZERO # stops moving
-	
-	move_and_slide()
-	_update_animation()
-	
-func _update_animation() -> void:
-	if velocity == Vector2.ZERO:
-		_play(&"idle_down")
-		return
-	
-	if abs(direction.x) >= abs(direction.y):
-		if direction.x > 0:
-			_play(&"walk_right")
-		else:
-			_play(&"walk_left")
-	else:
-		if direction.y > 0:
-			_play(&"walk_down")
-		else:
-			_play(&"walk_up")
-	
-func _play(animation: StringName) -> void:
-	if animation == current_animation:
-		return # já tá tocando essa n atualiza
-	if animation_timer > 0:
-		return # ainda tá em cooldown, n troca
-	
-	current_animation = animation
-	animation_timer = 0.0
-	sprite.play(animation)
-		
+		move_velocity = Vector2.ZERO # para de se mover
+
+# ==============================================================================
+# MORTE
+# ==============================================================================
+func _on_died() -> void:
+	state = State.DEAD
+	move_velocity = Vector2.ZERO
+	sprite.pause()
