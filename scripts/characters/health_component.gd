@@ -27,6 +27,7 @@ func _process(delta: float) -> void:
 		shield_changed.emit(shield)
 
 func heal(amount: int) -> void:
+	if _died: return
 	health = mini(health + amount, max_health)
 	health_changed.emit(health, max_health)
 
@@ -36,7 +37,7 @@ func heal_percent(p: float) -> void:
 func add_shield(amount: int, duration: float) -> void:
 	shield += amount
 	shield_changed.emit(shield)
-	shield_duration += duration # adicionar mais shield aumenta a duração
+	shield_duration = duration # adicionar mais shield reseta a duração
 
 func take_damage(amount: int) -> void:
 	if _died: return # não processa dano em alguém q ta morto e ainda n foi liberado
@@ -47,15 +48,25 @@ func take_damage(amount: int) -> void:
 		# se remaining for menor, ele é subtraindo de shield e shield fica com oq sobrou e remaining 0
 		# a mesma lógica se aplica caso shield for o menor valor
 		shield -= absorbed
+		shield_changed.emit(shield)
 		remaining -= absorbed
 		
 		if shield == 0:
 			shield_duration = 0.0 # limpa a duração se o shield foi pro beleléu
 		
-		if remaining > 0: # se tem dano pra aplicar
-			health = maxi(health - remaining, 0)
-			health_changed.emit(health, max_health)
-			
-			if health == 0:
-				_died = true
-				died.emit()
+	if remaining > 0: # se tem dano pra aplicar
+		health = maxi(health - remaining, 0)
+		health_changed.emit(health, max_health)
+		
+		if health == 0:
+			_died = true
+			died.emit()
+
+# usado pra quando o game dá respawn
+func reset() -> void:
+	_died = false
+	health = max_health
+	shield = 0
+	shield_duration = 0.0
+	health_changed.emit(health, max_health)
+	shield_changed.emit(shield)

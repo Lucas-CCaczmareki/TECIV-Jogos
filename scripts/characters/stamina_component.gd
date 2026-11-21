@@ -7,9 +7,10 @@ class_name StaminaComponent
 @export var regen_delay: float = 1.0 # segundos q o cara fica em "exaustão" sem gastar
 
 var stamina: float
-var _regen_cooldown: float 0.0
+var _regen_cooldown: float = 0.0
+var infinite: bool = false
 
-signal stamina_changed(current: int, max: int)
+signal stamina_changed(current: float, max: float)
 signal depleted # significa q zerou a estamina
 
 func _ready() -> void:
@@ -28,14 +29,18 @@ func _process(delta: float) -> void:
 		# process roda a cada frame, e o delta normaliza isso em segundos
 		# ent fazer * delta me da quantos regen_rate pts por frame seriam em 1 segundo
 		stamina = minf(stamina + regen_rate * delta, max_stamina)
+		stamina_changed.emit(stamina, max_stamina)
 
 func drain(rate: float, delta: float) -> bool:
-	if stamine <= 0.0:
-		return false
-	_consume(rate * delta)
-	return stamina > 0.0 # se já zerar retorna aqui
+	if infinite: return true
+	if stamina <= 0.0: return false
+	spend(minf(rate * delta, stamina)) # gasta o último tickzinho de stamina pra forçar emissão do depleted
+	return stamina > 0.0
 
-func _consume(amount: int) -> bool:
+func spend(amount: float) -> bool:
+	if infinite: return true # n gasta stamina
+	
+	if stamina < amount: return false
 	stamina = maxf(stamina - amount, 0.0)
 	
 	# ativa o cooldown pra começar a regenerar stamina toda vez que consome
@@ -45,5 +50,9 @@ func _consume(amount: int) -> bool:
 	if stamina == 0.0: # se acabou a stamina, 
 		depleted.emit()
 
-	if stamina == 0: return true
-	else: return false
+	return true
+	
+func reset() -> void:
+	stamina = max_stamina
+	_regen_cooldown = 0.0
+	stamina_changed.emit(stamina, max_stamina)

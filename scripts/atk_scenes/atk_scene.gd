@@ -23,8 +23,8 @@ func _ready() -> void:
 	# cria um tween pra dar queue_free na attackscene com base no lifetime
 	var tween_lifetime = create_tween()
 	tween_lifetime.tween_interval(lifetime)
-	tween_lifetime.tween_callback(queue_free)
 	pass
+	tween_lifetime.tween_callback(queue_free)
 
 # O próprio node Area2D da bullet scene dispara o sinal e envia como parãmetro 
 # o nodo que entrou na área de colisão da bullet
