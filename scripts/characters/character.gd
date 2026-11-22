@@ -3,6 +3,8 @@ class_name Character
 
 @onready var health: HealthComponent = $HealthComponent
 @onready var stamina: StaminaComponent = $StaminaComponent
+@onready var hurtbox: Hurtbox = get_node_or_null("Hurtbox") # opcional: o Slime (script antigo) ainda não tem. Quem tem precisa chamar o nó de "Hurtbox"
+
 @export var base_speed: float = 200.0
 var move_velocity: Vector2 = Vector2.ZERO # por padrão, vem sem movimento. Ai a classe especializada sobreescreve
 
@@ -22,6 +24,11 @@ var knockback_velocity: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	# os filhos vão ser obrigados a chamar o super() aqui
 	health.died.connect(_on_died)
+	
+	# o componente avisa por signal, o dono (pai) é quem reage
+	if hurtbox:
+		hurtbox.damaged.connect(take_damage)
+		hurtbox.knockback_requested.connect(apply_knockback)
 	pass
 
 func _physics_process(delta: float) -> void:

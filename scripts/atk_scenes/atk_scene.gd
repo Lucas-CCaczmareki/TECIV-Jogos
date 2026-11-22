@@ -24,6 +24,7 @@ func _ready() -> void:
 	
 	# connect this signal with the function
 	collision.body_entered.connect(_process_collision)
+	collision.area_entered.connect(_on_area_entered)
 	
 	# cria um tween pra dar queue_free na attackscene com base no lifetime
 	var tween_lifetime = create_tween()
@@ -49,6 +50,12 @@ func _apply_effects(target: Node2D) -> void:
 	if target.has_method("apply_knockback"):
 		# simplesmente multiplica a direção (1,0) pela força (200) -> (200,0)
 		target.apply_knockback(direction * knockback_force)
+
+# hurtboxes são Area2D. Outras áreas (baú, alavanca, pickup) não têm take_damage
+# e são ignoradas, senão a bala sumiria em cima delas
+func _on_area_entered(area: Area2D) -> void:
+	if area.has_method("take_damage"):
+		_process_collision(area)
 
 func _on_hit(_target: Node2D) -> void:
 	pass

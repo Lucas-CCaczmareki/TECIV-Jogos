@@ -25,7 +25,7 @@ func _ready() -> void:
 	for i in mini(max_slots, weapons.size()):
 		slots.append(weapons[i])
 	
-	active_weapon = slots[0]
+	if not slots.is_empty(): active_weapon = slots[0]
 	weapon_pivot.add_child(active_weapon)
 	emit_signal("weapon_changed", active_weapon)
 	pass
@@ -42,12 +42,13 @@ func switch_weapon() -> void:
 		return
 	if active_weapon is RangedWeapon:
 		active_weapon.cancel_reload()
-
+	
 	weapon_pivot.remove_child(active_weapon)
 	active_weapon_idx = (active_weapon_idx + 1) % slots.size() # essa linha faz o papel de vetor circular w
 	active_weapon = slots[active_weapon_idx]
 	emit_signal("weapon_changed", active_weapon)
 	weapon_pivot.add_child(active_weapon)
+	active_weapon.set_visibility(true)
 
 func get_weapon() -> Weapon:
 	return active_weapon

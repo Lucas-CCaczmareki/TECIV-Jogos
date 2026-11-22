@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://c7b8taebo0y3r" path="res://assets/sounds/whoosh.mp3" id="6_xw1fr"]
 [ext_resource type="Script" uid="uid://dynkag48jyh7j" path="res://scripts/weapons/weapon_pivot.gd" id="7_3vbd4"]
 [ext_resource type="Script" uid="uid://kksdgc3nmou4" path="res://scripts/characters/directional_sprite.gd" id="7_au3n7"]
+[ext_resource type="Script" uid="uid://b0rkv8dhqkmax" path="res://scripts/characters/hurtbox.gd" id="8_4yx2k"]
 [ext_resource type="Script" uid="uid://80wd66fc28hx" path="res://scripts/characters/health_component.gd" id="10_va1rq"]
 [ext_resource type="Script" uid="uid://bb7ecbaa5lb8" path="res://scripts/characters/stamina_component.gd" id="11_4yx2k"]
 
@@ -651,11 +652,16 @@ sprite_frames = SubResource("SpriteFrames_dndu5")
 animation = &"walk_right"
 script = ExtResource("7_au3n7")
 
-[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1257473903]
+[node name="Area2D" type="Area2D" parent="." unique_id=1147145791]
+collision_layer = 1024
+collision_mask = 0
+script = ExtResource("8_4yx2k")
+
+[node name="HurtShape" type="CollisionShape2D" parent="Area2D" unique_id=1257473903]
 position = Vector2(2.0833304, 21.666668)
 shape = SubResource("RectangleShape2D_jx834")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1201795040]
+[node name="FeetShape" type="CollisionShape2D" parent="." unique_id=1201795040]
 position = Vector2(2.5, 52.500004)
 shape = SubResource("RectangleShape2D_ucufk")
 

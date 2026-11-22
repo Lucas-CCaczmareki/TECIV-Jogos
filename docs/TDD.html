@@ -1081,6 +1081,19 @@
           </td>
           <td><code>damage</code>, <code>knockback</code>, <code>enable()</code>, <code>disable()</code>.</td>
         </tr>
+
+        <tr>
+          <td><code>Hurtbox</code></td>
+          <td>
+            Area2D que recebe ataques no lugar do corpo. Carrega o shape do corpo que pode ser atingido; o corpo
+            (<code>CharacterBody2D</code>) fica só com o shape dos pés, que colide com o mapa. Não conhece o dono: só avisa por signal.
+          </td>
+          <td>
+            <code>take_damage(amount)</code>, <code>apply_knockback(vetor)</code>. Signals: <code>damaged</code>,
+            <code>knockback_requested</code>.
+          </td>
+        </tr>
+
         <tr>
           <td><code>modifiers</code> (em <code>Character</code>)</td>
           <td>
@@ -1283,6 +1296,11 @@
               atingido).
             </li>
             <li>Balas somem ao acertar. Laser e golpes atravessam tudo no alcance.</li>
+            <li>
+              Personagens (jogador, lobo, inimigos e boss) recebem ataques pela <code>Hurtbox</code>, que repassa ao dono
+              por signal. Objetos feríveis (totem, barril) podem implementar <code>take_damage</code> direto, como corpo ou
+              Area2D numa layer que a máscara do ataque alcance.
+            </li>
           </ul>
         </div>
         <div class="box">
@@ -1327,20 +1345,37 @@
           <td><code>enemy</code></td>
           <td><code>world</code>, <code>player</code>, <code>companion</code></td>
         </tr>
+
+        <tr>
+          <td>Hurtbox do player</td>
+          <td><code>player_hurtbox</code></td>
+          <td>nenhuma</td>
+        </tr>
+        <tr>
+          <td>Hurtbox do lobo</td>
+          <td><code>companion_hurtbox</code></td>
+          <td>nenhuma</td>
+        </tr>
+        <tr>
+          <td>Hurtbox de inimigo</td>
+          <td><code>enemy_hurtbox</code></td>
+          <td>nenhuma</td>
+        </tr>
+
         <tr>
           <td>Ataque do player</td>
           <td><code>player_projectile</code></td>
-          <td><code>world</code>, <code>enemy</code>, <code>interactable</code> (totens, alavancas)</td>
+          <td><code>world</code>, <code>enemy_hurtbox</code>, <code>interactable</code> (totens, alavancas)</td>
         </tr>
         <tr>
           <td>Golpe do lobo</td>
           <td><code>companion_hitbox</code></td>
-          <td><code>enemy</code>, <code>interactable</code></td>
+          <td><code>enemy_hurtbox</code>, <code>interactable</code></td>
         </tr>
         <tr>
           <td>Ataque inimigo</td>
           <td><code>enemy_projectile</code> / <code>enemy_hitbox</code></td>
-          <td><code>world</code>, <code>player</code>, <code>companion</code></td>
+          <td><code>world</code>, <code>player</code>, <code>companion</code></td>          
         </tr>
         <tr>
           <td>Itens e gatilhos</td>
@@ -1350,7 +1385,9 @@
       </table>
       <p>
         A máscara do ataque não é escrita na cena da bala. Ela é entregue pela arma ao criar o ataque (ver 06), por isso
-        a mesma cena de <code>Bullet</code> serve a jogador e inimigo.
+        a mesma cena de <code>Bullet</code> serve a jogador e inimigo. 
+        As layers <code>player</code>, <code>companion</code> e <code>enemy</code> ficam só para a colisão física entre corpos; ataques
+        miram as hurtboxes, nunca o corpo, o que evita dano em dobro.
       </p>
     </section>
 
