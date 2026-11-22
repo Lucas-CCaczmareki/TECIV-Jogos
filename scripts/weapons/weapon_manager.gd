@@ -5,10 +5,11 @@ class_name WeaponManager
 @export_flags_2d_physics var target_mask: int
 @export var weapon_scenes: Array[PackedScene]
 @export var weapon_pivot: WeaponPivot
-const MAX_WEAPONS: int = 4
+@export var max_slots: int = 2
 
 var active_weapon: Weapon
-var weapons: Array[Weapon] = [] # começa vazio
+var weapons: Array[Weapon] = [] # começa vazio, significa todas as armas possuídas
+var slots: Array[Weapon] = [] # aqui vão só as armas equipadas.
 var active_weapon_idx: int = 0
 
 # envia a ref da weapon ativa
@@ -20,30 +21,31 @@ func _ready() -> void:
 		w.setup(get_parent(), target_mask)
 		weapons.append(w)
 	
-	active_weapon = weapons[0]
+	# pra mudar as armas equipadas agr na fase de teste basta inverter a ordem do weapon_scenes no inspector
+	for i in mini(max_slots, weapons.size()):
+		slots.append(weapons[i])
+	
+	active_weapon = slots[0]
 	weapon_pivot.add_child(active_weapon)
 	emit_signal("weapon_changed", active_weapon)
 	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	weapon_pivot.set_aim(get_global_mouse_position())
 	# TODO: eu preciso bloquear a troca de arma se o cara tiver recém instanciando uma atkscene
 	# tem um bug que a atk scene nunca é liberada se eu fizer isso
 	if Input.is_action_just_pressed("switch_weapon"):
-		switch_weapon(active_weapon_idx + 1);
+		switch_weapon();
 
-func switch_weapon(idx : int) -> void:
-	# TODO: sistema simplificado pra 2 armas apenas. Usado pro teaser
-	# precisa refinamento. Aqui só usa com index fixo
-	if idx == MAX_WEAPONS:
-		idx = 0; # simula um comportamento de vetor circular
-		
+func switch_weapon() -> void:
+	if slots.size() < 2:
+		return
 	if active_weapon is RangedWeapon:
 		active_weapon.cancel_reload()
-		
+
 	weapon_pivot.remove_child(active_weapon)
-	active_weapon = weapons[idx]
-	active_weapon_idx = idx
+	active_weapon_idx = (active_weapon_idx + 1) % slots.size() # essa linha faz o papel de vetor circular w
+	active_weapon = slots[active_weapon_idx]
 	emit_signal("weapon_changed", active_weapon)
 	weapon_pivot.add_child(active_weapon)
 

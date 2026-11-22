@@ -618,7 +618,7 @@ shape = SubResource("RectangleShape2D_0a554")
 position = Vector2(2.3333359, -48.499996)
 script = ExtResource("4_rpfb3")
 target_mask = 33
-weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("6_ufbvs"), ExtResource("6_7lms1"), ExtResource("5_miirx")])
+weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("5_miirx"), ExtResource("6_ufbvs"), ExtResource("6_7lms1")])
 weapon_pivot = NodePath("../WeaponPivot")
 
 [node name="WeaponPivot" type="Node2D" parent="." unique_id=108244274]
