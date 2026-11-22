@@ -31,6 +31,7 @@ func _ready() -> void:
 	
 	#var weapon := weapon_scene.instantiate()
 	#weapon_pivot.add_child(weapon)
+	#weapon_pivot.set_aim(player.global_position)
 	#weapon_pivot.set_aim(get_global_mouse_position())
 	pass
 
@@ -43,7 +44,7 @@ func _update_movement(_delta: float) -> void:
 	match state:
 		State.FOLLOW:
 			_follow_player()
-		_:
+		_: # outros estados
 			# HOLD, ATTACK, COMMANDED e DEAD: parado por enquanto
 			move_velocity = Vector2.ZERO
 	

@@ -27,7 +27,7 @@ func atk() -> void:
 	atkInstance.set_knockback_force(knockback_force)
 	
 	# instancia a bala ligada na SceneTree atual
-	get_tree().current_scene.add_child(atkInstance)
+	_spawn_atk(atkInstance)
 	ammo = ammo - 1
 	ammo_changed.emit(ammo, capacity)
 	

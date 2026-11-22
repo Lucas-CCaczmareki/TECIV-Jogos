@@ -1,8 +1,7 @@
 extends Camera2D
 
-# descomentar quando Events passar a existir
-#func _ready() -> void:
-	#Events.camera_bounds_changed.connect(_on_bounds_changed)
+func _ready() -> void:
+	Events.camera_bounds_changed.connect(_on_bounds_changed)
 
 func _on_bounds_changed(b: Rect2) -> void:
 	limit_left = int(b.position.x)

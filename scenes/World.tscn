@@ -23,3 +23,5 @@ position = Vector2(156, 200)
 
 [node name="MCPosition" type="Marker2D" parent="." unique_id=1024451636]
 position = Vector2(87, 196)
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=565893124 groups=["projectiles"]]

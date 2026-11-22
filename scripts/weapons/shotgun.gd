@@ -26,7 +26,7 @@ func atk() -> void:
 		# ex de 0.75 (mais lenta) até 1.15 (mais rápida)
 		bullet.speed *= randf_range(1.0 - speed_variation, 1.0 + speed_variation)
 		
-		get_tree().current_scene.add_child(bullet)
+		_spawn_atk(bullet)
 		
 	ammo = ammo - 1
 	ammo_changed.emit(ammo, capacity)

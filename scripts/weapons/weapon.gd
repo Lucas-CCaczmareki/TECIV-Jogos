@@ -25,6 +25,13 @@ func _ready() -> void:
 func set_visibility(visibility: bool) -> void:
 	visible = visibility
 
+# isso instancia o atk dentro do Projectiles do World (evita q a bala suma se o dono morrer)
+func _spawn_atk(attack: Node2D) -> void:
+	var parent := get_tree().get_first_node_in_group("projectiles")
+	if parent == null:
+		parent = get_tree().current_scene # fallback pra testar com cena isolada
+	parent.add_child(attack)
+
 # procedure
 func _atk_cooldown(delta: float) -> void:
 	if blocked_by_cooldown:

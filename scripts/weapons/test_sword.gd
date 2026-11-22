@@ -6,13 +6,13 @@ extends MeleeWeapon
 var ammo: int
 @export var capacity: int
 @export var bullets_per_shot: int
-signal reload_started(duration: float)
-signal ammo_changed(current: int, max: int)
+#signal reload_started(duration: float)
+#signal ammo_changed(current: int, max: int)
 
 func _ready() -> void:
 	super()
-	wielder.dodge_started.connect(func(): blocked_by_action = true)
-	wielder.dodge_ended.connect(func(): blocked_by_action = false)
+	#wielder.dodge_started.connect(func(): blocked_by_action = true)
+	#wielder.dodge_ended.connect(func(): blocked_by_action = false)
 
 func atk() -> void:
 	var tween = create_tween()
@@ -59,7 +59,7 @@ func atk() -> void:
 	var animation: AnimatedSprite2D = atkInstance.get_node("Area2D/AnimatedSprite2D")
 	animation.play("slash_" + str(combo_count))
 		
-	get_tree().current_scene.add_child(atkInstance)
+	_spawn_atk(atkInstance)
 	
 	blocked_by_cooldown = true
 	atk_cooldownTimer = atk_cooldown
