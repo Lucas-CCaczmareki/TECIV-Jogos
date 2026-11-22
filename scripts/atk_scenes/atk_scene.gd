@@ -14,6 +14,7 @@ var knockback_force: float
 @onready var col_shape: CollisionShape2D = $Area2D/CollisionShape2D
 
 var target_mask: int = 0
+var aim_point: Vector2 = Vector2.ZERO
 
 #signal hit()
 
@@ -68,3 +69,6 @@ func set_target_mask(mask: int) -> void:
 	
 func set_knockback_force(force: float) -> void:
 	knockback_force = force
+	
+func set_aim_point(point: Vector2) -> void:
+	aim_point = point	

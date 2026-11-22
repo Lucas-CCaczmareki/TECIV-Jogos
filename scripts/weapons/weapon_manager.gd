@@ -31,7 +31,6 @@ func _ready() -> void:
 	pass
 
 func _process(_delta: float) -> void:
-	weapon_pivot.set_aim(get_global_mouse_position())
 	# TODO: eu preciso bloquear a troca de arma se o cara tiver recém instanciando uma atkscene
 	# tem um bug que a atk scene nunca é liberada se eu fizer isso
 	if Input.is_action_just_pressed("switch_weapon"):
@@ -49,6 +48,11 @@ func switch_weapon() -> void:
 	emit_signal("weapon_changed", active_weapon)
 	weapon_pivot.add_child(active_weapon)
 	active_weapon.set_visibility(true)
+
+# o dono diz pra onde mirar (jogador: mouse; inimigo: alvo da IA)
+func aim_at(point: Vector2) -> void:
+	weapon_pivot.set_aim(point)
+	active_weapon.aim_at(point) # serve só pra dizer em q ponto do mundo o mouse tá, usado pelo laser
 
 func get_weapon() -> Weapon:
 	return active_weapon

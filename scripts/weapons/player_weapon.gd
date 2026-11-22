@@ -22,6 +22,7 @@ func atk() -> void:
 	atkInstance.set_damage(damage)
 	atkInstance.set_knockback_force(knockback_force)
 	atkInstance.set_target_mask(target_mask)
+	atkInstance.set_aim_point(aim_point)
 	
 	# instancia a bala ligada na SceneTree atual
 	_spawn_atk(atkInstance)

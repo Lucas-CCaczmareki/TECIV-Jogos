@@ -8,7 +8,7 @@ var length: float = 0.0
 
 func _ready() -> void:
 	super() # WeaponPivot já rotaciona em direção ao mouse, e direction pega esse vetor de rotação
-	var target = get_global_mouse_position()
+	var target := aim_point # fica genérico (enemy sniper consegue usar tb)
 	
 	# me da o comprimento (em pixels de mundo) 
 	# que vai da tip da arma (lugar onde a bullet é instanciada) até o mouse position. 

@@ -73,8 +73,9 @@ func _ready() -> void:
 	
 	
 func _process(delta: float) -> void:
-	#take_damage(1)
-	#print(health.health)
+	if not is_dead:
+		weapon_manager.aim_at(get_global_mouse_position())
+	
 	_handle_weapon_input()
 	_update_reloadBar(delta)
 

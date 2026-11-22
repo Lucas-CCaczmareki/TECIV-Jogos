@@ -21,6 +21,7 @@ var atk_cooldownTimer: float = 0.0
 #var blocked_by_action: bool = false # se tornou desnecessário. Dono gerencia bloqueios simplesmente NÃO chamando try atk
 var blocked_by_cooldown: bool = false
 var target_mask: int = 0
+var aim_point: Vector2 = Vector2.ZERO # ponto de mira (global) mandado pelo dono
 
 func _ready() -> void:
 	pass
@@ -58,3 +59,6 @@ func try_attack() -> void:
 
 func atk() -> void:
 	print("does nothing. must be overwritten")
+	
+func aim_at(point: Vector2) -> void:
+	aim_point = point
