@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bcggnwpp1jtex"]
 
 [ext_resource type="Texture2D" uid="uid://cahiytqrlvudi" path="res://assets/sprites/weapons/smg.png" id="1_hna0a"]
-[ext_resource type="Script" uid="uid://beq0bse8jkvm3" path="res://scripts/weapons/player_weapon.gd" id="1_pm6sv"]
+[ext_resource type="Script" uid="uid://cga2rg6488hdb" path="res://scripts/weapons/ranged_weapon.gd" id="1_pm6sv"]
 [ext_resource type="PackedScene" uid="uid://ckwccyivm68xr" path="res://scenes/atk_scenes/bullets/Bullet1.tscn" id="2_gmuok"]
 
 [node name="Smg" type="Node2D" unique_id=760365875 node_paths=PackedStringArray("tip")]
@@ -12,10 +12,10 @@ spread_degrees = 30.0
 speed_variation = 0.1
 reload_cooldown = 1.5
 atk_scene = ExtResource("2_gmuok")
-atk_cooldown = 0.15
+tip = NodePath("Tip")
+atk_cooldown = 0.075
 damage = 1.5
 knockback_force = 80.0
-tip = NodePath("Tip")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1458100896]
 position = Vector2(5, 1)

@@ -5,7 +5,7 @@ class_name WeaponManager
 @export_flags_2d_physics var target_mask: int
 @export var weapon_scenes: Array[PackedScene]
 @export var weapon_pivot: WeaponPivot
-@export var max_slots: int = 2
+@export var max_slots: int = 4 # padrao é 2, ta 4 pra testar as armas
 
 var active_weapon: Weapon
 var weapons: Array[Weapon] = [] # começa vazio, significa todas as armas possuídas

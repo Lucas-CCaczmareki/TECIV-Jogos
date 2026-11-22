@@ -1,4 +1,4 @@
-extends PlayerWeapon
+extends RangedWeapon
 
 # Por enquanto usa o _ready e _process padrão
 # IDEIA: reload has to be equivalent to how many bullets you can put  
@@ -14,6 +14,7 @@ func atk() -> void:
 		
 		bullet.set_damage(damage)
 		bullet.set_knockback_force(knockback_force)
+		bullet.set_target_mask(target_mask)
 		
 		# Faz o sprite da bala nascer na ponta da arma
 		bullet.global_position = tip.global_position
