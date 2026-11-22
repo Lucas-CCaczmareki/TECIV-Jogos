@@ -11,8 +11,6 @@ var ammo: int
 
 func _ready() -> void:
 	super()
-	#wielder.dodge_started.connect(func(): blocked_by_action = true)
-	#wielder.dodge_ended.connect(func(): blocked_by_action = false)
 
 func atk() -> void:
 	var tween = create_tween()
@@ -63,6 +61,3 @@ func atk() -> void:
 	
 	blocked_by_cooldown = true
 	atk_cooldownTimer = atk_cooldown
-
-func _atk_action() -> bool:
-	return Input.is_action_just_pressed("fire")

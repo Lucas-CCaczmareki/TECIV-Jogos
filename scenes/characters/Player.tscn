@@ -617,6 +617,7 @@ shape = SubResource("RectangleShape2D_0a554")
 [node name="WeaponManager" type="Node2D" parent="." unique_id=928151443 node_paths=PackedStringArray("weapon_pivot")]
 position = Vector2(2.3333359, -48.499996)
 script = ExtResource("4_rpfb3")
+target_mask = 33
 weapon_scenes = Array[PackedScene]([ExtResource("5_gj1sn"), ExtResource("6_ufbvs"), ExtResource("6_7lms1"), ExtResource("5_miirx")])
 weapon_pivot = NodePath("../WeaponPivot")
 
@@ -627,10 +628,10 @@ script = ExtResource("4_oihyf")
 
 [node name="ReloadBar" type="TextureProgressBar" parent="." unique_id=955479209]
 visible = false
-offset_left = -36.0
-offset_top = -63.0
-offset_right = -4.0
-offset_bottom = -36.0
+offset_left = -31.666666
+offset_top = -104.99999
+offset_right = 0.33333397
+offset_bottom = -77.99999
 scale = Vector2(2, 2)
 step = 0.0
 texture_under = ExtResource("6_miirx")

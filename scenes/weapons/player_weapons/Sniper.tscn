@@ -11,10 +11,11 @@ bullets_per_shot = 1
 spread_degrees = 1.0
 reload_cooldown = 1.65
 atk_scene = ExtResource("2_wxktd")
+tip = NodePath("Tip")
 atk_cooldown = 1.5
 damage = 7.5
 knockback_force = 165.0
-tip = NodePath("Tip")
+automatic = false
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1010061817]
 position = Vector2(9, 0)

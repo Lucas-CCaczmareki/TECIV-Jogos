@@ -64,16 +64,18 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	super() # conecta o signal do died no método
-	# TODO: depois eu preciso decidir se bloqueio troca durante reload ou cancelo reload	
+	
 	for w in weapon_manager.weapons:
 		w.reload_started.connect(_reload_started)
-		
-		#weapon.reload_finish.connect()
-	pass
+		w.reload_finished.connect(_hide_reload_bar)
+	
+	weapon_manager.weapon_changed.connect(_on_weapon_changed)
+	
 	
 func _process(delta: float) -> void:
 	#take_damage(1)
 	#print(health.health)
+	_handle_weapon_input()
 	_update_reloadBar(delta)
 
 # ==============================================================================
@@ -171,6 +173,22 @@ func _get_dodge_animation_direction(dir: Vector2) -> String:
 # ARMAS / RECARGA
 # ==============================================================================
 
+func _handle_weapon_input() -> void:
+	# o próprio dono da arma gerencia os blocks do atk com as suas ações
+	# ao invés de fazer a arma bloquear via signal igual tava antes.
+	if is_dead or is_dodging or not can_move: # not can move garante q o player n atira enquanto o menu lobo estiver aberto
+		return
+	var weapon := weapon_manager.get_weapon()
+	var wants_attack := Input.is_action_pressed("fire") if weapon.automatic else Input.is_action_just_pressed("fire")
+	if wants_attack:
+		weapon.try_attack()
+	if Input.is_action_just_pressed("reload") and weapon is RangedWeapon:
+		weapon.try_reload()
+
+# marca _w como privado pq n vai usar o atributo aqui
+func _on_weapon_changed(_w: Weapon) -> void:
+	_hide_reload_bar()
+
 # TODO (L2): a barra conta o tempo por conta própria. Se a recarga for cancelada
 # (troca de arma), barra e arma dessincronizam. Quando a arma emitir um signal de
 # fim/cancelamento da recarga, conectar em _hide_reload_bar() no lugar de contar delta
@@ -184,9 +202,7 @@ func _reload_started(reload_time: float) -> void:
 func _update_reloadBar(delta: float) -> void:
 	if is_reloading:
 		reload_bar.value += delta
-		if reload_bar.value >= reload_bar.max_value:
-			_hide_reload_bar()
-
+		
 func _hide_reload_bar() -> void:
 	is_reloading = false
 	reload_bar.visible = false
@@ -229,6 +245,7 @@ func _on_died() -> void:
 	if is_dodging: _end_dodge()
 	state = State.DEAD
 	sprite.pause()
+	_hide_reload_bar()
 	move_velocity = Vector2.ZERO
 	weapon_pivot.process_mode = Node.PROCESS_MODE_DISABLED # desabilita a gerência de armas
 	weapon_manager.process_mode = Node.PROCESS_MODE_DISABLED

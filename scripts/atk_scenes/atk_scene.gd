@@ -13,10 +13,15 @@ var knockback_force: float
 @onready var sprite: Sprite2D = $Area2D/Sprite2D
 @onready var col_shape: CollisionShape2D = $Area2D/CollisionShape2D
 
+var target_mask: int = 0
+
 #signal hit()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if target_mask != 0:
+		collision.collision_mask = target_mask
+	
 	# connect this signal with the function
 	collision.body_entered.connect(_process_collision)
 	
@@ -50,6 +55,9 @@ func _on_hit(_target: Node2D) -> void:
 
 func set_damage(dmg: float) -> void:
 	damage = dmg
+
+func set_target_mask(mask: int) -> void:
+	target_mask = mask
 	
 func set_knockback_force(force: float) -> void:
 	knockback_force = force

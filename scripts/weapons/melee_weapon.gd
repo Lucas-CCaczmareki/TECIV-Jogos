@@ -8,6 +8,7 @@ var comboTimer: float = 0.0
 var in_combo: bool = false
 
 func _ready() -> void:
+	automatic = false # 1 clique por ataque
 	sprite = $Sprite2D
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -20,12 +21,6 @@ func _process(delta: float) -> void:
 			combo_count = 1
 			comboTimer = 0
 			in_combo = false
-			
-	if _atk_action() and _can_atk():
-		atk()
-		_combo_count()
-		wielder.set_can_move(false) 
-	pass
 
 func _atk_cooldown(delta: float) -> void:
 	if blocked_by_cooldown:
@@ -51,6 +46,8 @@ func _combo_count() -> void:
 func set_combo_count(value: int) -> void:
 	combo_count = value
 	
-func _atk_action() -> bool:
-	print("does nothing. must be overwritten")
-	return false
+func try_attack() -> void:
+	if _can_atk():
+		atk()
+		_combo_count()
+		wielder.set_can_move(false)	

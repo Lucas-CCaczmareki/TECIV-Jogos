@@ -2,6 +2,7 @@ extends Node2D
 class_name WeaponManager
 
 # @onready var weapon_sprite: Sprite2D = $Weapon
+@export_flags_2d_physics var target_mask: int
 @export var weapon_scenes: Array[PackedScene]
 @export var weapon_pivot: WeaponPivot
 const MAX_WEAPONS: int = 4
@@ -16,7 +17,7 @@ signal weapon_changed(weapon: Weapon)
 func _ready() -> void:
 	for scene in weapon_scenes:
 		var w: Weapon = scene.instantiate()
-		w.wielder = get_parent()
+		w.setup(get_parent(), target_mask)
 		weapons.append(w)
 	
 	active_weapon = weapons[0]
@@ -37,13 +38,16 @@ func switch_weapon(idx : int) -> void:
 	if idx == MAX_WEAPONS:
 		idx = 0; # simula um comportamento de vetor circular
 		
+	if active_weapon is RangedWeapon:
+		active_weapon.cancel_reload()
+		
 	weapon_pivot.remove_child(active_weapon)
 	active_weapon = weapons[idx]
 	active_weapon_idx = idx
 	emit_signal("weapon_changed", active_weapon)
 	weapon_pivot.add_child(active_weapon)
 
-func get_weapon() -> Node2D:
+func get_weapon() -> Weapon:
 	return active_weapon
 
 # calls the visibility function for the active weapon

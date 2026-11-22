@@ -4,12 +4,8 @@ class_name PlayerWeapon
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
+	#automatic = true
 	ammo_changed.emit(ammo, capacity)
-
-	# conecta as funções que vão escutar os signals
-	# nesse caso foi usada uma lambda (função anônima). func(): <código>
-	wielder.dodge_started.connect(func(): blocked_by_action = true)
-	wielder.dodge_ended.connect(func(): blocked_by_action = false)
 
 # utilizada no revolver, smg e sniper
 func atk() -> void:
@@ -25,6 +21,7 @@ func atk() -> void:
 	# passa os atributos necessários pra atk scene
 	atkInstance.set_damage(damage)
 	atkInstance.set_knockback_force(knockback_force)
+	atkInstance.set_target_mask(target_mask)
 	
 	# instancia a bala ligada na SceneTree atual
 	_spawn_atk(atkInstance)
@@ -34,9 +31,3 @@ func atk() -> void:
 	# blocks the next fire
 	blocked_by_cooldown = true
 	atk_cooldownTimer = atk_cooldown
-
-func _atk_action() -> bool:
-	return Input.is_action_pressed("fire")
-
-func _reload_action() -> bool:
-	return Input.is_action_just_pressed("reload")

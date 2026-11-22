@@ -14,7 +14,7 @@ var blocked_by_reload: bool = false
 # signals
 signal ammo_changed(current: int, max: int)
 signal reload_started(duration: float)
-#signal reload_finished()
+signal reload_finished()
 
 func _ready() -> void:
 	super()
@@ -25,19 +25,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_atk_cooldown(delta) # 'delta' is the elapsed time since the previous frame.
 	_reload_cooldown(delta)
-	
-	if _atk_action() and _can_atk():
-		atk()
-		
-	if _reload_action():
-		_reload() #activate the cooldown to reload and set ammo
 
-func _reload() -> void:
-	if reload_sfx:
-		reload_sfx.play()
-	
+func try_reload() -> void:
 	if blocked_by_reload or ammo == capacity:
 		return # does nothing
+	
+	# toca o som dj
+	if reload_sfx:
+		reload_sfx.play()
+		
 	blocked_by_reload = true
 	reload_cooldownTimer = reload_cooldown
 	reload_started.emit(reload_cooldown)
@@ -51,13 +47,18 @@ func _reload_cooldown(delta: float) -> void:
 			ammo = capacity
 			ammo_changed.emit(ammo, capacity)
 			blocked_by_reload = false
+			reload_finished.emit()
 	pass
 
-func _reload_action() -> bool:
-	print("does nothing, must be overwritten")
-	return false
+# chamada quando o cara troca de arma no meio da recarga
+func cancel_reload() -> void:
+	if not blocked_by_reload:
+		return
+	blocked_by_reload = false
+	reload_cooldownTimer = 0.0
+	if reload_sfx:
+		reload_sfx.stop()
 
 func _can_atk() -> bool:
 	# sobre escreve a função, fica mais simples de ler
-	return (not (blocked_by_action or blocked_by_reload or blocked_by_cooldown)) and ammo > 0
-	
+	return (not (blocked_by_reload or blocked_by_cooldown)) and ammo > 0
