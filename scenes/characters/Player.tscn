@@ -596,6 +596,7 @@ scale = Vector2(1.2, 1.2)
 collision_layer = 2
 collision_mask = 33
 script = ExtResource("1_rpfb3")
+sprint_mult = 5.0
 dodge_cost = 0.0
 sprint_cost = 0.0
 base_speed = 240.0

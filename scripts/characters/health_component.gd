@@ -61,7 +61,9 @@ func take_damage(amount: int) -> void:
 		if health == 0:
 			_died = true
 			died.emit()
-
+			
+	print(health)
+	
 # usado pra quando o game dá respawn
 func reset() -> void:
 	_died = false

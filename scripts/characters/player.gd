@@ -263,4 +263,4 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_T:
 		hurtbox.take_damage(10)
 		hurtbox.apply_knockback(Vector2(400, 0))
-		print(health.health)		
+		print(health.health)

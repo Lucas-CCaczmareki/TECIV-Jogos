@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dq2o7ftwiqbnb" path="res://scripts/characters/slime.gd" id="1_ug2gy"]
 [ext_resource type="Texture2D" uid="uid://bin065gfhgnvr" path="res://assets/sprites/enemies/Monster_Slime_Idle-Sheet.png" id="1_x5nvu"]
 [ext_resource type="Texture2D" uid="uid://dgy45h125a7rv" path="res://assets/sprites/enemies/Monster_Slime_Hurt-Sheet.png" id="2_ac2ri"]
+[ext_resource type="Script" uid="uid://cgnm36qyuwdbe" path="res://scripts/characters/hitbox.gd" id="5_i8ngh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pl06t"]
 atlas = ExtResource("1_qb22b")
@@ -152,6 +153,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x5nvu"]
 size = Vector2(15, 12)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
+size = Vector2(15.318351, 17.830223)
+
 [node name="Slime" type="CharacterBody2D" unique_id=922654796]
 z_index = -1
 collision_layer = 32
@@ -166,3 +170,16 @@ frame_progress = 0.2350872
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=120788809]
 position = Vector2(0.5, 7)
 shape = SubResource("RectangleShape2D_x5nvu")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=93427339]
+collision_layer = 0
+collision_mask = 1536
+script = ExtResource("5_i8ngh")
+knockback = 1000.0
+metadata/_custom_type_script = "uid://cgnm36qyuwdbe"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1649589463]
+position = Vector2(0.5000001, 6.9698606)
+scale = Vector2(1.10978, 0.8939721)
+shape = SubResource("RectangleShape2D_ucufk")
+debug_color = Color(0.90132564, 0.00016691744, 0.7615076, 0.41960785)

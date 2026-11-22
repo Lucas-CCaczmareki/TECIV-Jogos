@@ -12,6 +12,10 @@ var knockback_velocity: Vector2 = Vector2.ZERO
 @export var knockback_friction: float = 600.0
 @export var knockback_resistance: float = 0.0   # 0 = normal, 1 = imune (bosses)
 
+func _ready() -> void:
+	#super()
+	$Hitbox.enable() # contato: fica ligada o tempo todo
+
 func _physics_process(delta: float) -> void:
 	if was_hurt:
 		animation_timer -= delta
