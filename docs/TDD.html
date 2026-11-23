@@ -1826,8 +1826,10 @@
           <h3>Enemy (base)</h3>
           <ul>
             <li>
-              <b>Percepção:</b> distância de detecção mais um <code>RayCast2D</code> de visão. Sem pathfinding global: o
-              inimigo se move em direção ao alvo e desvia de paredes com o raio.
+              <b>Movimento:</b> NavigationAgent2D filho do inimigo, criado pelo Enemy. 
+              O inimigo pede o caminho até o destino e segue o próximo ponto da rota.
+               Cada tipo só escolhe o destino (alvo, ponto de cobertura, ponto a distância do alvo, alvo mais desvio lateral) e 
+               reaproveita _move_toward(posição) da base.
             </li>
             <li>
               <b>Alvo:</b> <code>taunt_target</code> (se definido pela skill do lobo) ou o personagem aliado mais
@@ -2099,7 +2101,8 @@
             <li>
               Raiz <code>Node2D</code> com <code>Entry</code> (<code>Marker2D</code>: onde o jogador nasce),
               <code>Exit</code> (<code>Area2D</code> que dispara a troca) e <code>Bounds</code> (retângulo para a
-              câmera).
+              câmera). A chunk tem um NavigationRegion2D com malha de navegação cobrindo o chão e descontando as paredes da layer world. 
+              Sem ele, os inimigos não andam.
             </li>
             <li>
               Paredes em <code>TileMapLayer</code> com colisão na layer <code>world</code>. Chão com
@@ -2505,7 +2508,7 @@
         <tr>
           <td>☐ L5 ◆</td>
           <td>Enemy base e IA</td>
-          <td>Máquina de estados, percepção, barra de vida, stun e freeze, DropTable (09)</td>
+          <td>Máquina de estados, percepção, navegação (NavigationAgent2D), barra de vida, stun e freeze, DropTable (09)</td>
           <td>L1, L2</td>
         </tr>
         <tr>
@@ -2577,7 +2580,8 @@
         <tr>
           <td>☐ G2 ◆</td>
           <td>Game e ChunkManager</td>
-          <td>Autoload Game, troca de chunk com fade, checkpoint, respawn e restart (02, 11)</td>
+          <td>Autoload Game, troca de chunk com fade, checkpoint, respawn, restart (02, 11) e navegação por chunk (11). 
+            O desvio de paredes só com raio travava em quinas; trocado por navegação do Godot por ser escalável pros 8 tipos</td>
           <td>L1</td>
         </tr>
         <tr>

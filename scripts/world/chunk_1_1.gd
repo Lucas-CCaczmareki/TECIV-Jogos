@@ -1,15 +1,8 @@
 extends Node2D
 
-# TEASER (depois apaga)
 @export var slime_scene: PackedScene
-#@export var companion_scene: PackedScene
-#var teaser_sprite: AnimatedSprite2D
-#var teaser_timer: float = 0.0
-#var attack_duration: float = 0.0
-#var companion: Node2D
+@export var nav_agent_radius_px: float = 12.0 # folga das paredes, em pixels do mundo
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# TODO: no futuro, agrupar todos os markers sobre um nó
 	# pra organizar melhor. Se achar necessário (ai muda o jeito q esse for funciona)
@@ -18,26 +11,56 @@ func _ready() -> void:
 			var slime: Node2D = slime_scene.instantiate()
 			add_child(slime)
 			slime.global_position = child.global_position
-	
-	#companion = companion_scene.instantiate()
-	#add_child(companion)
-	#companion.global_position = $CompanionPosition.global_position
-	#companion.follows_player = false
-	
-	#companion.set_physics_process(false)   # para de seguir o player
-	#teaser_sprite = companion.get_node("AnimatedSprite2D")
-	#teaser_sprite.play("stop_left")
-	
-	#var sf := teaser_sprite.sprite_frames
-	#attack_duration = sf.get_frame_count("attack_left") / sf.get_animation_speed("attack_left")
+	_setup_navigation()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	#teaser_timer += delta
-	#if teaser_timer >= 3.0:
-		#teaser_timer = 0.0
-		#teaser_sprite.play("attack_left")
-		##companion.atk_sfx.play()
-		#await get_tree().create_timer(attack_duration).timeout
-		#teaser_sprite.play("stop_left")
+func _setup_navigation() -> void:
+	var ground: TileMapLayer = $Ground
+	var walls: TileMapLayer = $Walls
+
+	var region := NavigationRegion2D.new()
+	add_child(region)
+
+	# chão = área andável; paredes = obstáculo. A união/diferença é feita no bake
+	var data := NavigationMeshSourceGeometryData2D.new()
+	for outline in _layer_outlines(ground, region):
+		data.add_traversable_outline(outline)
+	for outline in _layer_outlines(walls, region):
+		data.add_obstruction_outline(outline)
+
+	var poly := NavigationPolygon.new()
+	poly.agent_radius = nav_agent_radius_px / global_scale.x # a chunk tem escala 5
+	NavigationServer2D.bake_from_source_geometry_data(poly, data)
+	region.navigation_polygon = poly
+
+# agrupa as células de uma TileMapLayer em "corridas" horizontais (1 retângulo por corrida)
+# e devolve os contornos no espaço local da region
+func _layer_outlines(layer: TileMapLayer, region: Node2D) -> Array[PackedVector2Array]:
+	var outlines: Array[PackedVector2Array] = []
+	var rows := {}
+	for cell in layer.get_used_cells():
+		if not rows.has(cell.y):
+			rows[cell.y] = []
+		rows[cell.y].append(cell.x)
+
+	for y in rows:
+		var xs: Array = rows[y]
+		xs.sort()
+		var start: int = xs[0]
+		var prev: int = xs[0]
+		for i in range(1, xs.size() + 1):
+			if i == xs.size() or xs[i] != prev + 1:
+				outlines.append(_run_outline(layer, region, start, prev, y))
+				if i < xs.size():
+					start = xs[i]
+			if i < xs.size():
+				prev = xs[i]
+	return outlines
+
+func _run_outline(layer: TileMapLayer, region: Node2D, x0: int, x1: int, y: int) -> PackedVector2Array:
+	var ts := Vector2(layer.tile_set.tile_size)
+	var tl := layer.map_to_local(Vector2i(x0, y)) - ts / 2.0
+	var br := layer.map_to_local(Vector2i(x1, y)) + ts / 2.0
+	var pts := PackedVector2Array([tl, Vector2(br.x, tl.y), br, Vector2(tl.x, br.y)])
+	for i in pts.size():
+		pts[i] = region.to_local(layer.to_global(pts[i])) # tile -> mundo -> region
+	return pts
