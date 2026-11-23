@@ -6,23 +6,67 @@ var state: State = State.IDLE # variavel state inicia idle
 
 @export var detection_range: float = 1400.0
 @export var lose_range_mult: float = 1.5 # só larga o alvo além de detection_range * isso (evita ficar alternando)
-@export var avoid_distance: float = 40.0 # o quão à frente o raio olha pra desviar de parede. Maior que o raio do corpo
+@export var path_refresh: float = 0.2 # de quanto em quanto tempo (s) recalcula a rota
+@export var repath_distance: float = 8.0
 
-
+var _has_path_target: bool = false
+var nav_agent: NavigationAgent2D
+var _path_timer: float = 0.0
 var taunt_target: Node2D = null # skill Atrair do lobo seta isso
 var target: Node2D = null
 var vision_ray: RayCast2D
 
 func _ready() -> void:
 	super()
-	add_to_group("enemies") # cria um group chamado enemies
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	add_to_group("enemy") # cria um group chamado enemies
 	
 	# raio de visão criado por código (evita configurar o nó em toda cena de inimigo)
 	vision_ray = RayCast2D.new() # usado pra desviar de obstáculos
 	vision_ray.collision_mask = 1 	 # só enxerga o mundo (a princípio)
 	add_child(vision_ray)
 	
-func _update_movement(_delta: float) -> void:
+	nav_agent = NavigationAgent2D.new()
+	nav_agent.path_desired_distance = 3.0 # diz o quao perto do ponto da rota conta como ter chegado
+	nav_agent.target_desired_distance = 8.0
+	
+	nav_agent.debug_enabled = true
+	add_child(nav_agent)
+	
+#func _physics_process(delta: float) -> void:
+	#super(delta)
+#
+	##if state != State.CHASE:
+		##return
+#
+	#if Engine.get_physics_frames() % 30 != 0:
+		#return
+#
+	#print(
+		#" pos=", global_position,
+		#" index=", nav_agent.get_current_navigation_path_index(),
+		#" desejada=", move_velocity,
+		#" real=", get_real_velocity(),
+		#" knockback=", knockback_velocity,
+		#" colisoes=", get_slide_collision_count(),
+		#" state=", State.keys()[state],
+		#" target=", target,
+		#" finished=", nav_agent.is_navigation_finished(),
+	#)
+#
+	#for i in range(get_slide_collision_count()):
+		#var collision := get_slide_collision(i)
+		#print(
+			#" collider=", collision.get_collider(),
+			#" normal=", collision.get_normal()
+		#)	
+	
+func _update_movement(delta: float) -> void:
+	
+	#if Engine.get_physics_frames() % 30 == 0: # ~2x por segundo
+		#print("state=", state, " target=", target, " finished=", nav_agent.is_navigation_finished(), " path_pts=", nav_agent.get_current_navigation_path().size())
+		
+	_path_timer -= delta
 	# se tá morto n se move
 	if state == State.DEAD:
 		move_velocity = Vector2.ZERO
@@ -38,13 +82,12 @@ func _update_movement(_delta: float) -> void:
 			if target and _can_see(target):
 				state = State.CHASE
 		State.CHASE:
-			# sem alvo ou alvo muito longe: desiste
 			if target == null or global_position.distance_to(target.global_position) > detection_range * lose_range_mult:
 				state = State.IDLE
 				move_velocity = Vector2.ZERO
+				_has_path_target = false
 				return
-			var dir := global_position.direction_to(target.global_position)
-			move_velocity = _steer(dir) * get_speed()
+			_move_toward(target.global_position)
 		_: # ATTACK e STUN: ATTACK entra no L6 (alcance muda por tipo), STUN no passo 5
 			move_velocity = Vector2.ZERO
 	
@@ -75,27 +118,35 @@ func _can_see(t: Node2D) -> bool:
 	if to.length() > detection_range:
 		return false
 		
-	vision_ray.target_position = to # coordenada local (ok porque o inimigo não gira)
+	vision_ray.target_position = vision_ray.to_local(t.global_position)
 	vision_ray.force_raycast_update() # atualiza o raio agora, não no próximo frame de física
 	return not vision_ray.is_colliding() # se colide c/ parede no caminho, retorna false
+	
+# vai até pos seguindo a rota da malha. Cada tipo de inimigo só escolhe o destino
+func _move_toward(pos: Vector2) -> void:
+	# 1o frame: o mapa de navegação ainda não sincronizou, vai em linha reta
+	if NavigationServer2D.map_get_iteration_id(nav_agent.get_navigation_map()) == 0:
+		move_velocity = Vector2.ZERO
+		return
 
-# desvio de parede com o raio: devolve a primeira direção livre.
-# Se todas baterem, devolve a que tem mais espaço até a parede (em vez de empurrar de frente)
-func _steer(dir: Vector2) -> Vector2:
-	var best_dir := dir
-	var best_clear := -1.0
-	for angle in [0.0, 0.7, -0.7, 1.4, -1.4]: # radianos
-		var d := dir.rotated(angle)
-		vision_ray.target_position = d * avoid_distance
-		vision_ray.force_raycast_update()
-		if not vision_ray.is_colliding():
-			return d
-		# bateu: guarda a direção com mais espaço livre
-		var clear := global_position.distance_to(vision_ray.get_collision_point())
-		if clear > best_clear:
-			best_clear = clear
-			best_dir = d
-	return best_dir
+	# Só recalcula se o alvo mudou suficientemente de posição
+	if not _has_path_target or _path_timer <= 0.0:
+		if not _has_path_target or nav_agent.target_position.distance_to(pos) >= repath_distance:
+			nav_agent.target_position = pos
+			_has_path_target = true
+
+		_path_timer = path_refresh
+	
+	var next_pos := nav_agent.get_next_path_position()
+	
+	if nav_agent.is_navigation_finished():
+		move_velocity = Vector2.ZERO
+		return
+
+	var offset := next_pos - global_position
+	var delta := get_physics_process_delta_time()
+
+	move_velocity = (offset / delta).limit_length(get_speed())
 
 func _on_died() -> void:
 	state = State.DEAD

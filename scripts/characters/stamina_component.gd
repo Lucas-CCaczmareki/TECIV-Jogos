@@ -38,7 +38,7 @@ func drain(rate: float, delta: float) -> bool:
 	return stamina > 0.0
 
 func spend(amount: float) -> bool:
-	print("stamina: " + str(stamina))
+	#print("stamina: " + str(stamina))
 	if infinite: return true # n gasta stamina
 	
 	if stamina < amount: return false

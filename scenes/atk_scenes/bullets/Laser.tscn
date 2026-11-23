@@ -7,8 +7,6 @@
 script = ExtResource("1_w3lok")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1723125469]
-collision_layer = 4
-collision_mask = 33
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=1356702804]
 texture = ExtResource("2_w3lok")

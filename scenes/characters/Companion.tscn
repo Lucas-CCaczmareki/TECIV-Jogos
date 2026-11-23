@@ -652,12 +652,12 @@ sprite_frames = SubResource("SpriteFrames_dndu5")
 animation = &"walk_right"
 script = ExtResource("7_au3n7")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1147145791]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1147145791]
 collision_layer = 1024
 collision_mask = 0
 script = ExtResource("8_4yx2k")
 
-[node name="HurtShape" type="CollisionShape2D" parent="Area2D" unique_id=1257473903]
+[node name="HurtShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1257473903]
 position = Vector2(2.0833304, 21.666668)
 shape = SubResource("RectangleShape2D_jx834")
 

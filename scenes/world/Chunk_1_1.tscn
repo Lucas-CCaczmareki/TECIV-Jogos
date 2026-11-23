@@ -3925,6 +3925,7 @@ position = Vector2(-1846.0001, 3645)
 scale = Vector2(5, 5)
 script = ExtResource("1_lm2ja")
 slime_scene = ExtResource("2_tbnbh")
+nav_agent_radius_px = 70.0
 
 [node name="Water" type="TileMapLayer" parent="." unique_id=1070055698]
 z_index = -3
