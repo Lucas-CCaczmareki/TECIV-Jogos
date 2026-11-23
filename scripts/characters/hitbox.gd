@@ -34,3 +34,10 @@ func _on_area_entered(area: Area2D) -> void:
 	area.take_damage(damage)
 	if knockback > 0.0 and area.has_method("apply_knockback"):
 		area.apply_knockback(global_position.direction_to(area.global_position) * knockback)
+
+# utilizada quando o inimigo dá dano contínuo por contato. (ou seja, a área já ta dentro da hitbox)
+func hit_overlapping_areas() -> void:
+	_already_hit.clear()
+
+	for area in get_overlapping_areas():
+		_on_area_entered(area)

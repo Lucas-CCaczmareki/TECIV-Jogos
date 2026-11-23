@@ -5,6 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://bin065gfhgnvr" path="res://assets/sprites/enemies/Monster_Slime_Idle-Sheet.png" id="1_x5nvu"]
 [ext_resource type="Texture2D" uid="uid://dgy45h125a7rv" path="res://assets/sprites/enemies/Monster_Slime_Hurt-Sheet.png" id="2_ac2ri"]
 [ext_resource type="Script" uid="uid://cgnm36qyuwdbe" path="res://scripts/characters/hitbox.gd" id="5_i8ngh"]
+[ext_resource type="Script" uid="uid://b0rkv8dhqkmax" path="res://scripts/characters/hurtbox.gd" id="6_88ehi"]
+[ext_resource type="Script" uid="uid://80wd66fc28hx" path="res://scripts/characters/health_component.gd" id="6_pl06t"]
+[ext_resource type="Script" uid="uid://bb7ecbaa5lb8" path="res://scripts/characters/stamina_component.gd" id="7_88ehi"]
+[ext_resource type="PackedScene" uid="uid://d14tj3qvyyko8" path="res://scenes/huds/EnemyHealthBar.tscn" id="8_al217"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pl06t"]
 atlas = ExtResource("1_qb22b")
@@ -151,10 +155,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x5nvu"]
-size = Vector2(15, 12)
+size = Vector2(15, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
-size = Vector2(15.318351, 17.830223)
+size = Vector2(13.516193, 13.423239)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0a554"]
+size = Vector2(15, 12)
 
 [node name="Slime" type="CharacterBody2D" unique_id=922654796]
 z_index = -1
@@ -167,19 +174,44 @@ sprite_frames = SubResource("SpriteFrames_ucufk")
 animation = &"idle"
 frame_progress = 0.2350872
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=120788809]
-position = Vector2(0.5, 7)
+[node name="FeetShape" type="CollisionShape2D" parent="." unique_id=120788809]
+position = Vector2(0.5, 11)
 shape = SubResource("RectangleShape2D_x5nvu")
+debug_color = Color(0.56768215, 0.5475027, 0.3000727, 0.41960785)
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=93427339]
-collision_layer = 0
+collision_layer = 128
 collision_mask = 1536
+monitorable = false
 script = ExtResource("5_i8ngh")
 knockback = 1000.0
 metadata/_custom_type_script = "uid://cgnm36qyuwdbe"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1649589463]
-position = Vector2(0.5000001, 6.9698606)
+[node name="HitShape" type="CollisionShape2D" parent="Hitbox" unique_id=1649589463]
+position = Vector2(0.49999985, 7)
 scale = Vector2(1.10978, 0.8939721)
 shape = SubResource("RectangleShape2D_ucufk")
 debug_color = Color(0.90132564, 0.00016691744, 0.7615076, 0.41960785)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=127829584]
+collision_layer = 2048
+collision_mask = 0
+monitoring = false
+script = ExtResource("6_88ehi")
+metadata/_custom_type_script = "uid://b0rkv8dhqkmax"
+
+[node name="HurtShape" type="CollisionShape2D" parent="Hurtbox" unique_id=2133513655]
+position = Vector2(0.5, 7)
+shape = SubResource("RectangleShape2D_0a554")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1831672107]
+script = ExtResource("6_pl06t")
+max_health = 35
+metadata/_custom_type_script = "uid://80wd66fc28hx"
+
+[node name="StaminaComponent" type="Node" parent="." unique_id=1768186290]
+script = ExtResource("7_88ehi")
+metadata/_custom_type_script = "uid://bb7ecbaa5lb8"
+
+[node name="EnemyHealthBar" parent="." unique_id=778909008 instance=ExtResource("8_al217")]
+position = Vector2(-22, -4)

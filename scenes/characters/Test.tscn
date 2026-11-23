@@ -2,10 +2,23 @@
 
 [ext_resource type="Script" uid="uid://80wd66fc28hx" path="res://scripts/characters/health_component.gd" id="1_rpdsu"]
 [ext_resource type="Script" uid="uid://btqh72ho7w8pn" path="res://scripts/characters/enemy.gd" id="1_x8a0t"]
+[ext_resource type="Script" uid="uid://qas2nn31dy17" path="res://scripts/interactables/drop_entry.gd" id="2_7dbdc"]
 [ext_resource type="Script" uid="uid://bb7ecbaa5lb8" path="res://scripts/characters/stamina_component.gd" id="2_x8a0t"]
+[ext_resource type="PackedScene" uid="uid://bcj41mmybbnux" path="res://scenes/weapons/Spear.tscn" id="3_8g2u5"]
 [ext_resource type="PackedScene" uid="uid://d14tj3qvyyko8" path="res://scenes/huds/EnemyHealthBar.tscn" id="3_jpq3f"]
 [ext_resource type="Texture2D" uid="uid://5o7uuk7wo084" path="res://icon.svg" id="3_vvo2o"]
+[ext_resource type="Script" uid="uid://b7grjl1svwi5l" path="res://scripts/interactables/drop_table.gd" id="4_7ersj"]
 [ext_resource type="Script" uid="uid://b0rkv8dhqkmax" path="res://scripts/characters/hurtbox.gd" id="5_vvo2o"]
+
+[sub_resource type="Resource" id="Resource_2u63e"]
+script = ExtResource("2_7dbdc")
+pickup_scene = ExtResource("3_8g2u5")
+metadata/_custom_type_script = "uid://qas2nn31dy17"
+
+[sub_resource type="Resource" id="Resource_yg0yb"]
+script = ExtResource("4_7ersj")
+entries = Array[ExtResource("2_7dbdc")]([SubResource("Resource_2u63e")])
+metadata/_custom_type_script = "uid://b7grjl1svwi5l"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
 size = Vector2(24, 23)
@@ -16,6 +29,7 @@ size = Vector2(22, 6)
 [node name="Test" type="CharacterBody2D" unique_id=1338832582]
 collision_layer = 32
 script = ExtResource("1_x8a0t")
+drop_table = SubResource("Resource_yg0yb")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=35559114]
 scale = Vector2(0.2, 0.2)

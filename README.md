@@ -74,7 +74,7 @@ Os marcos vêm do cronograma do [TDD](docs/TDD.html). **◆** marca os marcos cr
 | L2 ◆ | Armas de fogo | ✅ | setup/try_attack/reload, mira vinda do dono, WeaponManager com 2 slots, SMG, Sniper e Shotgun. Multiplicadores de arma e `equip()` esperam os itens (G3) e o inventário (L11) |
 | L3 | Armas melee | ⬜ | Espada com combo, Lança, Explosion. Entra logo depois do `Enemy` base |
 | L4 ◆ | Player completo | ✅ | Vida, stamina, sprint, esquiva com `airborne`, morte, inputs novos, Camera2D. A câmera só recebe limites quando o ChunkManager (G2) emitir `camera_bounds_changed` |
-| L5 ◆ | Enemy base e IA | ⬜ | Próximo marco: Hitbox, `Enemy`, percepção, `stun`/`freeze`, migrar o Slime, DropTable |
+| L5 ◆ | Enemy base e IA | ✅ | Próximo marco: Hitbox, `Enemy`, percepção, `stun`/`freeze`, migrar o Slime, DropTable |
 | L6 | Inimigos de contato | ⬜ | Slime com divisão, Soldado A, Tank, Investida |
 | L7 | Inimigos à distância e suporte | ⬜ | Soldado B, Sniper, Sacerdote |
 | L8 ◆ | Lobo em combate | 🔶 | FOLLOW, HOLD e DEAD funcionam. Faltam Hitbox, ATTACK, ordens e interação com alavanca e placa |

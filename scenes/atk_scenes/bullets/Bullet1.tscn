@@ -21,3 +21,4 @@ frame = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1286916582]
 shape = SubResource("CircleShape2D_ucufk")
+debug_color = Color(0.8564939, 3.657937e-06, 8.663535e-07, 0.41960785)

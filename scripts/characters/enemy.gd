@@ -1,19 +1,23 @@
 extends Character
 class_name Enemy
 
-enum State { IDLE, CHASE, ATTACK, STUN, DEAD }
+enum State { IDLE, CHASE, ATTACK, STUN, FREEZE, DEAD }
 var state: State = State.IDLE # variavel state inicia idle
 
 @export var detection_range: float = 1400.0
 @export var lose_range_mult: float = 1.5 # só larga o alvo além de detection_range * isso (evita ficar alternando)
 @export var path_refresh: float = 0.2 # de quanto em quanto tempo (s) recalcula a rota
 @export var repath_distance: float = 8.0
+@export var drop_table: DropTable
 
 @onready var health_bar: EnemyHealthBar = get_node_or_null("EnemyHealthBar")
 
 var _has_path_target: bool = false
-var nav_agent: NavigationAgent2D
 var _path_timer: float = 0.0
+var _stun_timer: float = 0.0
+var _freeze_timer: float = 0.0
+
+var nav_agent: NavigationAgent2D
 var taunt_target: Node2D = null # skill Atrair do lobo seta isso
 var target: Node2D = null
 var vision_ray: RayCast2D
@@ -39,33 +43,6 @@ func _ready() -> void:
 	nav_agent.debug_enabled = true
 	add_child(nav_agent)
 	
-#func _physics_process(delta: float) -> void:
-	#super(delta)
-#
-	##if state != State.CHASE:
-		##return
-#
-	#if Engine.get_physics_frames() % 30 != 0:
-		#return
-#
-	#print(
-		#" pos=", global_position,
-		#" index=", nav_agent.get_current_navigation_path_index(),
-		#" desejada=", move_velocity,
-		#" real=", get_real_velocity(),
-		#" knockback=", knockback_velocity,
-		#" colisoes=", get_slide_collision_count(),
-		#" state=", State.keys()[state],
-		#" target=", target,
-		#" finished=", nav_agent.is_navigation_finished(),
-	#)
-#
-	#for i in range(get_slide_collision_count()):
-		#var collision := get_slide_collision(i)
-		#print(
-			#" collider=", collision.get_collider(),
-			#" normal=", collision.get_normal()
-		#)	
 	
 func _update_movement(delta: float) -> void:
 	
@@ -94,6 +71,22 @@ func _update_movement(delta: float) -> void:
 				_has_path_target = false
 				return
 			_move_toward(target.global_position)
+		State.STUN:
+			move_velocity = Vector2.ZERO
+			_stun_timer -= delta
+
+			if _stun_timer <= 0.0:
+				_has_path_target = false
+				state = State.CHASE
+		State.FREEZE:
+			move_velocity = Vector2.ZERO
+			knockback_velocity = Vector2.ZERO
+			_freeze_timer -= delta
+
+			if _freeze_timer <= 0.0:
+				_has_path_target = false
+				state = State.CHASE
+		
 		_: # ATTACK e STUN: ATTACK entra no L6 (alcance muda por tipo), STUN no passo 5
 			move_velocity = Vector2.ZERO
 	
@@ -154,6 +147,39 @@ func _move_toward(pos: Vector2) -> void:
 
 	move_velocity = (offset / delta).limit_length(get_speed())
 
+func stun(duration: float) -> void:
+	if state == State.DEAD:
+		return
+
+	_stun_timer = maxf(_stun_timer, duration)
+	state = State.STUN
+	move_velocity = Vector2.ZERO
+
+func freeze(duration: float) -> void:
+	if state == State.DEAD:
+		return
+
+	_freeze_timer = maxf(_freeze_timer, duration)
+	state = State.FREEZE
+	move_velocity = Vector2.ZERO
+	knockback_velocity = Vector2.ZERO
+
+func _drop_loot() -> void:
+	if drop_table == null:
+		return
+	
+	var scene := drop_table.roll()
+	if scene == null: # se n retornou nenhum item, n droppa nada
+		return
+
+	var pickup := scene.instantiate() as Node2D
+	# Nasce como filho do WORLD
+	# TODO: pode ser necessário fazer nascer como filho de um node "Pickups" no world,
+	# caso seja necessário centralizar alguma lógica de gerência dos itens.
+	get_parent().add_child.call_deferred(pickup)
+	pickup.set_deferred("global_position", global_position)
+
 func _on_died() -> void:
 	state = State.DEAD
+	_drop_loot()
 	queue_free() # placeholder por enquanto, n droppa item e etc. Dps adiciona aq
