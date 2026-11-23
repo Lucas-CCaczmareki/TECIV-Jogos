@@ -9,6 +9,8 @@ var state: State = State.IDLE # variavel state inicia idle
 @export var path_refresh: float = 0.2 # de quanto em quanto tempo (s) recalcula a rota
 @export var repath_distance: float = 8.0
 
+@onready var health_bar: EnemyHealthBar = get_node_or_null("EnemyHealthBar")
+
 var _has_path_target: bool = false
 var nav_agent: NavigationAgent2D
 var _path_timer: float = 0.0
@@ -18,6 +20,10 @@ var vision_ray: RayCast2D
 
 func _ready() -> void:
 	super()
+	
+	if health_bar:
+		health_bar.setup(health)
+	
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	add_to_group("enemy") # cria um group chamado enemies
 	

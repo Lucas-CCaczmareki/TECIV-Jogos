@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://80wd66fc28hx" path="res://scripts/characters/health_component.gd" id="1_rpdsu"]
 [ext_resource type="Script" uid="uid://btqh72ho7w8pn" path="res://scripts/characters/enemy.gd" id="1_x8a0t"]
 [ext_resource type="Script" uid="uid://bb7ecbaa5lb8" path="res://scripts/characters/stamina_component.gd" id="2_x8a0t"]
+[ext_resource type="PackedScene" uid="uid://d14tj3qvyyko8" path="res://scenes/huds/EnemyHealthBar.tscn" id="3_jpq3f"]
 [ext_resource type="Texture2D" uid="uid://5o7uuk7wo084" path="res://icon.svg" id="3_vvo2o"]
 [ext_resource type="Script" uid="uid://b0rkv8dhqkmax" path="res://scripts/characters/hurtbox.gd" id="5_vvo2o"]
 
@@ -19,6 +20,9 @@ script = ExtResource("1_x8a0t")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=35559114]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_vvo2o")
+
+[node name="EnemyHealthBar" parent="." unique_id=778909008 instance=ExtResource("3_jpq3f")]
+position = Vector2(-23, -20)
 
 [node name="HealthComponent" type="Node" parent="." unique_id=42465334]
 script = ExtResource("1_rpdsu")

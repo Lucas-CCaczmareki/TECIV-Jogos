@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://d14tj3qvyyko8"]
+
+[ext_resource type="Script" uid="uid://wy34lvvhi8mr" path="res://scenes/huds/enemy_health_bar.gd" id="1_yg0yb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jpq3f"]
+bg_color = Color(0.103743516, 0.103743546, 0.10374347, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4jbi"]
+bg_color = Color(0.74658537, 1.0107458e-06, 1.92523e-07, 1)
+
+[node name="EnemyHealthBar" type="Node2D" unique_id=778909008]
+script = ExtResource("1_yg0yb")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1137613463]
+custom_minimum_size = Vector2(48, 2)
+custom_maximum_size = Vector2(48, 2)
+offset_right = 4.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_jpq3f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a4jbi")
+step = 1.0
+value = 100.0
+show_percentage = false
