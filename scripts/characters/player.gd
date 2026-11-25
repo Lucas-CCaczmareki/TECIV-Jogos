@@ -128,7 +128,7 @@ func _process_dodge(delta: float) -> void:
 	if is_dodging:
 		# fica imune ao hazard durante um momento do roll. Vai precisar de ajuste
 		var progress := 1.0 - (dodge_timer / dodge_duration)   # 0.0 no início, 1.0 no fim
-		airborne = progress > 0.3 and progress < 0.7           # quadros centrais
+		airborne = progress > 0 and progress < 1           # quadros centrais
 
 		dodge_timer -= delta
 		if dodge_timer <= 0:

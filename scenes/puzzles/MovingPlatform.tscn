@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cdt6jbivtus2x"]
+
+[ext_resource type="Script" uid="uid://cc7kufkefwhyn" path="res://scripts/puzzles/moving_platform.gd" id="1_platform"]
+[ext_resource type="Texture2D" uid="uid://b53l8cgvuqjo2" path="res://assets/sprites/tiles/plataforma_madeira.png" id="2_nobin"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(48, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ride"]
+size = Vector2(44, 28)
+
+[node name="MovingPlatform" type="Path2D" unique_id=583342612]
+script = ExtResource("1_platform")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=1354662883]
+rotates = false
+loop = false
+
+[node name="Body" type="AnimatableBody2D" parent="PathFollow2D" unique_id=1708077731]
+z_index = -1
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Body" unique_id=2088000185]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="RideZone" type="Area2D" parent="PathFollow2D/Body" unique_id=1413845242]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Body/RideZone" unique_id=1296109031]
+shape = SubResource("RectangleShape2D_ride")
+
+[node name="Sprite2D" type="Sprite2D" parent="PathFollow2D/Body" unique_id=568251007]
+texture = ExtResource("2_nobin")

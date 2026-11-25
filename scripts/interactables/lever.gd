@@ -1,10 +1,16 @@
 extends Area2D
+class_name Lever
 
 signal toggled(is_on: bool)
 
 enum State { OFF, ON }
+enum Trigger {
+	INTERACT, # jogador perto aperta a tecla de interação (comportamento original)
+	HIT,      # só é acionada por golpe (take_damage). Puzzle 2: golpe do lobo
+}
 
 @export var state: State = State.OFF
+@export var trigger: Trigger = Trigger.INTERACT
 @export var off_animation: StringName = &"disable"
 @export var on_animation: StringName = &"enable"
 @export var initial_off_animation: StringName = &"default"
@@ -20,6 +26,30 @@ func _ready() -> void:
 	body_exited.connect(_on_body_exited)
 	_set_initial_visual()
 	_update_prompt()
+	set_process_unhandled_input(trigger == Trigger.INTERACT)
+
+# --- contrato com o PuzzleController ---
+
+func is_active() -> bool:
+	return state == State.ON
+
+func reset_puzzle() -> void:
+	set_active(false)
+
+func set_active(value: bool) -> void:
+	var new_state := State.ON if value else State.OFF
+	if state == new_state:
+		return
+	state = new_state
+	_update_visual()
+	toggled.emit(value)
+
+# Contrato de dano do TDD 05: golpe do lobo (ou qualquer ataque que alcance a
+# layer da alavanca) alterna o estado. A layer/mask do Hitbox do lobo decide
+# quem consegue acertar.
+func take_damage(_amount: float) -> void:
+	if trigger == Trigger.HIT:
+		set_active(state == State.OFF)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Guarda o pressionamento para não repetir enquanto E estiver segurado.
@@ -27,9 +57,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not _input_down:
 			_input_down = true
 			if _player != null:
-				state = State.ON if state == State.OFF else State.OFF
-				_update_visual()
-				toggled.emit(state == State.ON)
+				set_active(state == State.OFF)
 				get_viewport().set_input_as_handled()
 	elif event.is_action_released("interact"):
 		_input_down = false
@@ -62,7 +90,7 @@ func _set_initial_visual() -> void:
 	)
 
 func _update_prompt() -> void:
-	_prompt.visible = _player != null
+	_prompt.visible = _player != null and trigger == Trigger.INTERACT
 	
 func _draw() -> void:
 	if OS.is_debug_build():

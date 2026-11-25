@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dnscayfl8rr3b"]
+
+[ext_resource type="Script" uid="uid://bdueo23m76ldg" path="res://scripts/puzzles/puzzle_key.gd" id="1_key"]
+[ext_resource type="Texture2D" uid="uid://cppxto0xerngy" path="res://assets/sprites/tiles/Objects.png" id="2_ll0ed"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_key"]
+radius = 7.0
+
+[node name="PuzzleKey" type="Area2D" unique_id=1122275579]
+collision_layer = 256
+collision_mask = 2
+script = ExtResource("1_key")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2058967755]
+shape = SubResource("CircleShape2D_key")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1602941324]
+texture = ExtResource("2_ll0ed")
+region_enabled = true
+region_rect = Rect2(274, 64, 12, 8)
