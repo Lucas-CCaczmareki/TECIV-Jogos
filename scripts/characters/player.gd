@@ -254,10 +254,6 @@ func _on_died() -> void:
 # ==============================================================================
 # DEBUG
 # ==============================================================================
-func _draw() -> void:
-	if OS.is_debug_build():
-		draw_line(Vector2(-30, 0), Vector2(30, 0), Color.RED, 2.0)
-		
 # TESTE TEMPORÁRIO (apagar depois)
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_T:

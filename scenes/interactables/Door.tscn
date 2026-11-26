@@ -72,6 +72,7 @@ sprite_frames = SubResource("SpriteFrames_63kva")
 animation = &"open"
 
 [node name="InteractionPrompt" type="Label" parent="." unique_id=1141267317]
+visible = false
 z_index = 1
 offset_left = -30.0
 offset_top = -34.0

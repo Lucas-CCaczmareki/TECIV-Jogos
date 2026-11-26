@@ -52,8 +52,3 @@ func _on_body_exited(body: Node2D) -> void:
 	if body == _player:
 		_player = null
 		_prompt.hide()
-
-
-func _draw() -> void:
-	if OS.is_debug_build():
-		draw_line(Vector2(-30, 0), Vector2(30, 0), Color.RED, 2.0)

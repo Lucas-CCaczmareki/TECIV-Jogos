@@ -635,7 +635,7 @@ animations = [{
 size = Vector2(84.166664, 81.666664)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ucufk"]
-size = Vector2(83.33333, 20)
+size = Vector2(49.166664, 20)
 
 [node name="Companion" type="CharacterBody2D" unique_id=1455659718 node_paths=PackedStringArray("weapon_pivot") groups=["companion"]]
 z_index = -1

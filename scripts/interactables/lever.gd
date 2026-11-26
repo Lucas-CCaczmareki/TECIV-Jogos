@@ -91,7 +91,3 @@ func _set_initial_visual() -> void:
 
 func _update_prompt() -> void:
 	_prompt.visible = _player != null and trigger == Trigger.INTERACT
-	
-func _draw() -> void:
-	if OS.is_debug_build():
-		draw_line(Vector2(-30, 0), Vector2(30, 0), Color.RED, 2.0)
